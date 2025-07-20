@@ -5,17 +5,12 @@ import os
 import numpy as np
 import torch
 from torch import nn
-import copy
-from torch.serialization import load
-from tqdm import tqdm
 from torch import optim
 from torch.nn import functional as F
 from torch.utils.data import DataLoader
 from backbone.asp_backbone import SimpleVitNet
 from models.base import BaseLearner
 from utils.toolkit import target2onehot, tensor2numpy
-from utils.data_manager import pil_loader
-from sklearn.metrics import confusion_matrix, roc_auc_score
 
 # tune the model at first session with vpt, and then conduct simple shot.
 num_workers = 1

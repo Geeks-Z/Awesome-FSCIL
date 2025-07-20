@@ -1,6 +1,8 @@
 import sys
 import logging
 import copy
+import time
+
 import torch
 from utils import factory
 from utils.data_manager import DataManager
@@ -14,6 +16,15 @@ import pickle
 def train(args):
     seed_list = copy.deepcopy(args["seed"])
     device = copy.deepcopy(args["device"])
+
+    # 获取 GPU 型号信息
+    gpu_names = []
+    for dev in device:
+        if dev.isdigit():  # 检查是否是 GPU 设备编号
+            idx = int(dev)
+            if idx < torch.cuda.device_count():
+                gpu_names.append(torch.cuda.get_device_name(idx))
+    args['gpu_models'] = gpu_names  # 将 GPU 型号列表添加到 args
 
     for seed in seed_list:
         args["seed"] = seed
@@ -81,15 +92,24 @@ def _train(args):
     model = factory.get_model(args["model_name"], args)
 
     top1_curve = {"top1": [], "top5": []}
+    total_train_time = 0.0
+    total_test_time = 0.0
     for task in range(data_manager.nb_tasks):
         logging.info("All params: {}".format(count_parameters(model._network)))
         logging.info(
             "Trainable params: {}".format(count_parameters(model._network, True))
         )
-        
+
+        start_time = time.time()
+
         model.incremental_train(data_manager)
 
+        train_end_time = time.time()
+        total_train_time += (train_end_time - start_time)
+
         top1_accy = model.eval_task()
+
+        total_test_time += (time.time() - train_end_time)
         model.after_task()
 
         top1_curve["top1"].append(top1_accy["top1"])
@@ -99,7 +119,12 @@ def _train(args):
         Hacc, old_acc, new_acc = Harmonic_Accuracy(top1_accy["grouped"], args["init_cls"])
         logging.info("Average Accuracy (Top1): {}   (Harmonic Accuracy): {} (Old Acc): {} (New Acc): {} \n".format(sum(top1_curve["top1"])/len(top1_curve["top1"]),
                                                                             Hacc, old_acc, new_acc))
-
+    print("Finished {}_init{}_inc{}: {}  ".format(args["dataset"], args["init_cls"], args["increment"],
+                                                  args["backbone_type"],
+                                                  ))
+    print('-' * 100)
+    print('总训练时间:', round(total_train_time, 2), 's')
+    print('总测试时间:', round(total_test_time, 2), 's')
     logging.info("\n")
 
     

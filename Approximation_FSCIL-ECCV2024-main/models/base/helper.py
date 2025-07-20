@@ -32,7 +32,7 @@ def base_train(model, trainloader, optimizer, epoch, args):
         data, train_label = [_.cuda() for _ in batch]
         lr_sched.adjust_learning_rate(optimizer, epoch / len(trainloader) + epoch, args)
 
-        logits, embed = model(data)
+        logits, embed = model.module(data)
         logits = logits[:, :args.base_class]
         # loss = F.cross_entropy(logits, train_label)
         loss = cross_entropy_with_label_smoothing(logits, train_label, smoothing=0.5)

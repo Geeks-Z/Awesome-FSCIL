@@ -3,7 +3,7 @@ import numpy as np
 from PIL import Image
 from torch.utils.data import Dataset
 from torchvision import transforms
-from utils.data import iCIFAR10, iCIFAR100, iImageNet100, iImageNet1000, iCIFAR224, iImageNetR,iImageNetA,CUB, objectnet, omnibenchmark, vtab
+from utils.data import iCIFAR10, iCIFAR100, iImageNet100, iImageNet1000, iCIFAR224, iImageNetR,iImageNetA,CUB, objectnet, omnibenchmark, vtab,iMiniImageNet
 import random
 
 
@@ -244,6 +244,8 @@ def _get_idata(dataset_name, args=None):
         return omnibenchmark()
     elif name == "vtab":
         return vtab()
+    elif name == "mini_imagenet":
+        return iMiniImageNet(args)
 
     else:
         raise NotImplementedError("Unknown dataset {}.".format(dataset_name))

@@ -343,3 +343,82 @@ class vtab(iData):
 
         self.train_data, self.train_targets = split_images_labels(train_dset.imgs)
         self.test_data, self.test_targets = split_images_labels(test_dset.imgs)
+
+class iMiniImageNet(iData):
+    class_order = np.arange(100).tolist()
+    def __init__(self, args):
+        super().__init__()
+        self.args = args
+        self.use_path = True
+
+        init_size = 256
+        image_size = 224
+        flip_and_color_jitter = transforms.Compose([
+            transforms.RandomHorizontalFlip(p=0.5),
+            transforms.RandomApply(
+                [transforms.ColorJitter(brightness=0.4, contrast=0.4, saturation=0.2, hue=0.1)],
+                p=0.8
+            ),
+            transforms.RandomGrayscale(p=0.2),
+        ])
+
+        from utils.autoaugment import AutoAugImageNetPolicy
+        self.train_trsf = [
+            transforms.Resize([init_size, init_size]),
+            transforms.RandomResizedCrop(image_size),
+            flip_and_color_jitter,
+            AutoAugImageNetPolicy(),
+            transforms.ToTensor(),
+            transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                 std=[0.229, 0.224, 0.225])]
+
+        self.test_trsf = [
+            transforms.Resize([init_size, init_size]),
+            transforms.CenterCrop(image_size),
+            transforms.ToTensor(),
+            transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                 std=[0.229, 0.224, 0.225])]
+
+        self.common_trsf = []
+
+    def download_data(self):
+        import os.path as osp
+        self.IMAGE_PATH = "/home/team/zhaohongwei/Dataset/miniimagenet/images"
+        self.SPLIT_PATH = "/home/team/zhaohongwei/Dataset/miniimagenet/split"
+
+        train_csv_path = osp.join(self.SPLIT_PATH, 'train.csv')
+        text_csv_path = osp.join(self.SPLIT_PATH, 'test.csv')
+        train_lines = [x.strip() for x in open(train_csv_path, 'r').readlines()][1:]
+        test_lines = [x.strip() for x in open(text_csv_path, 'r').readlines()][1:]
+
+        self.train_data, self.test_data = [], []
+        self.train_targets, self.test_targets = [], []
+        self.train_data2label, self.test_data2label = {}, {}
+
+        lb = -1
+
+        self.train_wnids, self.test_wnids = [], []
+
+        for l in train_lines:
+            name, wnid = l.split(',')
+            path = osp.join(self.IMAGE_PATH, name)
+            if wnid not in self.train_wnids:
+                self.train_wnids.append(wnid)
+                lb += 1
+            self.train_data.append(path)
+            self.train_targets.append(lb)
+            # self.train_data2label[path] = lb
+        # test
+        lb = -1
+        for l in test_lines:
+            name, wnid = l.split(',')
+            path = osp.join(self.IMAGE_PATH, name)
+            if wnid not in self.test_wnids:
+                self.test_wnids.append(wnid)
+                lb += 1
+            self.test_data.append(path)
+            self.test_targets.append(lb)
+            # self.test_data2label[path] = lb
+
+        self.train_data = np.array(self.train_data)
+        self.test_data = np.array(self.test_data)

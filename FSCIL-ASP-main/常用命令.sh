@@ -6,4 +6,4 @@ conda activate peft
 
 ## 单卡
 
-nohup ./train.sh > ./res/asp.out 2>&1 &
+nohup ./train.sh > ./res/asp-3090-3.out 2>&1 &

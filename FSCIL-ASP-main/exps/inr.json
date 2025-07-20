@@ -1,7 +1,7 @@
 {
     "model_name": "asp",
     "backbone_type": "pretrained_vit_b16_224_vpt",
-    "device": ["2"],
+    "device": ["4"],
     "seed": [2025],
     "dataset": "imagenetr",
     "init_cls": 100,

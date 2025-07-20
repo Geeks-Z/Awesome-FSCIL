@@ -4,8 +4,9 @@ from utils import *
 import torch
 
 MODEL_DIR=None
-DATA_DIR = './local_datasets/'
+DATA_DIR = '/home/team/zhaohongwei/Dataset'
 PROJECT='base'
+os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
 
 def get_command_line_parser():
     parser = argparse.ArgumentParser()
@@ -14,7 +15,7 @@ def get_command_line_parser():
     parser.add_argument('-project', type=str, default=PROJECT)
     parser.add_argument('-dataset', type=str, default='cifar100',
                         choices=['mini_imagenet', 'cub200', 'cifar100'])
-    parser.add_argument('-dataroot', type=str, default=DATA_DIR)
+    parser.add_argument('-dataroot', type=str, default='/home/team/zhaohongwei/Dataset')
     parser.add_argument('-out', type=str, default=None)
 
     # about pre-training

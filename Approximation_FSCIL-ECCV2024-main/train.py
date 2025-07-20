@@ -3,7 +3,7 @@ import importlib
 from utils import *
 
 MODEL_DIR=None
-DATA_DIR = 'data/'
+DATA_DIR = '/home/team/zhaohongwei/Dataset'
 PROJECT='base'
 
 def get_command_line_parser():
@@ -65,7 +65,7 @@ def get_command_line_parser():
     parser.add_argument('-set_no_val', action='store_true', help='set validation using test set or no validation')
 
     # about training
-    parser.add_argument('-gpu', default='0')
+    parser.add_argument('-gpu', default='4')
     parser.add_argument('-num_workers', type=int, default=32)
     parser.add_argument('-seed', type=int, default=0)
     parser.add_argument('-debug', action='store_true')
