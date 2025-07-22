@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 from torchvision import datasets, transforms
 from utils.toolkit import split_images_labels
@@ -411,9 +413,15 @@ class iMiniImageNet(iData):
 
         self.train_wnids, self.test_wnids = [], []
 
+
+
+
         for l in train_lines:
             name, wnid = l.split(',')
             path = osp.join(self.IMAGE_PATH, name)
+            if not os.path.exists(path):
+                print(f"警告：训练图片缺失 {path}")
+                continue
             if wnid not in self.train_wnids:
                 self.train_wnids.append(wnid)
                 lb += 1
@@ -425,6 +433,9 @@ class iMiniImageNet(iData):
         for l in test_lines:
             name, wnid = l.split(',')
             path = osp.join(self.IMAGE_PATH, name)
+            if not os.path.exists(path):
+                print(f"警告：测试图片缺失 {path}")
+                continue
             if wnid not in self.test_wnids:
                 self.test_wnids.append(wnid)
                 lb += 1
