@@ -63,12 +63,12 @@ class DataManager(object):
             txt=self.txt+"/session_"+str(session)+".txt"
             if self.use_path:
                 pathes = open(txt).read().splitlines()
-                # 在 get_dataset 里加
                 for path in pathes:
-                    path = path.split('/')[-1]  # 只保留文件名
-                    path = './data/miniimagenet/images/' + path
-                    if path not in self.data2label:
-                        print(f"警告：data2label 缺失 {path}")
+                    if self.dataset_name == 'mini_imagenet':
+                        image_path = path.split("/")[-1]
+                        path = "./data/miniimagenet/images/" + image_path
+                    else:
+                        path = "./data/" + path
                     data.append(path)
                     targets.append(self.data2label[path])
             else:

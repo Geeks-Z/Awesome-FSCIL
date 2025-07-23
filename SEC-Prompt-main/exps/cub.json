@@ -7,7 +7,6 @@
     "init_cls": 100,
     "increment": 10,
     "kshot": 5,
-
     "vpt_type":"Deep",
     "prompt_token_num":6,
     "kl_weight": 0.001,
@@ -20,8 +19,6 @@
     "weight_decay":0.005,
     "min_lr":0,
     "optimizer":"sgd",
-    
-
     "shuffle": false,
     "top_k": 5,
     "base_model_path": "sec",

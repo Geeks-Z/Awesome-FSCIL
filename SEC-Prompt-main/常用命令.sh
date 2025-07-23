@@ -6,7 +6,7 @@ conda activate peft
 
 ## 单卡
 
-nohup ./train.sh > ./res/sec_prompt_res-supp.out 2>&1 &
+nohup ./train.sh > ./res/sec_prompt_res-2.out 2>&1 &
 
 ---------------------------------------------------------------------------------------------------------------
 

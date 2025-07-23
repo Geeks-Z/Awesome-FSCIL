@@ -10,7 +10,7 @@
     "vpt_type":"Deep",
     "kl_weight": 0.001,
     "tuned_epoch":30,
-    "fs_epoch": 0,
+    "fs_epoch": 10,
     "init_lr":0.01,
     "fs_lr":0.0005,
     "batch_size":64,

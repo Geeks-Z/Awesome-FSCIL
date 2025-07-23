@@ -19,8 +19,6 @@
     "weight_decay":0.005,
     "min_lr":0,
     "optimizer":"sgd",
-
-
     "shuffle": false,
     "top_k": 5,
     "base_model_path": "sec",

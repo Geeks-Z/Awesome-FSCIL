@@ -17,7 +17,7 @@ def load_json(setting_path):
 
 def setup_parser():
     parser = argparse.ArgumentParser(description='Reproduce of multiple pre-trained incremental learning algorthms.')
-    parser.add_argument('--config', type=str, default='./exps/mini_debug.json',
+    parser.add_argument('--config', type=str, default='./exps/inr_debug.json',
                         help='Json file of settings.')
     parser.add_argument('--lamda', type=float, default=0.5,help='lamda of Discriminative Prompt Clustering Loss.')
     parser.add_argument('--aug', type=int, default=2, help='n of data augmentation.')
