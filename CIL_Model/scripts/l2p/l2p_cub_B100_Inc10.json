@@ -8,7 +8,7 @@
   "init_cls": 100,
   "increment": 10,
   "model_name": "l2p",
-  "backbone_type": "vit_base_patch16_224_in21k_l2p",
+  "backbone_type": "vit_base_patch16_224_l2p",
   "get_original_backbone": true,
   "device": ["6"],
   "seed": [1993],

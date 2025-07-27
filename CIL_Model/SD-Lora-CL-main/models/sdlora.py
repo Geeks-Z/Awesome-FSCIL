@@ -68,9 +68,9 @@ class Learner(BaseLearner):
 
     def update_network(self, index=True):
         # if use VIT-B-16
-        # model = timm.create_model("vit_base_patch16_224",pretrained=True, num_classes=0)
-        model = timm.create_model("vit_base_patch16_224_in21k", pretrained=True,
-                                  num_classes=0)
+        model = timm.create_model("vit_base_patch16_224",pretrained=True, num_classes=0)
+        # model = timm.create_model("vit_base_patch16_224_in21k", pretrained=True,
+        #                           num_classes=0)
 
         # if use DINO
         # model = timm.create_model('vit_base_patch16_224_dino', pretrained=True, num_classes=0)

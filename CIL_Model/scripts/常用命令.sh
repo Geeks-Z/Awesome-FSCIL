@@ -1,15 +1,17 @@
-cd Code/Research/Awesome-FSCIL/CIL_Model&&
+cd Code/Research/Awesome-FSCIL-IN1K-1/CIL_Model&&
 conda activate peft
 
-nohup ./scripts/train_aper.sh > ./res/aper-adapter-fscil-supp.out 2>&1 &
-nohup ./scripts/train_coda_prompt.sh > ./res/coda_prompt-fscil-1.out 2>&1 &
-nohup ./scripts/train_der.sh > ./res/der-fscil.out 2>&1 &
-nohup ./scripts/train_dualprompt.sh > ./res/dualprompt2-ina-fscil.out 2>&1 &
-nohup ./scripts/train_ease.sh > ./res/ease-fscil.out 2>&1 &
-nohup ./scripts/train_finetune.sh > ./res/finetune-fscil-fscil.out 2>&1 &
-nohup ./scripts/train_foster.sh > ./res/foster-fscil.out 2>&1 &
-nohup ./scripts/train_icarl.sh > ./res/icarl-1-cub-fscil.out 2>&1 &
-nohup ./scripts/train_l2p.sh > ./res/l2p-fscil-2.out 2>&1 &
-nohup ./scripts/train_lae.sh > ./res/lae-fscil.out 2>&1 &
-nohup ./scripts/train_mos.sh > ./res/mos-fscil.out 2>&1 &
-nohup ./scripts/train_simplecil.sh > ./res/simplecil-fscil-fscil.out 2>&1 &
+nohup ./scripts/train_aper.sh > ../results/aper-adapter-FSCIL-IN1K-1-supp.out 2>&1 &
+nohup ./scripts/train_coda_prompt.sh > ../results/CODA_Prompt-FSCIL-IN1K-1.out 2>&1 &
+nohup ./scripts/train_der.sh > ../results/der-FSCIL-IN1K-1.out 2>&1 &
+nohup ./scripts/train_dualprompt.sh > ../results/dualprompt2-ina-FSCIL-IN1K-1.out 2>&1 &
+nohup ./scripts/train_ease.sh > ../results/ease-FSCIL-IN1K-1.out 2>&1 &
+nohup ./scripts/train_finetune.sh > ../results/FineTune-FSCIL-IN1K-1-IN1K-1.out 2>&1 &
+nohup ./scripts/train_foster.sh > ../results/foster-FSCIL-IN1K-1.out 2>&1 &
+nohup ./scripts/train_icarl.sh > ../results/icarl-1-cub-FSCIL-IN1K-1.out 2>&1 &
+nohup ./scripts/train_l2p.sh > ../results/L2P-FSCIL-IN1K-1.out 2>&1 &
+nohup ./scripts/train_lae.sh > ../results/LAE-FSCIL-IN1K-1.out 2>&1 &
+nohup ./scripts/train_mos.sh > ../results/mos-FSCIL-IN1K-1.out 2>&1 &
+nohup ./scripts/train_simplecil.sh > ../results/SimpleFSCIL-FSCIL-IN1K-1.out 2>&1 &
+
+nohup ./scripts/train_ptm.sh > ../results/SimpleFSCIL-PTM-1.out 2>&1 &
