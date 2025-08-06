@@ -1,6 +1,8 @@
 import sys
 import logging
 import copy
+import time
+
 import torch
 from utils import factory
 from utils.data_manager import DataManager
@@ -65,6 +67,9 @@ def _train(args):
     cnn_curve, nme_curve = {"top1": [], "top5": []}, {"top1": [], "top5": []}
     cnn_matrix, nme_matrix = [], []
 
+    total_train_time = 0.0
+    total_test_time = 0.0
+
     for task in range(data_manager.nb_tasks):
         # task = 9
         print('task',task)
@@ -72,8 +77,12 @@ def _train(args):
         logging.info(
             "Trainable params: {}".format(count_parameters(model._network, True))
         )
+        start_time = time.time()
         model.incremental_train(data_manager)
+        train_end_time = time.time()
+        total_train_time += (train_end_time - start_time)
         cnn_accy, nme_accy = model.eval_task()
+        total_test_time += (time.time() - train_end_time)
         model.after_task()
 
         if nme_accy is not None:
@@ -129,27 +138,29 @@ def _train(args):
                                                   args["backbone_type"],
                                                   ))
     print('-' * 100)
-    if len(cnn_matrix) > 0:
-        np_acctable = np.zeros([task + 1, task + 1])
-        for idxx, line in enumerate(cnn_matrix):
-            idxy = len(line)
-            np_acctable[idxx, :idxy] = np.array(line)
-        np_acctable = np_acctable.T
-        forgetting = np.mean((np.max(np_acctable, axis=1) - np_acctable[:, task])[:task])
-        print('Accuracy Matrix (CNN):')
-        print(np_acctable)
-        logging.info('Forgetting (CNN): {}'.format(forgetting))
-
-    if len(nme_matrix) > 0:
-        np_acctable = np.zeros([task + 1, task + 1])
-        for idxx, line in enumerate(nme_matrix):
-            idxy = len(line)
-            np_acctable[idxx, :idxy] = np.array(line)
-        np_acctable = np_acctable.T
-        forgetting = np.mean((np.max(np_acctable, axis=1) - np_acctable[:, task])[:task])
-        print('Accuracy Matrix (NME):')
-        print(np_acctable)
-        logging.info('Forgetting (NME): {}'.format(forgetting))
+    print('总训练时间:', round(total_train_time, 2), 's')
+    print('总测试时间:', round(total_test_time, 2), 's')
+    # if len(cnn_matrix) > 0:
+    #     np_acctable = np.zeros([task + 1, task + 1])
+    #     for idxx, line in enumerate(cnn_matrix):
+    #         idxy = len(line)
+    #         np_acctable[idxx, :idxy] = np.array(line)
+    #     np_acctable = np_acctable.T
+    #     forgetting = np.mean((np.max(np_acctable, axis=1) - np_acctable[:, task])[:task])
+    #     print('Accuracy Matrix (CNN):')
+    #     print(np_acctable)
+    #     logging.info('Forgetting (CNN): {}'.format(forgetting))
+    #
+    # if len(nme_matrix) > 0:
+    #     np_acctable = np.zeros([task + 1, task + 1])
+    #     for idxx, line in enumerate(nme_matrix):
+    #         idxy = len(line)
+    #         np_acctable[idxx, :idxy] = np.array(line)
+    #     np_acctable = np_acctable.T
+    #     forgetting = np.mean((np.max(np_acctable, axis=1) - np_acctable[:, task])[:task])
+    #     print('Accuracy Matrix (NME):')
+    #     print(np_acctable)
+    #     logging.info('Forgetting (NME): {}'.format(forgetting))
 
 def _set_device(args):
     device_type = args["device"]

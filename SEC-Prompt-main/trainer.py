@@ -1,17 +1,18 @@
 import sys
 import logging
 import copy
+import time
+import os
 import torch
 from utils import factory
 from utils.data_manager import DataManager
 from utils.toolkit import count_parameters
-import os
 import random
 import numpy as np
-import pickle
 
 
 def train(args):
+
     seed_list = copy.deepcopy(args["seed"])
     device = copy.deepcopy(args["device"])
 
@@ -83,15 +84,24 @@ def _train(args):
     model = factory.get_model(args["model_name"], args)
 
     top1_curve = {"top1": [], "top5": []}
+    total_train_time = 0.0
+    total_test_time = 0.0
     for task in range(data_manager.nb_tasks):
         logging.info("All params: {}".format(count_parameters(model._network)))
         logging.info(
             "Trainable params: {}".format(count_parameters(model._network, True))
         )
 
+        start_time = time.time()
+
         model.incremental_train(data_manager)
 
+        train_end_time = time.time()
+        total_train_time += (train_end_time - start_time)
+
         top1_accy = model.eval_task()
+
+        total_test_time += (time.time() - train_end_time)
         model.after_task()
 
         top1_curve["top1"].append(top1_accy["top1"])
@@ -106,6 +116,8 @@ def _train(args):
                                                   args["backbone_type"],
                                                   ))
     print('-' * 100)
+    print('总训练时间:', round(total_train_time, 2), 's')
+    print('总测试时间:', round(total_test_time, 2), 's')
     logging.info("\n")
 
 

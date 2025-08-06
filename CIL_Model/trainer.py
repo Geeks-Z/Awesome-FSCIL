@@ -161,8 +161,8 @@ def _train(args):
                                                   args["backbone_type"],
                                                   ))
     print('-' * 100)
-    print('总训练时间:', round(total_train_time, 2), 's')
-    print('总测试时间:', round(total_test_time, 2), 's')
+    print('Total Train Time:', round(total_train_time, 2), 's')
+    print('Total Test Time:', round(total_test_time, 2), 's')
     # print('每个任务每个epoch训练时间:', round(total_train_time / (data_manager.nb_tasks * args['tuned_epoch']), 2), 's')
     # print('每个任务每个epoch测试时间:', round(total_test_time / (data_manager.nb_tasks * args['tuned_epoch']), 2), 's')
     if len(cnn_matrix) > 0:
