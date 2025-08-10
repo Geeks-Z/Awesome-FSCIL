@@ -116,8 +116,8 @@ def _train(args):
                                                   args["backbone_type"],
                                                   ))
     print('-' * 100)
-    print('总训练时间:', round(total_train_time, 2), 's')
-    print('总测试时间:', round(total_test_time, 2), 's')
+    print('Total train time:', round(total_train_time, 2), 's')
+    print('Total test time:', round(total_test_time, 2), 's')
     logging.info("\n")
 
 
