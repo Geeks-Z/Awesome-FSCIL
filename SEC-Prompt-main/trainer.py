@@ -83,7 +83,8 @@ def _train(args):
     args["nb_tasks"] = data_manager.nb_tasks
     model = factory.get_model(args["model_name"], args)
 
-    top1_curve = {"top1": [], "top5": []}
+    cnn_curve = {"top1": [], "top5": []}
+    cnn_matrix = []
     total_train_time = 0.0
     total_test_time = 0.0
     for task in range(data_manager.nb_tasks):
@@ -99,26 +100,39 @@ def _train(args):
         train_end_time = time.time()
         total_train_time += (train_end_time - start_time)
 
-        top1_accy = model.eval_task()
+        cnn_accy = model.eval_task()
 
         total_test_time += (time.time() - train_end_time)
         model.after_task()
 
-        top1_curve["top1"].append(top1_accy["top1"])
+        cnn_keys = [key for key in cnn_accy["grouped"].keys() if '-' in key]
+        cnn_values = [cnn_accy["grouped"][key] for key in cnn_keys]
+        cnn_matrix.append(cnn_values)
 
-        logging.info("Top1 curve: {}".format(top1_curve["top1"]))
+        cnn_curve["top1"].append(cnn_accy["top1"])
 
-        Hacc, old_acc, new_acc = Harmonic_Accuracy(top1_accy["grouped"], args["init_cls"])
-        logging.info("Average Accuracy (Top1): {}   (Harmonic Accuracy): {} (Old Acc): {} (New Acc): {} \n".format(sum(top1_curve["top1"])/len(top1_curve["top1"]),
+        logging.info("Top1 curve: {}".format(cnn_curve["top1"]))
+
+        Hacc, old_acc, new_acc = Harmonic_Accuracy(cnn_accy["grouped"], args["init_cls"])
+        logging.info("Average Accuracy (Top1): {}   (Harmonic Accuracy): {} (Old Acc): {} (New Acc): {} \n".format(sum(cnn_curve["top1"])/len(cnn_curve["top1"]),
                                                                             Hacc, old_acc, new_acc))
 
-    print("Finished {}_init{}_inc{}: {}  ".format(args["dataset"], args["init_cls"], args["increment"],
-                                                  args["backbone_type"],
-                                                  ))
-    print('-' * 100)
-    print('Total train time:', round(total_train_time, 2), 's')
-    print('Total test time:', round(total_test_time, 2), 's')
-    logging.info("\n")
+    print(f"\n{'=' * 100}")
+    print(
+        "Finished {}_init{}_inc{}: {}  ".format(
+            args["dataset"],
+            args["init_cls"],
+            args["increment"],
+            args["backbone_type"],
+        )
+    )
+
+    print("Total Train Time:", round(total_train_time, 2), "s")
+    print("Total Test Time:", round(total_test_time, 2), "s")
+    print("Average Accuracy (Top1): {}   (Harmonic Accuracy): {} (Old Acc): {} (New Acc): {} \n".format(sum(cnn_curve["top1"])/len(cnn_curve["top1"]),
+                                                                            Hacc, old_acc, new_acc))
+
+    print(f"{'=' * 100}\n")
 
 
 def _set_device(args):

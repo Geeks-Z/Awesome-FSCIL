@@ -82,21 +82,6 @@ def _train(args):
         logging.info(
             "Trainable params: {}".format(count_parameters(model._network, True))
         )
-        # # data_loader
-        # total_classes = model._known_classes + data_manager.get_task_size(model._cur_task + 1)
-        # # 使用新的 DataLoader 创建方法
-        # loaders = get_data_loaders(
-        #     data_manager=data_manager,
-        #     known_classes=model._known_classes,
-        #     total_classes=total_classes,
-        #     batch_size=args["batch_size"],
-        #     kshot=args["kshot"],
-        #     num_workers=16,
-        # )
-        # # 从参数中获取预先生成的DataLoader
-        # model.train_loader = loaders["train"]
-        # model.test_loader = loaders["test"]
-        # model.train_loader_for_protonet = loaders["protonet"]
         start_time = time.time()
         # model.incremental_train(data_manager,model.train_loader, model.test_loader, model.train_loader_for_protonet)
         model.incremental_train(data_manager)
@@ -157,14 +142,19 @@ def _train(args):
                 "Average Accuracy (CNN): {} \n".format(round(sum(cnn_curve["top1"]) / len(cnn_curve["top1"]), 2)))
             # logging.info("Train Time: {}".format(model.train_time))
             # logging.info("Test Time: {} \n".format(model.test_time))
-    print("Finished {}_init{}_inc{}: {}  ".format(args["dataset"], args["init_cls"], args["increment"],
-                                                  args["backbone_type"],
-                                                  ))
-    print('-' * 100)
-    print('Total Train Time:', round(total_train_time, 2), 's')
-    print('Total Test Time:', round(total_test_time, 2), 's')
-    # print('每个任务每个epoch训练时间:', round(total_train_time / (data_manager.nb_tasks * args['tuned_epoch']), 2), 's')
-    # print('每个任务每个epoch测试时间:', round(total_test_time / (data_manager.nb_tasks * args['tuned_epoch']), 2), 's')
+
+    print(f"\n{'=' * 100}")
+    print(
+        "Finished {}_init{}_inc{}: {}  ".format(
+            args["dataset"],
+            args["init_cls"],
+            args["increment"],
+            args["backbone_type"],
+        )
+    )
+    print("Total Train Time:", round(total_train_time, 2), "s")
+    print("Total Test Time:", round(total_test_time, 2), "s")
+    print('Average Accuracy (CNN):', round(sum(cnn_curve["top1"]) / len(cnn_curve["top1"]), 2))
     if len(cnn_matrix) > 0:
         np_acctable = np.zeros([task + 1, task + 1])
         for idxx, line in enumerate(cnn_matrix):
@@ -186,6 +176,8 @@ def _train(args):
         print('Accuracy Matrix (NME):')
         print(np_acctable)
         logging.info('Forgetting (NME): {}'.format(forgetting))
+    print(f"{'=' * 100}\n")
+
 
 
 def _set_device(args):

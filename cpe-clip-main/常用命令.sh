@@ -6,4 +6,4 @@ conda activate peft
 
 ## 单卡
 
-nohup ./train.sh > ../results/CPE-A40.out 2>&1 &
+nohup ./train.sh > ../results/CPE-IN1K-1Shot-A40.out 2>&1 &

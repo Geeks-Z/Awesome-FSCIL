@@ -83,7 +83,7 @@ args = parser.parse_args()
 
 ####
 
-few_shot_examples = [5]
+few_shot_examples = [1]
 L_g = args.L_g
 deep_g = args.deep_g
 text_deep_replace_method = args.text_deep_replace_method

@@ -95,18 +95,6 @@ class Learner(BaseLearner):
         
         self._network.to(self._device)
 
-        total_params = sum(p.numel() for p in self._network.parameters())
-        logging.info('total parameters: {}'.format(total_params))
-        total_trainable_params = sum(
-            p.numel() for p in self._network.parameters() if p.requires_grad)
-        logging.info('trainable parameters: {}'.format(total_trainable_params))
-
-        # if some parameters are trainable, print the key name and corresponding parameter number
-        if total_params != total_trainable_params:
-            for name, param in self._network.named_parameters():
-                if param.requires_grad:
-                    print(name, param.numel())
-        
         if self._cur_task > 0:
             self.update_ema_prompt(train_loader_for_protonet)  
             self.replace_fc(train_loader_for_protonet, self._network, None)

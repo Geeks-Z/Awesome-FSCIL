@@ -125,17 +125,6 @@ class Learner(BaseLearner):
         self._network.to(self._device)
         if self._cur_task > 0:
             self._network.backbone.Freeze_new()
-        total_params = sum(p.numel() for p in self._network.parameters())
-        logging.info('total parameters: {}'.format(total_params))
-        total_trainable_params = sum(
-            p.numel() for p in self._network.parameters() if p.requires_grad)
-        logging.info('trainable parameters: {}'.format(total_trainable_params))
-
-        # if some parameters are trainable, print the key name and corresponding parameter number
-        if total_params != total_trainable_params:
-            for name, param in self._network.named_parameters():
-                if param.requires_grad:
-                    print(name, param.numel())
 
         if os.path.exists(self.args["base_model_path"]) and self._cur_task == 0:
             logging.info(
