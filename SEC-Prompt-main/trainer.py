@@ -25,8 +25,22 @@ def train(args):
 def _train(args):
 
     init_cls = args["init_cls"]
-    logs_name = "logs/{}/{}/{}/{}_{}/{}".format("sec_tr",args["dataset"],args['tuned_epoch'], args['init_lr'], args["kshot"], args["beta"])
-    saved_path = "saved_model/{}/{}/{}_{}/{}_{}".format("sec_tr", args["dataset"], args['tuned_epoch'], args['init_lr'], args["prompt_token_num"],args["prompt_pool_num"])
+    logs_name = "logs/{}/{}/{}/{}_{}/{}".format(
+        "sec_tr",
+        args["dataset"],
+        args["tuned_epoch"],
+        args["init_lr"],
+        args["kshot"],
+        args["beta"],
+    )
+    saved_path = "saved_model/{}/{}/{}_{}/{}_{}".format(
+        "sec_tr",
+        args["dataset"],
+        args["tuned_epoch"],
+        args["init_lr"],
+        args["prompt_token_num"],
+        args["prompt_pool_num"],
+    )
 
     if not os.path.exists(logs_name):
         os.makedirs(logs_name)
@@ -36,12 +50,12 @@ def _train(args):
     logfilename = "logs/{}/{}/{}/{}_{}/{}/{}_{}".format(
         "sec_tr",
         args["dataset"],
-        args['tuned_epoch'],
+        args["tuned_epoch"],
         args["init_lr"],
         args["kshot"],
         args["beta"],
         args["prompt_token_num"],
-        args["prompt_pool_num"]
+        args["prompt_pool_num"],
     )
     logging.basicConfig(
         level=logging.INFO,
@@ -55,7 +69,7 @@ def _train(args):
     args["base_model_path"] = "saved_model/{}/{}/{}_{}/{}_{}/{}_{}_{}_{}.pth".format(
         "sec_tr",
         args["dataset"],
-        args['tuned_epoch'],
+        args["tuned_epoch"],
         args["init_lr"],
         args["prompt_token_num"],
         args["prompt_pool_num"],
@@ -64,7 +78,6 @@ def _train(args):
         args["seed"],
         args["batch_size"],
     )
-
 
     _set_random(args["seed"])
     _set_device(args)
@@ -79,7 +92,7 @@ def _train(args):
         args,
     )
 
-    args["nb_classes"] = data_manager.nb_classes # update args
+    args["nb_classes"] = data_manager.nb_classes  # update args
     args["nb_tasks"] = data_manager.nb_tasks
     model = factory.get_model(args["model_name"], args)
 
@@ -87,6 +100,7 @@ def _train(args):
     cnn_matrix = []
     total_train_time = 0.0
     total_test_time = 0.0
+    total_prompt_time = 0.0
     for task in range(data_manager.nb_tasks):
         logging.info("All params: {}".format(count_parameters(model._network)))
         logging.info(
@@ -98,14 +112,15 @@ def _train(args):
         model.incremental_train(data_manager)
 
         train_end_time = time.time()
-        total_train_time += (train_end_time - start_time)
+        total_train_time += train_end_time - start_time
 
         cnn_accy = model.eval_task()
+        total_prompt_time += cnn_accy.get("prompt_time", 0)
 
-        total_test_time += (time.time() - train_end_time)
+        total_test_time += time.time() - train_end_time
         model.after_task()
 
-        cnn_keys = [key for key in cnn_accy["grouped"].keys() if '-' in key]
+        cnn_keys = [key for key in cnn_accy["grouped"].keys() if "-" in key]
         cnn_values = [cnn_accy["grouped"][key] for key in cnn_keys]
         cnn_matrix.append(cnn_values)
 
@@ -113,9 +128,14 @@ def _train(args):
 
         logging.info("Top1 curve: {}".format(cnn_curve["top1"]))
 
-        Hacc, old_acc, new_acc = Harmonic_Accuracy(cnn_accy["grouped"], args["init_cls"])
-        logging.info("Average Accuracy (Top1): {}   (Harmonic Accuracy): {} (Old Acc): {} (New Acc): {} \n".format(sum(cnn_curve["top1"])/len(cnn_curve["top1"]),
-                                                                            Hacc, old_acc, new_acc))
+        Hacc, old_acc, new_acc = Harmonic_Accuracy(
+            cnn_accy["grouped"], args["init_cls"]
+        )
+        logging.info(
+            "Average Accuracy (Top1): {}   (Harmonic Accuracy): {} (Old Acc): {} (New Acc): {} \n".format(
+                sum(cnn_curve["top1"]) / len(cnn_curve["top1"]), Hacc, old_acc, new_acc
+            )
+        )
 
     print(f"\n{'=' * 100}")
     print(
@@ -129,8 +149,12 @@ def _train(args):
 
     print("Total Train Time:", round(total_train_time, 2), "s")
     print("Total Test Time:", round(total_test_time, 2), "s")
-    print("Average Accuracy (Top1): {}   (Harmonic Accuracy): {} (Old Acc): {} (New Acc): {} \n".format(sum(cnn_curve["top1"])/len(cnn_curve["top1"]),
-                                                                            Hacc, old_acc, new_acc))
+    print("Total Prompt Time:", round(total_prompt_time, 2), "s")
+    print(
+        "Average Accuracy (Top1): {}   (Harmonic Accuracy): {} (Old Acc): {} (New Acc): {} \n".format(
+            sum(cnn_curve["top1"]) / len(cnn_curve["top1"]), Hacc, old_acc, new_acc
+        )
+    )
 
     print(f"{'=' * 100}\n")
 
@@ -164,13 +188,14 @@ def print_args(args):
     for key, value in args.items():
         logging.info("{}: {}".format(key, value))
 
+
 def Harmonic_Accuracy(grouped_acc, init_cls):
     old_acc, new_acc = [], []
     for key in grouped_acc.keys():
-        if '-' in key:
-            if int(key.split('-')[1]) < init_cls:
+        if "-" in key:
+            if int(key.split("-")[1]) < init_cls:
                 old_acc.append(grouped_acc[key])
-            elif int(key.split('-')[1]) > init_cls:
+            elif int(key.split("-")[1]) > init_cls:
                 new_acc.append(grouped_acc[key])
     old_acc = sum(old_acc) / len(old_acc)
 

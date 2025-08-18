@@ -152,9 +152,9 @@ def _train(args):
             args["backbone_type"],
         )
     )
+    print('Average Accuracy (CNN):', round(sum(cnn_curve["top1"]) / len(cnn_curve["top1"]), 2))
     print("Total Train Time:", round(total_train_time, 2), "s")
     print("Total Test Time:", round(total_test_time, 2), "s")
-    print('Average Accuracy (CNN):', round(sum(cnn_curve["top1"]) / len(cnn_curve["top1"]), 2))
     if len(cnn_matrix) > 0:
         np_acctable = np.zeros([task + 1, task + 1])
         for idxx, line in enumerate(cnn_matrix):
