@@ -12,7 +12,6 @@ import numpy as np
 
 
 def train(args):
-
     seed_list = copy.deepcopy(args["seed"])
     device = copy.deepcopy(args["device"])
 
@@ -23,7 +22,6 @@ def train(args):
 
 
 def _train(args):
-
     init_cls = args["init_cls"]
     logs_name = "logs/{}/{}/{}/{}_{}/{}".format(
         "sec_tr",
@@ -128,14 +126,14 @@ def _train(args):
 
         logging.info("Top1 curve: {}".format(cnn_curve["top1"]))
 
-        Hacc, old_acc, new_acc = Harmonic_Accuracy(
-            cnn_accy["grouped"], args["init_cls"]
-        )
-        logging.info(
-            "Average Accuracy (Top1): {}   (Harmonic Accuracy): {} (Old Acc): {} (New Acc): {} \n".format(
-                sum(cnn_curve["top1"]) / len(cnn_curve["top1"]), Hacc, old_acc, new_acc
-            )
-        )
+        # Hacc, old_acc, new_acc = Harmonic_Accuracy(
+        #     cnn_accy["grouped"], args["init_cls"]
+        # )
+        # logging.info(
+        #     "Average Accuracy (Top1): {}   (Harmonic Accuracy): {} (Old Acc): {} (New Acc): {} \n".format(
+        #         sum(cnn_curve["top1"]) / len(cnn_curve["top1"]), Hacc, old_acc, new_acc
+        #     )
+        # )
 
     print(f"\n{'=' * 100}")
     print(
@@ -146,15 +144,32 @@ def _train(args):
             args["backbone_type"],
         )
     )
-
+    print("Average Accuracy (Top1): {}".format(round(sum(cnn_curve["top1"]) / len(cnn_curve["top1"]),2)))
     print("Total Train Time:", round(total_train_time, 2), "s")
     print("Total Test Time:", round(total_test_time, 2), "s")
     print("Total Prompt Time:", round(total_prompt_time, 2), "s")
-    print(
-        "Average Accuracy (Top1): {}   (Harmonic Accuracy): {} (Old Acc): {} (New Acc): {} \n".format(
-            sum(cnn_curve["top1"]) / len(cnn_curve["top1"]), Hacc, old_acc, new_acc
-        )
-    )
+
+    if len(cnn_matrix) > 0:
+        np_acctable = np.zeros([task + 1, task + 1])
+        for idxx, line in enumerate(cnn_matrix):
+            idxy = len(line)
+            np_acctable[idxx, :idxy] = np.array(line)
+        np_acctable = np_acctable.T
+        forgetting = np.mean((np.max(np_acctable, axis=1) - np_acctable[:, task])[:task])
+        print('Accuracy Matrix (CNN):')
+        print(np_acctable)
+        logging.info('Forgetting (CNN): {}'.format(forgetting))
+
+    if len(cnn_matrix) > 0:
+        np_acctable = np.zeros([task + 1, task + 1])
+        for idxx, line in enumerate(cnn_matrix):
+            idxy = len(line)
+            np_acctable[:idxy, idxx] = np.array(line)
+        # np_acctable = np_acctable.T  <- 这行不再需要
+        forgetting = np.mean((np.max(np_acctable, axis=1) - np_acctable[:, task])[:task])
+        print('Accuracy Matrix (CNN):')
+        print(np_acctable)
+        logging.info('Forgetting (CNN): {}'.format(forgetting))
 
     print(f"{'=' * 100}\n")
 
