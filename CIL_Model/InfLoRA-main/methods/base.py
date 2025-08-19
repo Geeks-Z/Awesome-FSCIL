@@ -76,8 +76,8 @@ class BaseLearner(object):
         return ret
 
     def eval_task(self):
-        logging.info("session {} total_test_images: {}".format(self._cur_task, len(self.test_loader.dataset)))
-        logging.info('-' * 100)
+        # logging.info("session {} total_test_images: {}".format(self._cur_task, len(self.test_loader.dataset)))
+        # logging.info('-' * 100)
         y_pred, y_pred_with_task, y_true, y_pred_task, y_true_task = self._eval_cnn(self.test_loader)
         cnn_accy = self._evaluate(y_pred, y_true)
         cnn_accy_with_task = self._evaluate(y_pred_with_task, y_true)

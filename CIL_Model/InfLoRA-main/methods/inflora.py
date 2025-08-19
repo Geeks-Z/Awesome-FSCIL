@@ -78,6 +78,19 @@ class InfLoRA(BaseLearner):
         self.test_loader = DataLoader(test_dataset, batch_size=self.batch_size, shuffle=False,
                                       num_workers=self.num_workers)
 
+        if self._total_classes < self.args['nb_classes']:
+            self.furture_dataset = data_manager.get_dataset(
+                np.arange(self._total_classes, self.args["nb_classes"]),
+                source="test",
+                mode="test",
+            )
+            self.furture_loader = DataLoader(
+                self.furture_dataset,
+                batch_size=self.batch_size,
+                shuffle=False,
+                num_workers=self.num_workers,
+            )
+
         # if len(self._multiple_gpus) > 1:
         #     self._network = nn.DataParallel(self._network, self._multiple_gpus)
         self._train(self.train_loader, self.test_loader)

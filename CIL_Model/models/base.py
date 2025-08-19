@@ -104,7 +104,7 @@ class BaseLearner(object):
 
     def _evaluate(self, y_pred, y_true):
         ret = {}
-        grouped = accuracy(y_pred.T[0], y_true, self._known_classes, self.args["init_cls"], self.args["increment"])
+        grouped = accuracy(y_pred.T[0], y_true, self._total_classes, self._known_classes, self.args["init_cls"], self.args["increment"])
         ret["grouped"] = grouped
         ret["top1"] = grouped["total"]
         ret["top{}".format(self.topk)] = np.around(
@@ -117,10 +117,14 @@ class BaseLearner(object):
     def eval_task(self):
         # print("session {} total_test_images: {}".format(self._cur_task, len(self.test_loader.dataset)))
         # print('-' * 100)
-        logging.info("session {} total_test_images: {}".format(self._cur_task, len(self.test_loader.dataset)))
-        logging.info('-' * 100)
+        # logging.info("session {} total_test_images: {}".format(self._cur_task, len(self.test_loader.dataset)))
+        # logging.info('-' * 100)
         # start_time = time.time()
-        y_pred, y_true = self._eval_cnn(self.test_loader)
+        y_pred, y_true = [], []
+        # 计算分类准确率
+        self._eval_cnn(self.test_loader, y_pred, y_true)
+        y_pred, y_true = self._eval_future_task_classify_accuracy(self.furture_loader, y_pred, y_true)
+
         cnn_accy = self._evaluate(y_pred, y_true)
 
         if hasattr(self, "_class_means"):

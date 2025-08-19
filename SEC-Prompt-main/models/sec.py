@@ -118,11 +118,25 @@ class Learner(BaseLearner):
             shuffle=False,
             num_workers=num_workers,
         )
+
+        if self._total_classes < self.args['nb_classes']:
+            self.future_dataset = self.data_manager.get_dataset(
+                np.arange(self._total_classes, self.args["nb_classes"]),
+                source="test",
+                mode="test",
+            )
+            self.future_loader = DataLoader(
+                self.future_dataset,
+                batch_size=self.batch_size,
+                shuffle=False,
+                num_workers=num_workers,
+            )
         test_curr_dataset = data_manager.get_dataset(
             np.arange(self._known_classes, self._total_classes),
             source="test",
             mode="test",
         )
+
         self.test_curr_loader = DataLoader(
             test_curr_dataset,
             batch_size=self.batch_size,
@@ -231,14 +245,16 @@ class Learner(BaseLearner):
             #     torch.save(self._network.state_dict(), self.args["base_model_path"])
 
     def eval_task(self):
-        y_pred, y_true, prompt_time = self._eval_acc(self.test_loader)
+        y_pred, y_true = [], []
+        prompt_time = self._eval_acc(self.test_loader, y_pred, y_true)
+        y_pred, y_true = self._eval_future_task_classify_accuracy(self.future_loader, y_pred, y_true)
         accy = self._evaluate(y_pred, y_true)
         accy["prompt_time"] = prompt_time
         return accy
 
-    def _eval_acc(self, loader):
+    def _eval_acc(self, loader, y_pred, y_true):
         self._network.eval()
-        y_pred, y_true = [], []
+
         all_outputs, all_embedding = [], []
         prompt_time = 0.0
         for _, (_, inputs, targets) in enumerate(loader):
@@ -259,12 +275,28 @@ class Learner(BaseLearner):
             all_outputs.append(outputs.cpu())
             all_embedding.append(embedding.cpu())
 
-        y_pred = np.concatenate(y_pred)
-        y_true = np.concatenate(y_true)
-        all_outputs = torch.cat(all_outputs)
-        all_embedding = torch.cat(all_embedding)
+        # y_pred = np.concatenate(y_pred)
+        # y_true = np.concatenate(y_true)
+        # all_outputs = torch.cat(all_outputs)
+        # all_embedding = torch.cat(all_embedding)
 
-        return y_pred, y_true, prompt_time  # [N, topk]
+        return prompt_time  # [N, topk]
+
+    def _eval_future_task_classify_accuracy(self, loader, y_pred, y_true):
+        if self._total_classes < self.args['nb_classes']:
+            for _, (_, inputs, targets) in enumerate(loader):
+                inputs, targets = inputs.to(self._device), targets.to(self._device)
+                with torch.no_grad():
+                    outputs = self._network(inputs)["future_logits"][:, self._total_classes:]
+                predicts = torch.topk(
+                    outputs, k=self.topk, dim=1, largest=True, sorted=True
+                )[
+                    1
+                ]  # [bs, topk]
+                y_pred.append(predicts.cpu().numpy() + self._total_classes)  # Adjust for future tasks
+                y_true.append(targets.cpu().numpy())
+
+        return np.concatenate(y_pred), np.concatenate(y_true)  # [N, topk]
 
     # naive train
     def _init_train(

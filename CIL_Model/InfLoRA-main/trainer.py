@@ -62,6 +62,7 @@ def _train(args):
     print_args(args)
     data_manager = DataManager(args['dataset'], args['shuffle'], args['seed'], args['init_cls'], args['increment'], args)
     args['class_order'] = data_manager._class_order
+    args["nb_classes"] = data_manager.nb_classes
     model = factory.get_model(args['model_name'], args)
 
     cnn_curve, cnn_curve_with_task, nme_curve, cnn_curve_task = {'top1': []}, {'top1': []}, {'top1': []}, {'top1': []}
@@ -104,10 +105,10 @@ def _train(args):
                                                   args["model_name"],
                                                   ))
     print('-' * 100)
-    print('总训练时间:', round(total_train_time, 2), 's')
-    print('总测试时间:', round(total_test_time, 2), 's')
-    print('每个任务每个epoch训练时间:', round(total_train_time / (data_manager.nb_tasks * args['epochs']), 2), 's')
-    print('每个任务平均测试时间:', round(total_test_time / data_manager.nb_tasks, 2), 's')
+    print('Total Train Time:', round(total_train_time, 2), 's')
+    print('Total Test Time:', round(total_test_time, 2), 's')
+    # print('每个任务每个epoch训练时间:', round(total_train_time / (data_manager.nb_tasks * args['epochs']), 2), 's')
+    # print('每个任务平均测试时间:', round(total_test_time / data_manager.nb_tasks, 2), 's')
 
     if len(cnn_matrix) > 0:
         np_acctable = np.zeros([task + 1, task + 1])

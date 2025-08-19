@@ -5,7 +5,7 @@ import timm
 def get_backbone(args, pretrained=False):
     name = args["backbone_type"].lower()
     if name == "pretrained_vit_b16_224" or name == "vit_base_patch16_224":
-        model = timm.create_model("vit_base_patch16_224",pretrained=True, num_classes=0)#pretrained_cfg_overlay=dict(file=args['model_path'])
+        model = timm.create_model("vit_base_patch16_224",pretrained=True, num_classes=args["nb_classes"])#pretrained_cfg_overlay=dict(file=args['model_path'])
         model.out_dim = 768
         return model.eval()
     

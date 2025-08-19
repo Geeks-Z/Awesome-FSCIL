@@ -20,9 +20,9 @@ def load_json(settings_path):
 
 def setup_parser():
     parser = argparse.ArgumentParser(description='Reproduce of multiple continual learning algorthms.')
-    parser.add_argument('--config', type=str, default='./configs/inflora_cifar_B0_Inc5.json',
+    parser.add_argument('--config', type=str, default='./configs/inflora_cub_B100_Inc10_debug.json',
                         help='Json file of settings.')
-    parser.add_argument('--device', type=str, default='7')
+    parser.add_argument('--device', type=str, default='6')
 
     # # optim
     # parser.add_argument('--optim', type=str, default='adam', choices=['adam', 'sgd'])

@@ -57,6 +57,19 @@ class Learner(BaseLearner):
         test_dataset = data_manager.get_dataset(np.arange(0, self._total_classes), source="test", mode="test")
         self.test_loader = DataLoader(test_dataset, batch_size=self.batch_size, shuffle=False, num_workers=num_workers)
 
+        if self._total_classes < self.args['nb_classes']:
+            self.furture_dataset = self.data_manager.get_dataset(
+                np.arange(self._total_classes, self.args["nb_classes"]),
+                source="test",
+                mode="test",
+            )
+            self.furture_loader = DataLoader(
+                self.furture_dataset,
+                batch_size=self.batch_size,
+                shuffle=False,
+                num_workers=num_workers,
+            )
+
         if len(self._multiple_gpus) > 1:
             print('Multiple GPUs')
             self._network = nn.DataParallel(self._network, self._multiple_gpus)
@@ -179,9 +192,9 @@ class Learner(BaseLearner):
 
         logging.info(info)
 
-    def _eval_cnn(self, loader):
+    def _eval_cnn(self, loader, y_pred, y_true):
         self._network.eval()
-        y_pred, y_true = [], []
+        # y_pred, y_true = [], []
         for _, (_, inputs, targets) in enumerate(loader):
             inputs = inputs.to(self._device)
             output_emas = []
@@ -207,8 +220,35 @@ class Learner(BaseLearner):
             y_pred.append(predicts.cpu().numpy())
             y_true.append(targets.cpu().numpy())
 
-        return np.concatenate(y_pred), np.concatenate(y_true)  # [N, topk]
+        # return np.concatenate(y_pred), np.concatenate(y_true)  # [N, topk]
+    def _eval_future_task_classify_accuracy(self, loader, y_pred, y_true):
+        if self._total_classes < self.args['nb_classes']:
+            for _, (_, inputs, targets) in enumerate(loader):
+                inputs, targets = inputs.to(self._device), targets.to(self._device)
+                output_emas = []
+                with torch.no_grad():
+                    outputs = self._network(inputs)["logits"][:, self._total_classes: ]
+                output_emas.append(outputs.softmax(dim=1))
 
+                self._network.attach_pets_vit(self._network.pets_emas)
+                # using off_model to predict
+                with torch.no_grad():
+                    outputs = self._network(inputs)["logits"][:, self._total_classes: ]
+                output_emas.append(outputs.softmax(dim=1))
+
+                self._network.attach_pets_vit(self._network.pets)
+
+                outputs = torch.stack(output_emas, dim=-1).max(dim=-1)[0]
+
+                predicts = torch.topk(
+                    outputs, k=self.topk, dim=1, largest=True, sorted=True
+                )[
+                    1
+                ]  # [bs, topk]
+                y_pred.append(predicts.cpu().numpy()+ self._total_classes)  # Adjust for future tasks
+                y_true.append(targets.cpu().numpy())
+
+        return np.concatenate(y_pred), np.concatenate(y_true)  # [N, topk]
     def _compute_accuracy(self, model, loader):
         model.eval()
         correct, total = 0, 0
