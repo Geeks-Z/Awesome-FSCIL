@@ -58,13 +58,13 @@ class Learner(BaseLearner):
         self.test_loader = DataLoader(test_dataset, batch_size=self.batch_size, shuffle=False, num_workers=num_workers)
 
         if self._total_classes < self.args['nb_classes']:
-            self.furture_dataset = self.data_manager.get_dataset(
+            self.future_dataset = self.data_manager.get_dataset(
                 np.arange(self._total_classes, self.args["nb_classes"]),
                 source="test",
                 mode="test",
             )
-            self.furture_loader = DataLoader(
-                self.furture_dataset,
+            self.future_loader = DataLoader(
+                self.future_dataset,
                 batch_size=self.batch_size,
                 shuffle=False,
                 num_workers=num_workers,
@@ -126,8 +126,8 @@ class Learner(BaseLearner):
         return scheduler
 
     def _init_train(self, train_loader, test_loader, optimizer, scheduler):
-        logging.info("session {} init_train_images: {}".format(self._cur_task, len(train_loader.dataset)))
-        logging.info('-' * 100)
+        # logging.info("session {} init_train_images: {}".format(self._cur_task, len(train_loader.dataset)))
+        # logging.info('-' * 100)
         prog_bar = tqdm(range(self.args['tuned_epoch']))
         self._network.attach_pets_vit(self._network.pets)
         for p in self._network.pets.parameters():
@@ -227,13 +227,13 @@ class Learner(BaseLearner):
                 inputs, targets = inputs.to(self._device), targets.to(self._device)
                 output_emas = []
                 with torch.no_grad():
-                    outputs = self._network(inputs)["logits"][:, self._total_classes: ]
+                    outputs = self._network.forward_future(inputs)[:, self._total_classes: ]
                 output_emas.append(outputs.softmax(dim=1))
 
                 self._network.attach_pets_vit(self._network.pets_emas)
                 # using off_model to predict
                 with torch.no_grad():
-                    outputs = self._network(inputs)["logits"][:, self._total_classes: ]
+                    outputs = self._network.forward_future(inputs)[:, self._total_classes: ]
                 output_emas.append(outputs.softmax(dim=1))
 
                 self._network.attach_pets_vit(self._network.pets)

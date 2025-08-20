@@ -1158,6 +1158,8 @@ class LAE(nn.Module):
             pk.data.copy_(pq.data)
             pk.requires_grad = False
         self.attach_pets_vit(self.pets)
+        # Classifier head(s)
+        self.head = nn.Linear(768, args["nb_classes"])
 
     @property
     def feature_dim(self):
@@ -1199,6 +1201,13 @@ class LAE(nn.Module):
         x = self.backbone(x)
         x = x[:, 0, :]
         out = self.fc(x)
+
+        return out
+
+    def forward_future(self, x):
+        x = self.backbone(x)
+        x = x[:, 0, :]
+        out = self.head(x)
 
         return out
 
