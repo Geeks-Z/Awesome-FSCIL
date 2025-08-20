@@ -67,6 +67,18 @@ class Learner(BaseLearner):
         self.train_loader = DataLoader(train_dataset, batch_size=self.batch_size, shuffle=True, num_workers=num_workers)
         test_dataset = data_manager.get_dataset(np.arange(0, self._total_classes), source="test", mode="test")
         self.test_loader = DataLoader(test_dataset, batch_size=self.batch_size, shuffle=False, num_workers=num_workers)
+        if self._total_classes < self.args['nb_classes']:
+            self.future_dataset = self.data_manager.get_dataset(
+                np.arange(self._total_classes, self.args["nb_classes"]),
+                source="test",
+                mode="test",
+            )
+            self.future_loader = DataLoader(
+                self.future_dataset,
+                batch_size=self.batch_size,
+                shuffle=False,
+                num_workers=num_workers,
+            )
 
         if len(self._multiple_gpus) > 1:
             print('Multiple GPUs')
@@ -172,8 +184,8 @@ class Learner(BaseLearner):
                 optimizer.param_groups[0]['params'] = model.parameters()
 
     def _init_train(self, train_loader, test_loader, optimizer, scheduler):
-        logging.info("session {} train_images: {}".format(self._cur_task, len(train_loader.dataset)))
-        logging.info('-' * 100)
+        # logging.info("session {} train_images: {}".format(self._cur_task, len(train_loader.dataset)))
+        # logging.info('-' * 100)
         prog_bar = tqdm(range(self.args['tuned_epoch']))
         start_time = time.time()
         for _, epoch in enumerate(prog_bar):
@@ -229,9 +241,9 @@ class Learner(BaseLearner):
         self.train_time += round(total_time, 2)
         logging.info(info)
 
-    def _eval_cnn(self, loader):
+    def _eval_cnn(self, loader, y_pred, y_true):
         self._network.eval()
-        y_pred, y_true = [], []
+        # y_pred, y_true = [], []
         for _, (_, inputs, targets) in enumerate(loader):
             inputs = inputs.to(self._device)
             with torch.no_grad():
@@ -243,6 +255,22 @@ class Learner(BaseLearner):
             ]  # [bs, topk]
             y_pred.append(predicts.cpu().numpy())
             y_true.append(targets.cpu().numpy())
+
+        # return np.concatenate(y_pred), np.concatenate(y_true)  # [N, topk]
+
+    def _eval_future_task_classify_accuracy(self, loader, y_pred, y_true):
+        if self._total_classes < self.args['nb_classes']:
+            for _, (_, inputs, targets) in enumerate(loader):
+                inputs, targets = inputs.to(self._device), targets.to(self._device)
+                with torch.no_grad():
+                    outputs = self._network(inputs, task_id=self._cur_task)["logits"][:, self._total_classes:]
+                predicts = torch.topk(
+                    outputs, k=self.topk, dim=1, largest=True, sorted=True
+                )[
+                    1
+                ]  # [bs, topk]
+                y_pred.append(predicts.cpu().numpy() + self._total_classes)  # Adjust for future tasks
+                y_true.append(targets.cpu().numpy())
 
         return np.concatenate(y_pred), np.concatenate(y_true)  # [N, topk]
 

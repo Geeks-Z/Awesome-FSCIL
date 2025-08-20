@@ -24,11 +24,15 @@ def makedirs(path):
         os.makedirs(path)
 
 
-def accuracy(y_pred, y_true, nb_old, init_cls=10, increment=10):
+def accuracy(y_pred, y_true, total_cls, nb_old, init_cls=10, increment=10):
     assert len(y_pred) == len(y_true), "Data length error."
     all_acc = {}
+    # 统计己见类别准确率
+    idxes = np.where(
+        np.logical_and(y_true >= 0, y_true < total_cls)
+    )[0]
     all_acc["total"] = np.around(
-        (y_pred == y_true).sum() * 100 / len(y_true), decimals=2
+        (y_pred[idxes] == y_true[idxes]).sum() * 100 / len(idxes), decimals=2
     )
 
     # Grouped accuracy, for initial classes
@@ -65,7 +69,10 @@ def accuracy(y_pred, y_true, nb_old, init_cls=10, increment=10):
     )
 
     # New accuracy
-    idxes = np.where(y_true >= nb_old)[0]
+    idxes = np.where(
+        np.logical_and(y_true >= nb_old, y_true < total_cls)
+    )[0]
+    # idxes = np.where(y_true >= nb_old)[0]
     all_acc["new"] = np.around(
         (y_pred[idxes] == y_true[idxes]).sum() * 100 / len(idxes), decimals=2
     )

@@ -51,6 +51,19 @@ class Learner(BaseLearner):
             test_dataset, batch_size=self.args["batch_size"], shuffle=False, num_workers=num_workers
         )
 
+        if self._total_classes < self.args['nb_classes']:
+            self.future_dataset = data_manager.get_dataset(
+                np.arange(self._total_classes, self.args["nb_classes"]),
+                source="test",
+                mode="test",
+            )
+            self.future_loader = DataLoader(
+                self.future_dataset,
+                batch_size=self.args["batch_size"],
+                shuffle=False,
+                num_workers=num_workers,
+            )
+
         if len(self._multiple_gpus) > 1:
             self._network = nn.DataParallel(self._network, self._multiple_gpus)
         start_time = time.time()
@@ -61,8 +74,8 @@ class Learner(BaseLearner):
             self._network = self._network.module
 
     def _train(self, train_loader, test_loader):
-        logging.info("session {} total_lora_train_images: {}".format(self._cur_task, len(train_loader.dataset)))
-        logging.info('-' * 100)
+        # logging.info("session {} total_lora_train_images: {}".format(self._cur_task, len(train_loader.dataset)))
+        # logging.info('-' * 100)
         self._network.to(self._device)
         if self._cur_task == 0:
             optimizer = optim.SGD(
@@ -184,3 +197,20 @@ class Learner(BaseLearner):
                 )
             prog_bar.set_description(info)
         logging.info(info)
+
+    def _eval_future_task_classify_accuracy(self, loader, y_pred, y_true):
+
+        if self._total_classes < self.args['nb_classes']:
+            for _, (_, inputs, targets) in enumerate(loader):
+                inputs, targets = inputs.to(self._device), targets.to(self._device)
+                with torch.no_grad():
+                    outputs = self._network(inputs)["future_logits"][:, self._total_classes: ]
+                predicts = torch.topk(
+                    outputs, k=self.topk, dim=1, largest=True, sorted=True
+                )[
+                    1
+                ]  # [bs, topk]
+                y_pred.append(predicts.cpu().numpy()+ self._total_classes)  # Adjust for future tasks
+                y_true.append(targets.cpu().numpy())
+
+        return np.concatenate(y_pred), np.concatenate(y_true)  # [N, topk]

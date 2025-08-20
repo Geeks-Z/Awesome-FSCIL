@@ -123,7 +123,7 @@ class BaseLearner(object):
         y_pred, y_true = [], []
         # 计算分类准确率
         self._eval_cnn(self.test_loader, y_pred, y_true)
-        y_pred, y_true = self._eval_future_task_classify_accuracy(self.furture_loader, y_pred, y_true)
+        y_pred, y_true = self._eval_future_task_classify_accuracy(self.future_loader, y_pred, y_true)
 
         cnn_accy = self._evaluate(y_pred, y_true)
 
@@ -161,9 +161,9 @@ class BaseLearner(object):
 
         return np.around(tensor2numpy(correct) * 100 / total, decimals=2)
 
-    def _eval_cnn(self, loader):
+    def _eval_cnn(self, loader, y_pred, y_true):
         self._network.eval()
-        y_pred, y_true = [], []
+        # y_pred, y_true = [], []
         for _, (_, inputs, targets) in enumerate(loader):
             inputs = inputs.to(self._device)
             with torch.no_grad():
@@ -176,7 +176,7 @@ class BaseLearner(object):
             y_pred.append(predicts.cpu().numpy())
             y_true.append(targets.cpu().numpy())
 
-        return np.concatenate(y_pred), np.concatenate(y_true)  # [N, topk]
+        # return np.concatenate(y_pred), np.concatenate(y_true)  # [N, topk]
 
     def _eval_nme(self, loader, class_means):
         self._network.eval()

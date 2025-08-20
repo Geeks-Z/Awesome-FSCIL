@@ -338,6 +338,8 @@ class IncrementalNet(BaseNet):
         if hasattr(self, "gradcam") and self.gradcam:
             self._gradcam_hooks = [None, None]
             self.set_gradcam_hook()
+        # Classifier head(s)
+        self.head = nn.Linear(768, args["nb_classes"])
 
     def update_fc(self, nb_classes):
         fc = self.generate_fc(self.feature_dim, nb_classes)
@@ -378,6 +380,9 @@ class IncrementalNet(BaseNet):
         if hasattr(self, "gradcam") and self.gradcam:
             out["gradcam_gradients"] = self._gradcam_gradients
             out["gradcam_activations"] = self._gradcam_activations
+
+        future_logtis = self.head(out["features"])
+        out.update({"future_logits": future_logtis})
         return out
 
     def unset_gradcam_hook(self):

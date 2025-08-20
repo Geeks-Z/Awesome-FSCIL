@@ -93,55 +93,18 @@ def _train(args):
         total_test_time += (time.time() - train_end_time)
         model.after_task()
 
-        if nme_accy is not None:
-            logging.info("CNN: {}".format(cnn_accy["grouped"]))
-            logging.info("NME: {}".format(nme_accy["grouped"]))
+        cnn_keys = [key for key in cnn_accy["grouped"].keys() if '-' in key]
+        cnn_values = [cnn_accy["grouped"][key] for key in cnn_keys]
+        cnn_matrix.append(cnn_values)
 
-            cnn_keys = [key for key in cnn_accy["grouped"].keys() if '-' in key]
-            cnn_values = [cnn_accy["grouped"][key] for key in cnn_keys]
-            cnn_matrix.append(cnn_values)
+        logging.info("CNN: {}".format(cnn_accy["grouped"]))
 
-            nme_keys = [key for key in nme_accy["grouped"].keys() if '-' in key]
-            nme_values = [nme_accy["grouped"][key] for key in nme_keys]
-            nme_matrix.append(nme_values)
+        cnn_curve["top1"].append(cnn_accy["top1"])
 
-            cnn_curve["top1"].append(cnn_accy["top1"])
-            cnn_curve["top5"].append(cnn_accy["top5"])
+        logging.info("CNN top1 curve: {}".format(cnn_curve["top1"]))
 
-            nme_curve["top1"].append(nme_accy["top1"])
-            nme_curve["top5"].append(nme_accy["top5"])
-
-            logging.info("CNN top1 curve: {}".format(cnn_curve["top1"]))
-            logging.info("CNN top5 curve: {}".format(cnn_curve["top5"]))
-            logging.info("NME top1 curve: {}".format(nme_curve["top1"]))
-            logging.info("NME top5 curve: {}\n".format(nme_curve["top5"]))
-
-            print('Average Accuracy (CNN):', round(sum(cnn_curve["top1"]) / len(cnn_curve["top1"]), 2))
-            print('Average Accuracy (NME):', round(sum(nme_curve["top1"]) / len(nme_curve["top1"]), 2))
-
-            logging.info("Average Accuracy (CNN): {}".format(round(sum(cnn_curve["top1"]) / len(cnn_curve["top1"]), 2)))
-            logging.info("Average Accuracy (NME): {}".format(round(sum(nme_curve["top1"]) / len(nme_curve["top1"]), 2)))
-            # logging.info("Train Time: {}".format(model.train_time))
-            # logging.info("Test Time: {} \n".format(model.test_time))
-        else:
-            logging.info("No NME accuracy.")
-            logging.info("CNN: {}".format(cnn_accy["grouped"]))
-
-            cnn_keys = [key for key in cnn_accy["grouped"].keys() if '-' in key]
-            cnn_values = [cnn_accy["grouped"][key] for key in cnn_keys]
-            cnn_matrix.append(cnn_values)
-
-            cnn_curve["top1"].append(cnn_accy["top1"])
-            cnn_curve["top5"].append(cnn_accy["top5"])
-
-            logging.info("CNN top1 curve: {}".format(cnn_curve["top1"]))
-            logging.info("CNN top5 curve: {}\n".format(cnn_curve["top5"]))
-
-            print('Average Accuracy (CNN):', round(sum(cnn_curve["top1"]) / len(cnn_curve["top1"]), 2))
-            logging.info(
-                "Average Accuracy (CNN): {} \n".format(round(sum(cnn_curve["top1"]) / len(cnn_curve["top1"]), 2)))
-            # logging.info("Train Time: {}".format(model.train_time))
-            # logging.info("Test Time: {} \n".format(model.test_time))
+        logging.info(
+            "Average Accuracy (CNN): {} \n".format(round(sum(cnn_curve["top1"]) / len(cnn_curve["top1"]), 2)))
 
     print(f"\n{'=' * 100}")
     print(
@@ -160,22 +123,9 @@ def _train(args):
         for idxx, line in enumerate(cnn_matrix):
             idxy = len(line)
             np_acctable[idxx, :idxy] = np.array(line)
-        np_acctable = np_acctable.T
-        forgetting = np.mean((np.max(np_acctable, axis=1) - np_acctable[:, task])[:task])
-        print('Accuracy Matrix (CNN):')
+        print("Accuracy Matrix (CNN):")
         print(np_acctable)
-        logging.info('Forgetting (CNN): {}'.format(forgetting))
 
-    if len(nme_matrix) > 0:
-        np_acctable = np.zeros([task + 1, task + 1])
-        for idxx, line in enumerate(nme_matrix):
-            idxy = len(line)
-            np_acctable[idxx, :idxy] = np.array(line)
-        np_acctable = np_acctable.T
-        forgetting = np.mean((np.max(np_acctable, axis=1) - np_acctable[:, task])[:task])
-        print('Accuracy Matrix (NME):')
-        print(np_acctable)
-        logging.info('Forgetting (NME): {}'.format(forgetting))
     print(f"{'=' * 100}\n")
 
 

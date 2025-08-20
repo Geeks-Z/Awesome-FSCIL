@@ -53,6 +53,19 @@ class Learner(BaseLearner):
             test_dataset, batch_size=self.args["batch_size"], shuffle=False, num_workers=num_workers
         )
 
+        if self._total_classes < self.args['nb_classes']:
+            self.future_dataset = data_manager.get_dataset(
+                np.arange(self._total_classes, self.args["nb_classes"]),
+                source="test",
+                mode="test",
+            )
+            self.future_loader = DataLoader(
+                self.future_dataset,
+                batch_size=self.args["batch_size"],
+                shuffle=False,
+                num_workers=num_workers,
+            )
+
         if len(self._multiple_gpus) > 1:
             self._network = nn.DataParallel(self._network, self._multiple_gpus)
             # model = nn.parallel.DistributedDataParallel(model, device_ids=[self._device], output_device=self._device, find_unused_parameters=True)
@@ -172,8 +185,8 @@ class Learner(BaseLearner):
 
 
     def _init_train(self, train_loader, test_loader, optimizer, scheduler):
-        logging.info("session {} train_images: {}".format(self._cur_task, len(train_loader.dataset)))
-        logging.info('-' * 100)
+        # logging.info("session {} train_images: {}".format(self._cur_task, len(train_loader.dataset)))
+        # logging.info('-' * 100)
         prog_bar = tqdm(range(self.args["init_epoch"]))
         for _, epoch in enumerate(prog_bar):
             self._network.train()

@@ -345,6 +345,7 @@ class vtab(iData):
         self.test_data, self.test_targets = split_images_labels(test_dset.imgs)
 
 class iMiniImageNet(iData):
+    class_order = np.arange(100).tolist()
 
     def __init__(self, args):
         super().__init__()

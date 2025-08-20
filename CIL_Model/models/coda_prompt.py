@@ -17,10 +17,11 @@ from utils.toolkit import tensor2numpy
 # tune the model at first session with vpt, and then conduct simple shot.
 num_workers = 8
 
+
 class Learner(BaseLearner):
     def __init__(self, args):
         super().__init__(args)
-    
+
         self._network = CodaPromptVitNet(args, True)
 
         self.batch_size = args["batch_size"]
@@ -30,12 +31,12 @@ class Learner(BaseLearner):
         self.args = args
         self.train_time = 0
         self.test_time = 0
-        
+
         total_params = sum(p.numel() for p in self._network.parameters())
         logging.info(f'{total_params:,} total parameters.')
-        total_trainable_params = sum(p.numel() for p in self._network.fc.parameters() if p.requires_grad) + sum(p.numel() for p in self._network.prompt.parameters() if p.requires_grad)
+        total_trainable_params = sum(p.numel() for p in self._network.fc.parameters() if p.requires_grad) + sum(
+            p.numel() for p in self._network.prompt.parameters() if p.requires_grad)
         logging.info(f'{total_trainable_params:,} fc and prompt training parameters.')
-
 
     def after_task(self):
         self._known_classes = self._total_classes
@@ -55,12 +56,26 @@ class Learner(BaseLearner):
         # self._network.update_fc(self._total_classes)
         logging.info("Learning on {}-{}".format(self._known_classes, self._total_classes))
 
-        train_dataset = data_manager.get_dataset(np.arange(self._known_classes, self._total_classes),source="train", mode="train",kshot=self.args["kshot"])
+        train_dataset = data_manager.get_dataset(np.arange(self._known_classes, self._total_classes), source="train",
+                                                 mode="train", kshot=self.args["kshot"])
         self.train_dataset = train_dataset
         self.data_manager = data_manager
         self.train_loader = DataLoader(train_dataset, batch_size=self.batch_size, shuffle=True, num_workers=num_workers)
-        test_dataset = data_manager.get_dataset(np.arange(0, self._total_classes), source="test", mode="test" )
-        self.test_loader = DataLoader(test_dataset, batch_size=self.batch_size, shuffle=False, drop_last=False, num_workers=num_workers)
+        test_dataset = data_manager.get_dataset(np.arange(0, self._total_classes), source="test", mode="test")
+        self.test_loader = DataLoader(test_dataset, batch_size=self.batch_size, shuffle=False, drop_last=False,
+                                      num_workers=num_workers)
+        if self._total_classes < self.args['nb_classes']:
+            self.future_dataset = self.data_manager.get_dataset(
+                np.arange(self._total_classes, self.args["nb_classes"]),
+                source="test",
+                mode="test",
+            )
+            self.future_loader = DataLoader(
+                self.future_dataset,
+                batch_size=self.batch_size,
+                shuffle=False,
+                num_workers=num_workers,
+            )
 
         if len(self._multiple_gpus) > 1:
             print('Multiple GPUs')
@@ -91,7 +106,7 @@ class Learner(BaseLearner):
         else:
             params = list(self._network.prompt.parameters()) + list(self._network.fc.parameters())
         if self.args['optimizer'] == 'sgd':
-            optimizer = optim.SGD(params, momentum=0.9, lr=self.init_lr,weight_decay=self.weight_decay)
+            optimizer = optim.SGD(params, momentum=0.9, lr=self.init_lr, weight_decay=self.weight_decay)
         elif self.args['optimizer'] == 'adam':
             optimizer = optim.Adam(params, lr=self.init_lr, weight_decay=self.weight_decay)
         elif self.args['optimizer'] == 'adamw':
@@ -103,15 +118,16 @@ class Learner(BaseLearner):
         if self.args["scheduler"] == 'cosine':
             scheduler = CosineSchedule(optimizer, K=self.args["tuned_epoch"])
         elif self.args["scheduler"] == 'steplr':
-            scheduler = optim.lr_scheduler.MultiStepLR(optimizer=optimizer, milestones=self.args["init_milestones"], gamma=self.args["init_lr_decay"])
+            scheduler = optim.lr_scheduler.MultiStepLR(optimizer=optimizer, milestones=self.args["init_milestones"],
+                                                       gamma=self.args["init_lr_decay"])
         elif self.args["scheduler"] == 'constant':
             scheduler = None
 
         return scheduler
 
     def _init_train(self, train_loader, test_loader, optimizer, scheduler):
-        logging.info("session {} train_images: {}".format(self._cur_task, len(train_loader.dataset)))
-        logging.info('-' * 100)
+        # logging.info("session {} train_images: {}".format(self._cur_task, len(train_loader.dataset)))
+        # logging.info('-' * 100)
         prog_bar = tqdm(range(self.args['tuned_epoch']))
         start_time = time.time()
         for _, epoch in enumerate(prog_bar):
@@ -121,7 +137,7 @@ class Learner(BaseLearner):
             correct, total = 0, 0
             for i, (_, inputs, targets) in enumerate(train_loader):
                 inputs, targets = inputs.to(self._device), targets.to(self._device)
-            
+
                 # logits
                 logits, prompt_loss = self._network(inputs, train=True)
                 logits = logits[:, :self._total_classes]
@@ -144,7 +160,7 @@ class Learner(BaseLearner):
 
             if scheduler:
                 scheduler.step()
-            
+
             train_acc = np.around(tensor2numpy(correct) * 100 / total, decimals=2)
 
             if (epoch + 1) % 5 == 0:
@@ -170,9 +186,9 @@ class Learner(BaseLearner):
         self.train_time += round(total_time, 2)
         logging.info(info)
 
-    def _eval_cnn(self, loader):
+    def _eval_cnn(self, loader, y_pred, y_true):
         self._network.eval()
-        y_pred, y_true = [], []
+        # y_pred, y_true = [], []
         for _, (_, inputs, targets) in enumerate(loader):
             inputs = inputs.to(self._device)
             with torch.no_grad():
@@ -184,6 +200,22 @@ class Learner(BaseLearner):
             ]  # [bs, topk]
             y_pred.append(predicts.cpu().numpy())
             y_true.append(targets.cpu().numpy())
+
+        # return np.concatenate(y_pred), np.concatenate(y_true)  # [N, topk]
+
+    def _eval_future_task_classify_accuracy(self, loader, y_pred, y_true):
+        if self._total_classes < self.args['nb_classes']:
+            for _, (_, inputs, targets) in enumerate(loader):
+                inputs, targets = inputs.to(self._device), targets.to(self._device)
+                with torch.no_grad():
+                    outputs = self._network(inputs)[:, self._total_classes:]
+                predicts = torch.topk(
+                    outputs, k=self.topk, dim=1, largest=True, sorted=True
+                )[
+                    1
+                ]  # [bs, topk]
+                y_pred.append(predicts.cpu().numpy() + self._total_classes)  # Adjust for future tasks
+                y_true.append(targets.cpu().numpy())
 
         return np.concatenate(y_pred), np.concatenate(y_true)  # [N, topk]
 
@@ -244,6 +276,7 @@ class _LRScheduler(object):
         for param_group, lr in zip(self.optimizer.param_groups, self.get_lr()):
             param_group['lr'] = lr
 
+
 class CosineSchedule(_LRScheduler):
 
     def __init__(self, optimizer, K):
@@ -251,7 +284,7 @@ class CosineSchedule(_LRScheduler):
         super().__init__(optimizer, -1)
 
     def cosine(self, base_lr):
-        return base_lr * math.cos((99 * math.pi * (self.last_epoch)) / (200 * (self.K-1)))
+        return base_lr * math.cos((99 * math.pi * (self.last_epoch)) / (200 * (self.K - 1)))
 
     def get_lr(self):
         return [self.cosine(base_lr) for base_lr in self.base_lrs]

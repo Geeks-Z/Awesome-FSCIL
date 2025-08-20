@@ -174,7 +174,7 @@ class DataManager(object):
             random.seed(self.args['seed'])
             random.shuffle(idxes)
             idxes = idxes[:kshot]
-            print("Selecting {} samples for class {} {}".format(kshot, low_range, idxes))
+            # print("Selecting {} samples for class {} {}".format(kshot, low_range, idxes))
         return x[idxes], y[idxes]
 
     def _select_rmm(self, x, y, low_range, high_range, m_rate, kshot=None):
