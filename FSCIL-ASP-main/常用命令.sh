@@ -6,4 +6,4 @@ conda activate peft
 
 ## 单卡
 
-nohup ./train.sh > ./res/ASP-A40-1-PromptTime.out 2>&1 &
+nohup ./train.sh > ../results/ASP-NoShuffle-A40-1.out 2>&1 &

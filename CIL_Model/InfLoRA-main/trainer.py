@@ -77,7 +77,7 @@ def _train(args):
         model.incremental_train(data_manager)
         train_end_time = time.time()
         total_train_time += (train_end_time - start_time)
-        cnn_accy, cnn_accy_with_task, nme_accy, cnn_accy_task = model.eval_task()
+        cnn_accy = model.eval_task()
         total_test_time += (time.time() - train_end_time)
         # raise Exception
         model.after_task()
@@ -96,30 +96,31 @@ def _train(args):
         # logging.info('CNN top1 task curve: {}'.format(cnn_curve_task['top1']))
 
 
-        # if task >= 3: break
 
         # torch.save(model._network.state_dict(), os.path.join(logfilename, "task_{}.pth".format(int(task))))
 
-    # print("Finished", args["dataset"])
-    print("Finished {}_init{}_inc{}: {}  ".format(args["dataset"], args["init_cls"], args["increment"],
-                                                  args["model_name"],
-                                                  ))
-    print('-' * 100)
-    print('Total Train Time:', round(total_train_time, 2), 's')
-    print('Total Test Time:', round(total_test_time, 2), 's')
-    # print('每个任务每个epoch训练时间:', round(total_train_time / (data_manager.nb_tasks * args['epochs']), 2), 's')
-    # print('每个任务平均测试时间:', round(total_test_time / data_manager.nb_tasks, 2), 's')
-
+    print(f"\n{'=' * 100}")
+    print(
+        "Finished {}_init{}_inc{}: {}  ".format(
+            args["dataset"],
+            args["init_cls"],
+            args["increment"],
+            args["model_name"],
+        )
+    )
+    print("Average Accuracy (Top1): {}".format(round(sum(cnn_curve["top1"]) / len(cnn_curve["top1"]), 2)))
     if len(cnn_matrix) > 0:
         np_acctable = np.zeros([task + 1, task + 1])
         for idxx, line in enumerate(cnn_matrix):
             idxy = len(line)
             np_acctable[idxx, :idxy] = np.array(line)
-        np_acctable = np_acctable.T
-        forgetting = np.mean((np.max(np_acctable, axis=1) - np_acctable[:, task])[:task])
-        print('Accuracy Matrix (CNN):')
+        print("Accuracy Matrix (CNN):")
         print(np_acctable)
-        logging.info('Forgetting (CNN): {}'.format(forgetting))
+    print("Total Train Time:", round(total_train_time, 2), "s")
+    print("Total Test Time:", round(total_test_time, 2), "s")
+
+    print(f"{'=' * 100}\n")
+
 def _set_device(args):
     device_type = args['device']
     gpus = []

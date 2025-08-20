@@ -70,18 +70,20 @@ class BaseLearner(object):
         grouped = accuracy(y_pred.T[0], y_true, self._known_classes)
         ret['grouped'] = grouped
         ret['top1'] = grouped['total']
-        ret['top{}'.format(self.topk)] = np.around((y_pred.T == np.tile(y_true, (self.topk, 1))).sum()*100/len(y_true),
-                                                   decimals=2)
+        # ret['top{}'.format(self.topk)] = np.around((y_pred.T == np.tile(y_true, (self.topk, 1))).sum()*100/len(y_true),
+        #                                            decimals=2)
 
         return ret
 
     def eval_task(self):
         # logging.info("session {} total_test_images: {}".format(self._cur_task, len(self.test_loader.dataset)))
         # logging.info('-' * 100)
-        y_pred, y_pred_with_task, y_true, y_pred_task, y_true_task = self._eval_cnn(self.test_loader)
+        y_pred, y_true = [], []
+        self._eval_cnn(self.test_loader,y_pred, y_true)
+        y_pred, y_true = self._eval_future_task_classify_accuracy(self.future_loader, y_pred, y_true)
         cnn_accy = self._evaluate(y_pred, y_true)
-        cnn_accy_with_task = self._evaluate(y_pred_with_task, y_true)
-        cnn_accy_task = (y_pred_task == y_true_task).sum().item()/len(y_pred_task)
+        # cnn_accy_with_task = self._evaluate(y_pred_with_task, y_true)
+        # cnn_accy_task = (y_pred_task == y_true_task).sum().item()/len(y_pred_task)
 
         if hasattr(self, '_class_means'):
             y_pred, y_true = self._eval_nme(self.test_loader, self._class_means)
@@ -89,7 +91,7 @@ class BaseLearner(object):
         else:
             nme_accy = None
 
-        return cnn_accy, cnn_accy_with_task, nme_accy, cnn_accy_task
+        return cnn_accy
 
     def incremental_train(self):
         pass

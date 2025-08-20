@@ -79,13 +79,13 @@ class InfLoRA(BaseLearner):
                                       num_workers=self.num_workers)
 
         if self._total_classes < self.args['nb_classes']:
-            self.furture_dataset = data_manager.get_dataset(
+            self.future_dataset = data_manager.get_dataset(
                 np.arange(self._total_classes, self.args["nb_classes"]),
                 source="test",
                 mode="test",
             )
-            self.furture_loader = DataLoader(
-                self.furture_dataset,
+            self.future_loader = DataLoader(
+                self.future_dataset,
                 batch_size=self.batch_size,
                 shuffle=False,
                 num_workers=self.num_workers,
@@ -222,8 +222,8 @@ class InfLoRA(BaseLearner):
         return
 
     def train_function(self, train_loader, test_loader, optimizer, scheduler):
-        logging.info("session {} init_train_images: {}".format(self._cur_task, len(train_loader.dataset)))
-        logging.info('-' * 100)
+        # logging.info("session {} init_train_images: {}".format(self._cur_task, len(train_loader.dataset)))
+        # logging.info('-' * 100)
         prog_bar = tqdm(range(self.run_epoch))
         for _, epoch in enumerate(prog_bar):
             self._network.eval()
@@ -277,17 +277,35 @@ class InfLoRA(BaseLearner):
         clustering = KMeans(n_clusters=5, random_state=0).fit(features)
         self.all_keys.append(torch.tensor(clustering.cluster_centers_).to(feature.device))
 
+    # def _evaluate(self, y_pred, y_true):
+    #     ret = {}
+    #     print(len(y_pred), len(y_true))
+    #     grouped = accuracy(y_pred, y_true, self._known_classes, self.class_num)
+    #     ret['grouped'] = grouped
+    #     ret['top1'] = grouped['total']
+    #     return ret
     def _evaluate(self, y_pred, y_true):
         ret = {}
-        print(len(y_pred), len(y_true))
-        grouped = accuracy(y_pred, y_true, self._known_classes, self.class_num)
-        ret['grouped'] = grouped
-        ret['top1'] = grouped['total']
+        grouped = accuracy(
+            y_pred,
+            y_true,
+            self._total_classes,
+            self._known_classes,
+            self.args["init_cls"],
+            self.args["increment"],
+        )
+        ret["grouped"] = grouped
+        ret["top1"] = grouped["total"]
+        # ret["top{}".format(self.topk)] = np.around(
+        #     (y_pred.T == np.tile(y_true, (self.topk, 1))).sum() * 100 / len(y_true),
+        #     decimals=2,
+        # )
+
         return ret
 
-    def _eval_cnn(self, loader):
+    def _eval_cnn(self, loader, y_pred=None, y_true=None):
         self._network.eval()
-        y_pred, y_true = [], []
+        # y_pred, y_true = [], []
         y_pred_with_task = []
         y_pred_task, y_true_task = [], []
         for _, (_, inputs, targets) in enumerate(loader):
@@ -317,7 +335,19 @@ class InfLoRA(BaseLearner):
             y_pred_with_task.append(predicts_with_task.cpu().numpy())
             y_true.append(targets.cpu().numpy())
 
-        return np.concatenate(y_pred), np.concatenate(y_pred_with_task), np.concatenate(y_true), torch.cat(y_pred_task), torch.cat(y_true_task)  # [N, topk]
+
+    def _eval_future_task_classify_accuracy(self, loader, y_pred, y_true):
+
+        if self._total_classes < self.args['nb_classes']:
+            for _, (_, inputs, targets) in enumerate(loader):
+                inputs, targets = inputs.to(self._device), targets.to(self._device)
+                with torch.no_grad():
+                    outputs = self._network.future_interface(inputs)[:, self._total_classes: ]
+                predicts = torch.topk(outputs, k=self.topk, dim=1, largest=True, sorted=True)[1].view(-1)
+                y_pred.append(predicts.cpu().numpy()+ self._total_classes)  # Adjust for future tasks
+                y_true.append(targets.cpu().numpy())
+
+        return np.concatenate(y_pred), np.concatenate(y_true)  # [N, topk]
 
     def _compute_accuracy_domain(self, model, loader):
         model.eval()

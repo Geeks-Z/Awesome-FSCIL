@@ -118,18 +118,31 @@ def _train(args):
         total_test_time += time.time() - train_end_time
         model.after_task()
 
+        cnn_keys = [key for key in cnn_accy["grouped"].keys() if "-" in key]
+        cnn_values = [cnn_accy["grouped"][key] for key in cnn_keys]
+        cnn_matrix.append(cnn_values)
+
+        logging.info("CNN: {}".format(cnn_accy["grouped"]))
+
         cnn_curve["top1"].append(cnn_accy["top1"])
 
         logging.info("Top1 curve: {}".format(cnn_curve["top1"]))
 
-        Hacc, old_acc, new_acc = Harmonic_Accuracy(
-            cnn_accy["grouped"], args["init_cls"]
-        )
         logging.info(
-            "Average Accuracy (Top1): {}   (Harmonic Accuracy): {} (Old Acc): {} (New Acc): {} \n".format(
-                sum(cnn_curve["top1"]) / len(cnn_curve["top1"]), Hacc, old_acc, new_acc
+            "Average Accuracy (CNN): {:.2f}".format(
+                sum(cnn_curve["top1"]) / len(cnn_curve["top1"])
             )
         )
+
+        # Hacc, old_acc, new_acc = Harmonic_Accuracy(
+        #     cnn_accy["grouped"], args["init_cls"]
+        # )
+        # logging.info(
+        #     "Average Accuracy (Top1): {}   (Harmonic Accuracy): {} (Old Acc): {} (New Acc): {} \n".format(
+        #         sum(cnn_curve["top1"]) / len(cnn_curve["top1"]), Hacc, old_acc, new_acc
+        #     )
+        # )
+
     print(f"\n{'=' * 100}")
     print(
         "Finished {}_init{}_inc{}: {}  ".format(
@@ -139,12 +152,18 @@ def _train(args):
             args["backbone_type"],
         )
     )
-    print("Average Accuracy (Top1): {}   (Harmonic Accuracy): {} (Old Acc): {} (New Acc): {} \n".format(
-                sum(cnn_curve["top1"]) / len(cnn_curve["top1"]), Hacc, old_acc, new_acc))
-
+    print("Average Accuracy (Top1): {}".format(round(sum(cnn_curve["top1"]) / len(cnn_curve["top1"]), 2)))
+    if len(cnn_matrix) > 0:
+        np_acctable = np.zeros([task + 1, task + 1])
+        for idxx, line in enumerate(cnn_matrix):
+            idxy = len(line)
+            np_acctable[idxx, :idxy] = np.array(line)
+        print("Accuracy Matrix (CNN):")
+        print(np_acctable)
     print("Total Train Time:", round(total_train_time, 2), "s")
     print("Total Test Time:", round(total_test_time, 2), "s")
     print("Total Prompt Time:", round(total_prompt_time, 2), "s")
+
     print(f"{'=' * 100}\n")
 
 

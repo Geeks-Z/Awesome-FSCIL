@@ -425,6 +425,7 @@ class SiNet(nn.Module):
 
         self.numtask = 0
 
+
     @property
     def feature_dim(self):
         return self.image_encoder.out_dim

@@ -122,9 +122,16 @@ def _train(args):
         cnn_values = [cnn_accy["grouped"][key] for key in cnn_keys]
         cnn_matrix.append(cnn_values)
 
+        logging.info("CNN: {}".format(cnn_accy["grouped"]))
+
         cnn_curve["top1"].append(cnn_accy["top1"])
 
         logging.info("Top1 curve: {}".format(cnn_curve["top1"]))
+        logging.info(
+            "Average Accuracy (CNN): {:.2f}".format(
+                sum(cnn_curve["top1"]) / len(cnn_curve["top1"])
+            )
+        )
 
         # Hacc, old_acc, new_acc = Harmonic_Accuracy(
         #     cnn_accy["grouped"], args["init_cls"]
@@ -145,31 +152,16 @@ def _train(args):
         )
     )
     print("Average Accuracy (Top1): {}".format(round(sum(cnn_curve["top1"]) / len(cnn_curve["top1"]),2)))
-    print("Total Train Time:", round(total_train_time, 2), "s")
-    print("Total Test Time:", round(total_test_time, 2), "s")
-    print("Total Prompt Time:", round(total_prompt_time, 2), "s")
-
     if len(cnn_matrix) > 0:
         np_acctable = np.zeros([task + 1, task + 1])
         for idxx, line in enumerate(cnn_matrix):
             idxy = len(line)
             np_acctable[idxx, :idxy] = np.array(line)
-        np_acctable = np_acctable.T
-        forgetting = np.mean((np.max(np_acctable, axis=1) - np_acctable[:, task])[:task])
-        print('Accuracy Matrix (CNN):')
+        print("Accuracy Matrix (CNN):")
         print(np_acctable)
-        logging.info('Forgetting (CNN): {}'.format(forgetting))
-
-    if len(cnn_matrix) > 0:
-        np_acctable = np.zeros([task + 1, task + 1])
-        for idxx, line in enumerate(cnn_matrix):
-            idxy = len(line)
-            np_acctable[:idxy, idxx] = np.array(line)
-        # np_acctable = np_acctable.T  <- 这行不再需要
-        forgetting = np.mean((np.max(np_acctable, axis=1) - np_acctable[:, task])[:task])
-        print('Accuracy Matrix (CNN):')
-        print(np_acctable)
-        logging.info('Forgetting (CNN): {}'.format(forgetting))
+    print("Total Train Time:", round(total_train_time, 2), "s")
+    print("Total Test Time:", round(total_test_time, 2), "s")
+    print("Total Prompt Time:", round(total_prompt_time, 2), "s")
 
     print(f"{'=' * 100}\n")
 

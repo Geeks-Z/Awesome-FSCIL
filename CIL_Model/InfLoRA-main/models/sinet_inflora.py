@@ -65,7 +65,7 @@ class SiNet(nn.Module):
         super(SiNet, self).__init__()
 
         model_kwargs = dict(patch_size=16, embed_dim=768, depth=12, num_heads=12, n_tasks=args["total_sessions"], rank=args["rank"])
-        self.image_encoder =_create_vision_transformer('vit_base_patch16_224_in21k', pretrained=True, **model_kwargs)
+        self.image_encoder =_create_vision_transformer('vit_base_patch16_224', pretrained=True, **model_kwargs)
         # print(self.image_encoder)
         # exit()
 
@@ -84,6 +84,8 @@ class SiNet(nn.Module):
         # self.prompt_pool = CodaPrompt(args["embd_dim"], args["total_sessions"], args["prompt_param"])
 
         self.numtask = 0
+        # Classifier head(s)
+        self.head = nn.Linear(768, args["nb_classes"])
 
     @property
     def feature_dim(self):
@@ -130,6 +132,14 @@ class SiNet(nn.Module):
             logits.append(prompt(image_features))
 
         logits = torch.cat(logits,1)
+        return logits
+    def future_interface(self, image, task_id = None):
+        image_features, _ = self.image_encoder(image, task_id=self.numtask-1 if task_id is None else task_id)
+
+        image_features = image_features[:,0,:]
+        image_features = image_features.view(image_features.size(0),-1)
+
+        logits = self.head(image_features)
         return logits
     
     def interface1(self, image, task_ids):

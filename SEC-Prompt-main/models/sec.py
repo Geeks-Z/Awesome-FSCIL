@@ -120,7 +120,7 @@ class Learner(BaseLearner):
         )
 
         if self._total_classes < self.args['nb_classes']:
-            self.future_dataset = self.data_manager.get_dataset(
+            self.future_dataset = data_manager.get_dataset(
                 np.arange(self._total_classes, self.args["nb_classes"]),
                 source="test",
                 mode="test",

@@ -283,13 +283,13 @@ class InfLoRA_CA(BaseLearner):
 
     def eval_task(self):
         y_pred, y_pred_with_task, y_true, y_pred_task, y_true_task = self._eval_cnn(self.test_loader)
-        y_pred1, y_pred_with_task1, y_true1, y_pred_task1, y_true_task1 = self._eval_cnn1(self.test_loader)
+        # y_pred1, y_pred_with_task1, y_true1, y_pred_task1, y_true_task1 = self._eval_cnn1(self.test_loader)
         cnn_accy = self._evaluate(y_pred, y_true)
-        cnn_accy1 = self._evaluate(y_pred1, y_true1)
-        cnn_accy_with_task = self._evaluate(y_pred_with_task, y_true)
-        cnn_accy_with_task1 = self._evaluate(y_pred_with_task1, y_true1)
-        cnn_accy_task = (y_pred_task == y_true_task).sum().item()/len(y_pred_task)
-        cnn_accy_task1 = (y_pred_task1 == y_true_task1).sum().item()/len(y_pred_task1)
+        # cnn_accy1 = self._evaluate(y_pred1, y_true1)
+        # cnn_accy_with_task = self._evaluate(y_pred_with_task, y_true)
+        # cnn_accy_with_task1 = self._evaluate(y_pred_with_task1, y_true1)
+        # cnn_accy_task = (y_pred_task == y_true_task).sum().item()/len(y_pred_task)
+        # cnn_accy_task1 = (y_pred_task1 == y_true_task1).sum().item()/len(y_pred_task1)
 
         if hasattr(self, '_class_means'):
             y_pred, y_true = self._eval_nme(self.test_loader, self._class_means)
@@ -297,7 +297,7 @@ class InfLoRA_CA(BaseLearner):
         else:
             nme_accy = None
 
-        return cnn_accy, cnn_accy_with_task, nme_accy, cnn_accy_task
+        return cnn_accy #, cnn_accy_with_task, nme_accy, cnn_accy_task
 
     def _evaluate(self, y_pred, y_true):
         ret = {}
