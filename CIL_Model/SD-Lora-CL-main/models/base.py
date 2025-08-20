@@ -176,7 +176,7 @@ class BaseLearner(object):
             for _, (_, inputs, targets) in enumerate(loader):
                 inputs, targets = inputs.to(self._device), targets.to(self._device)
                 with torch.no_grad():
-                    outputs =  self._network.forward(inputs)['logits']
+                    outputs = self._network(inputs)["future_logits"][:, self._total_classes: ]
                 predicts = torch.topk(
                     outputs, k=self.topk, dim=1, largest=True, sorted=True
                 )[

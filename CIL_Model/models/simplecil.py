@@ -71,6 +71,19 @@ class Learner(BaseLearner):
         self.train_loader_for_protonet = DataLoader(train_dataset, batch_size=self.args["batch_size"],
                                                     shuffle=True, num_workers=num_workers)
 
+        if self._total_classes < self.args['nb_classes']:
+            self.future_dataset = data_manager.get_dataset(
+                np.arange(self._total_classes, self.args["nb_classes"]),
+                source="test",
+                mode="test",
+            )
+            self.future_loader = DataLoader(
+                self.future_dataset,
+                batch_size=self.args["batch_size"],
+                shuffle=False,
+                num_workers=num_workers,
+            )
+
         if len(self._multiple_gpus) > 1:
             print('Multiple GPUs')
             self._network = nn.DataParallel(self._network, self._multiple_gpus)
@@ -82,8 +95,8 @@ class Learner(BaseLearner):
             self._network = self._network.module
 
     def _train(self, train_loader, test_loader, train_loader_for_protonet):
-        logging.info("session {} total_lora_train_images: {}".format(self._cur_task, len(train_loader.dataset)))
-        logging.info('-' * 100)
+        # logging.info("session {} total_lora_train_images: {}".format(self._cur_task, len(train_loader.dataset)))
+        # logging.info('-' * 100)
         # print("session {} total_lora_train_images: {}".format(self._cur_task, len(train_loader.dataset)))
         # print('-' * 100)
         self._network.to(self._device)

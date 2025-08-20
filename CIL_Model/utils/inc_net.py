@@ -588,6 +588,9 @@ class SimpleVitNet(BaseNet):
         # for RanPAC
         self.W_rand = None
         self.RP_dim = None
+        # Classifier head(s)
+        self.head = nn.Linear(768, args["nb_classes"])
+
 
     def update_fc(self, nb_classes, nextperiod_initialization=None):
         if self.RP_dim is not None:
@@ -625,6 +628,8 @@ class SimpleVitNet(BaseNet):
         else:
             out = self.fc(x)
             out.update({"features": x})
+        future_logtis = self.head(out["features"])
+        out.update({"future_logits": future_logtis})
         return out
 
 # l2p and dualprompt
