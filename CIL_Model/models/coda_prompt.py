@@ -64,11 +64,14 @@ class Learner(BaseLearner):
         test_dataset = data_manager.get_dataset(np.arange(0, self._total_classes), source="test", mode="test")
         self.test_loader = DataLoader(test_dataset, batch_size=self.batch_size, shuffle=False, drop_last=False,
                                       num_workers=num_workers)
+
+        # forward transfer dataloader
         if self._total_classes < self.args['nb_classes']:
-            self.future_dataset = self.data_manager.get_dataset(
+            self.future_dataset = data_manager.get_dataset(
                 np.arange(self._total_classes, self.args["nb_classes"]),
-                source="test",
-                mode="test",
+                source="train",
+                mode="train",
+                kshot=self.args["kshot"],
             )
             self.future_loader = DataLoader(
                 self.future_dataset,

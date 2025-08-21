@@ -58,6 +58,8 @@ class InfLoRA(BaseLearner):
         self.feature_list = []
         self.project_type = []
 
+
+
     def after_task(self):
         # self._old_network = self._network.copy().freeze()
         self._known_classes = self._total_classes

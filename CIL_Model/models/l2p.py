@@ -51,6 +51,31 @@ class Learner(BaseLearner):
                 if param.requires_grad:
                     logging.info("{}: {}".format(name, param.numel()))
 
+    def replace_fc(self, trainloader, model, args):
+        # use class prototype as classifier weights.
+        model = model.eval()
+        embedding_list = []
+        label_list = []
+        with torch.no_grad():
+            for i, batch in enumerate(trainloader):
+                (_, data, label) = batch
+                data = data.to(self._device)
+                label = label.to(self._device)
+                embedding = model(data)["pre_logits"]
+                embedding_list.append(embedding.cpu())
+                label_list.append(label.cpu())
+        embedding_list = torch.cat(embedding_list, dim=0)
+        label_list = torch.cat(label_list, dim=0)
+
+        class_list = np.unique(trainloader.dataset.labels)
+        for class_index in class_list:
+            data_index = (label_list == class_index).nonzero().squeeze(-1)
+            embedding = embedding_list[data_index]
+            proto = embedding.mean(0)
+            self._network.backbone.head.weight.data[class_index] = proto
+
+        return model
+
     def after_task(self):
         self._known_classes = self._total_classes
 
@@ -67,11 +92,14 @@ class Learner(BaseLearner):
         self.train_loader = DataLoader(train_dataset, batch_size=self.batch_size, shuffle=True, num_workers=num_workers)
         test_dataset = data_manager.get_dataset(np.arange(0, self._total_classes), source="test", mode="test")
         self.test_loader = DataLoader(test_dataset, batch_size=self.batch_size, shuffle=False, num_workers=num_workers)
+
+        # forward transfer dataloader
         if self._total_classes < self.args['nb_classes']:
-            self.future_dataset = self.data_manager.get_dataset(
+            self.future_dataset = data_manager.get_dataset(
                 np.arange(self._total_classes, self.args["nb_classes"]),
-                source="test",
-                mode="test",
+                source="train",
+                mode="train",
+                kshot=self.args["kshot"],
             )
             self.future_loader = DataLoader(
                 self.future_dataset,
@@ -87,6 +115,9 @@ class Learner(BaseLearner):
         self._train(self.train_loader, self.test_loader)
         total_time = time.time() - start_time
         self.train_time += round(total_time, 2)
+
+        self.replace_fc(self.future_loader, self._network, None)
+
         if len(self._multiple_gpus) > 1:
             self._network = self._network.module
 
