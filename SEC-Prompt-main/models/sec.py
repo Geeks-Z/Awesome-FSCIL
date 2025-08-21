@@ -41,35 +41,56 @@ class Learner(BaseLearner):
         self._known_classes = self._total_classes
 
     def replace_fc(self, trainloader, model, args):
+        # # use class prototype as classifier weights.
+        # model = model.eval()
+        # embedding_list = []
+        # label_list = []
+        # if self._cur_task > 0:
+        #     with torch.no_grad():
+        #         for i, batch in enumerate(trainloader):
+        #             (_, data, label) = batch
+        #             data = data.to(self._device)
+        #             label = label.to(self._device)
+        #             embedding = model(data)["features"]
+        #             embedding_list.append(embedding.cpu())
+        #             label = label.repeat(int(embedding.shape[0] / label.shape[0]))
+        #             label_list.append(label.cpu())
+        #     embedding_list = torch.cat(embedding_list, dim=0)
+        #     label_list = torch.cat(label_list, dim=0)
+        # else:
+        #     with torch.no_grad():
+        #         for i, batch in enumerate(trainloader):
+        #             (_, data, label) = batch
+        #             data = data.to(self._device)
+        #             label = label.to(self._device)
+        #             embedding = model(data)["features"]
+        #             embedding_list.append(embedding.cpu())
+        #             label_list.append(label.cpu())
+        #     embedding_list = torch.cat(embedding_list, dim=0)
+        #     label_list = torch.cat(label_list, dim=0)
+        #
+        # class_list = np.unique(trainloader.dataset.labels)
+        # for class_index in class_list:
+        #     data_index = (label_list == class_index).nonzero().squeeze(-1)
+        #     embedding = embedding_list[data_index]
+        #     proto = embedding.mean(0)
+        #     self._network.fc.weight.data[class_index] = proto
         # use class prototype as classifier weights.
         model = model.eval()
         embedding_list = []
         label_list = []
-        if self._cur_task > 0:
-            with torch.no_grad():
-                for i, batch in enumerate(trainloader):
-                    (_, data, label) = batch
-                    data = data.to(self._device)
-                    label = label.to(self._device)
-                    embedding = model(data)["features"]
-                    embedding_list.append(embedding.cpu())
-                    label = label.repeat(int(embedding.shape[0] / label.shape[0]))
-                    label_list.append(label.cpu())
-            embedding_list = torch.cat(embedding_list, dim=0)
-            label_list = torch.cat(label_list, dim=0)
-        else:
-            with torch.no_grad():
-                for i, batch in enumerate(trainloader):
-                    (_, data, label) = batch
-                    data = data.to(self._device)
-                    label = label.to(self._device)
-                    embedding = model(data)["features"]
-                    embedding_list.append(embedding.cpu())
-                    label_list.append(label.cpu())
-            embedding_list = torch.cat(embedding_list, dim=0)
-            label_list = torch.cat(label_list, dim=0)
+        with torch.no_grad():
+            for i, batch in enumerate(trainloader):
+                (_, data, label) = batch
+                data = data.to(self._device)
+                label = label.to(self._device)
+                embedding = model(data)["features"]
+                embedding_list.append(embedding.cpu())
+                label_list.append(label.cpu())
+        embedding_list = torch.cat(embedding_list, dim=0)
+        label_list = torch.cat(label_list, dim=0)
 
-        class_list = np.unique(self.train_dataset.labels)
+        class_list = np.unique(trainloader.dataset.labels)
         for class_index in class_list:
             data_index = (label_list == class_index).nonzero().squeeze(-1)
             embedding = embedding_list[data_index]
@@ -84,7 +105,10 @@ class Learner(BaseLearner):
             self._cur_task
         )
         # print(self._total_classes)
-        self._network.update_fc(self._total_classes)
+        # self._network.update_fc(self._total_classes)
+        # to evaluate the performance on future classes
+        if self._network.fc is None:
+            self._network.fc = self._network.generate_fc(self.feature_dim, self.args["nb_classes"]).to(self._device).requires_grad_(False)
         self._network.backbone.TSP.process_task_count(self._total_classes)
         self._network.backbone.RSP.process_task_count()
         logging.info(
@@ -119,11 +143,13 @@ class Learner(BaseLearner):
             num_workers=num_workers,
         )
 
+        # forward transfer dataloader
         if self._total_classes < self.args['nb_classes']:
             self.future_dataset = data_manager.get_dataset(
                 np.arange(self._total_classes, self.args["nb_classes"]),
-                source="test",
-                mode="test",
+                source="train",
+                mode="train",
+                kshot=self.args["kshot"],
             )
             self.future_loader = DataLoader(
                 self.future_dataset,
@@ -182,7 +208,7 @@ class Learner(BaseLearner):
                     self.args["base_model_path"]
                 )
             )
-            print(self._cur_task)
+            # print(self._cur_task)
             self._network.load_state_dict(torch.load(self.args["base_model_path"]))
             # self.replace_midfeature(train_loader_for_protonet, self._network, None)
             # self.replace_fc(train_loader_for_protonet, self._network, None)
@@ -240,19 +266,19 @@ class Learner(BaseLearner):
                     scheduler,
                 )
             self.replace_fc(train_loader_for_protonet, self._network, None)
-            # self.replace_midfeature(train_loader_for_protonet, self._network, None)
-            # if self._cur_task == 0:
-            #     torch.save(self._network.state_dict(), self.args["base_model_path"])
+
+            # update future task classifier weights (total_classes -> all classes)
+            self.replace_fc(self.future_loader, self._network, None)
 
     def eval_task(self):
         y_pred, y_true = [], []
-        prompt_time = self._eval_acc(self.test_loader, y_pred, y_true)
-        y_pred, y_true = self._eval_future_task_classify_accuracy(self.future_loader, y_pred, y_true)
+        prompt_time = self._eval_cnn(self.test_loader, y_pred, y_true)
+        y_pred, y_true = self._eval_future_cnn(self.future_loader, y_pred, y_true)
         accy = self._evaluate(y_pred, y_true)
         accy["prompt_time"] = prompt_time
         return accy
 
-    def _eval_acc(self, loader, y_pred, y_true):
+    def _eval_cnn(self, loader, y_pred, y_true):
         self._network.eval()
 
         all_outputs, all_embedding = [], []
@@ -262,7 +288,7 @@ class Learner(BaseLearner):
 
             with torch.no_grad():
                 out = self._network(inputs)
-                outputs = out["logits"]
+                outputs = out["logits"][:, : self._total_classes]
                 embedding = out["features"]
                 prompt_time += out.get("prompt_time", 0)
             predicts = torch.topk(
@@ -282,18 +308,19 @@ class Learner(BaseLearner):
 
         return prompt_time  # [N, topk]
 
-    def _eval_future_task_classify_accuracy(self, loader, y_pred, y_true):
+    def _eval_future_cnn(self, loader, y_pred, y_true):
         if self._total_classes < self.args['nb_classes']:
             for _, (_, inputs, targets) in enumerate(loader):
                 inputs, targets = inputs.to(self._device), targets.to(self._device)
                 with torch.no_grad():
-                    outputs = self._network(inputs)["future_logits"][:, self._total_classes:]
+                    out = self._network(inputs)
+                    outputs = out["logits"]
                 predicts = torch.topk(
                     outputs, k=self.topk, dim=1, largest=True, sorted=True
                 )[
                     1
                 ]  # [bs, topk]
-                y_pred.append(predicts.cpu().numpy() + self._total_classes)  # Adjust for future tasks
+                y_pred.append(predicts.cpu().numpy())  # Adjust for future tasks
                 y_true.append(targets.cpu().numpy())
 
         return np.concatenate(y_pred), np.concatenate(y_true)  # [N, topk]

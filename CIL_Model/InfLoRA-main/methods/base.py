@@ -80,7 +80,7 @@ class BaseLearner(object):
         # logging.info('-' * 100)
         y_pred, y_true = [], []
         self._eval_cnn(self.test_loader,y_pred, y_true)
-        y_pred, y_true = self._eval_future_task_classify_accuracy(self.future_loader, y_pred, y_true)
+        y_pred, y_true = self._eval_future_cnn(self.future_loader, y_pred, y_true)
         cnn_accy = self._evaluate(y_pred, y_true)
         # cnn_accy_with_task = self._evaluate(y_pred_with_task, y_true)
         # cnn_accy_task = (y_pred_task == y_true_task).sum().item()/len(y_pred_task)

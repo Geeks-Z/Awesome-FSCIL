@@ -198,7 +198,7 @@ class Learner(BaseLearner):
             prog_bar.set_description(info)
         logging.info(info)
 
-    def _eval_future_task_classify_accuracy(self, loader, y_pred, y_true):
+    def _eval_future_cnn(self, loader, y_pred, y_true):
 
         if self._total_classes < self.args['nb_classes']:
             for _, (_, inputs, targets) in enumerate(loader):

@@ -32,7 +32,9 @@ class Learner(BaseLearner):
         self._total_classes = self._known_classes + data_manager.get_task_size(
             self._cur_task
         )
-        self._network.update_fc(self._total_classes)
+        # self._network.update_fc(self._total_classes)
+        if self._network.fc is None:
+            self._network.fc = self._network.generate_fc(self.feature_dim, self.args["nb_classes"]).to(self._device).requires_grad_(False)
         logging.info(
             "Learning on {}-{}".format(self._known_classes, self._total_classes)
         )

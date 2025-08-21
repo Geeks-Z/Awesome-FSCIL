@@ -116,7 +116,7 @@ class BaseLearner(object):
     def eval_task(self):
         y_pred, y_true = [], []
         self._eval_cnn(self.test_loader, y_pred, y_true)
-        y_pred, y_true = self._eval_future_task_classify_accuracy(self.future_loader, y_pred, y_true)
+        y_pred, y_true = self._eval_future_cnn(self.future_loader, y_pred, y_true)
         cnn_accy = self._evaluate(y_pred, y_true)
 
         if hasattr(self, "_class_means"):
@@ -162,7 +162,7 @@ class BaseLearner(object):
             with torch.no_grad():
                 # outputs = self._network.forward(inputs, eval=True)['logits']
                 # print('outputs', outputs['logits'])
-                outputs =  self._network.forward(inputs)['logits']
+                outputs =  self._network.forward(inputs)['logits'][:, : self._total_classes]
                 # outputs = self._network(inputs)['logits']
             predicts = torch.topk(outputs, k=self.topk, dim=1, largest=True, sorted=True)[1]  # [bs, topk]
             y_pred.append(predicts.cpu().numpy())
@@ -170,19 +170,19 @@ class BaseLearner(object):
             # print('y_pred', np.concatenate(y_pred))
             # print('y_true', y_true)
         # return np.concatenate(y_pred), np.concatenate(y_true)  # [N, topk]
-    def _eval_future_task_classify_accuracy(self, loader, y_pred, y_true):
+    def _eval_future_cnn(self, loader, y_pred, y_true):
 
         if self._total_classes < self.args['nb_classes']:
             for _, (_, inputs, targets) in enumerate(loader):
                 inputs, targets = inputs.to(self._device), targets.to(self._device)
                 with torch.no_grad():
-                    outputs = self._network(inputs)["future_logits"][:, self._total_classes: ]
+                    outputs =  self._network.forward(inputs)['logits']
                 predicts = torch.topk(
                     outputs, k=self.topk, dim=1, largest=True, sorted=True
                 )[
                     1
                 ]  # [bs, topk]
-                y_pred.append(predicts.cpu().numpy()+ self._total_classes)  # Adjust for future tasks
+                y_pred.append(predicts.cpu().numpy())  # Adjust for future tasks
                 y_true.append(targets.cpu().numpy())
 
         return np.concatenate(y_pred), np.concatenate(y_true)  # [N, topk]

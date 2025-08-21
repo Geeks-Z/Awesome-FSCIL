@@ -170,8 +170,10 @@ class DataManager(object):
     def _select(self, x, y, low_range, high_range, kshot=None):
         idxes = np.where(np.logical_and(y >= low_range, y < high_range))[0]
         if isinstance(kshot, int) and low_range>=self.args['init_cls']:
+            random.seed(self.args['seed'])
             random.shuffle(idxes)
             idxes = idxes[:kshot]
+            # logging.info("Selecting {} samples for class {} {}".format(kshot, low_range, idxes))
         return x[idxes], y[idxes]
 
     def _select_rmm(self, x, y, low_range, high_range, m_rate, kshot=None):
@@ -186,6 +188,7 @@ class DataManager(object):
         else:
             new_idxes = np.where(np.logical_and(y >= low_range, y < high_range))[0]
         if isinstance(kshot, int) and low_range>self.args['init_cls']:
+            random.seed(self.args['seed'])
             random.shuffle(new_idxes)
             new_idxes = new_idxes[:kshot]
         return x[new_idxes], y[new_idxes]

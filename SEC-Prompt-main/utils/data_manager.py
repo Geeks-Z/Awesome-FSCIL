@@ -58,44 +58,63 @@ class DataManager(object):
         else:
             raise ValueError("Unknown mode {}.".format(mode))
         data, targets = [], []
-        if isinstance(kshot, int) and indices[0]>=self.init_cls:
-            session=int((indices[0]-self.init_cls)/self.increment)+1
-            txt=self.txt+"/session_"+str(session)+".txt"
-            if self.use_path:
-                pathes = open(txt).read().splitlines()
-                for path in pathes:
-                    if self.dataset_name == 'mini_imagenet':
-                        image_path = path.split("/")[-1]
-                        path = "./data/miniimagenet/images/" + image_path
-                    else:
-                        path = "./data/" + path
-                    data.append(path)
-                    targets.append(self.data2label[path])
+        for idx in indices:
+            if m_rate is None:
+                class_data, class_targets = self._select(
+                    x, y, low_range=idx, high_range=idx + 1, kshot=kshot
+                )
             else:
-                class_idx=open(txt).read().splitlines()
-                # print(class_idx)
-                for idx in class_idx:
-                    data.append(self._train_data[int(idx)])
-                    targets.append(self._train_targets[int(idx)])
-        else:
-            for idx in indices:
-                if m_rate is None:
-                    class_data, class_targets = self._select(
-                        x, y, low_range=idx, high_range=idx + 1, kshot=kshot
-                    )
-                else:
-                    class_data, class_targets = self._select_rmm(
-                        x, y, low_range=idx, high_range=idx + 1, m_rate=m_rate, kshot=kshot
-                    )
-                data.append(class_data)
-                targets.append(class_targets)
+                class_data, class_targets = self._select_rmm(
+                    x, y, low_range=idx, high_range=idx + 1, m_rate=m_rate, kshot=kshot
+                )
+            data.append(class_data)
+            targets.append(class_targets)
 
-            if appendent is not None and len(appendent) != 0:
-                appendent_data, appendent_targets = appendent
-                data.append(appendent_data)
-                targets.append(appendent_targets)
+        if appendent is not None and len(appendent) != 0:
+            appendent_data, appendent_targets = appendent
+            data.append(appendent_data)
+            targets.append(appendent_targets)
 
-            data, targets = np.concatenate(data), np.concatenate(targets)
+        data, targets = np.concatenate(data), np.concatenate(targets)
+
+        # if isinstance(kshot, int) and indices[0]>=self.init_cls:
+        #     session=int((indices[0]-self.init_cls)/self.increment)+1
+        #     txt=self.txt+"/session_"+str(session)+".txt"
+        #     if self.use_path:
+        #         pathes = open(txt).read().splitlines()
+        #         for path in pathes:
+        #             if self.dataset_name == 'mini_imagenet':
+        #                 image_path = path.split("/")[-1]
+        #                 path = "./data/miniimagenet/images/" + image_path
+        #             else:
+        #                 path = "./data/" + path
+        #             data.append(path)
+        #             targets.append(self.data2label[path])
+        #     else:
+        #         class_idx=open(txt).read().splitlines()
+        #         # print(class_idx)
+        #         for idx in class_idx:
+        #             data.append(self._train_data[int(idx)])
+        #             targets.append(self._train_targets[int(idx)])
+        # else:
+        #     for idx in indices:
+        #         if m_rate is None:
+        #             class_data, class_targets = self._select(
+        #                 x, y, low_range=idx, high_range=idx + 1, kshot=kshot
+        #             )
+        #         else:
+        #             class_data, class_targets = self._select_rmm(
+        #                 x, y, low_range=idx, high_range=idx + 1, m_rate=m_rate, kshot=kshot
+        #             )
+        #         data.append(class_data)
+        #         targets.append(class_targets)
+        #
+        #     if appendent is not None and len(appendent) != 0:
+        #         appendent_data, appendent_targets = appendent
+        #         data.append(appendent_data)
+        #         targets.append(appendent_targets)
+        #
+        #     data, targets = np.concatenate(data), np.concatenate(targets)
 
         if ret_data:
             return data, targets, DummyDataset(data, targets, trsf, self.use_path)
@@ -194,8 +213,10 @@ class DataManager(object):
     def _select(self, x, y, low_range, high_range, kshot=None):
         idxes = np.where(np.logical_and(y >= low_range, y < high_range))[0]
         if isinstance(kshot, int) and low_range>=self.args['init_cls']:
+            random.seed(self.args['seed'])
             random.shuffle(idxes)
             idxes = idxes[:kshot]
+            # logging.info("Selecting {} samples for class {} {}".format(kshot, low_range, idxes))
         return x[idxes], y[idxes]
 
     def _select_rmm(self, x, y, low_range, high_range, m_rate, kshot=None):
@@ -210,6 +231,7 @@ class DataManager(object):
         else:
             new_idxes = np.where(np.logical_and(y >= low_range, y < high_range))[0]
         if isinstance(kshot, int) and low_range>self.args['init_cls']:
+            random.seed(self.args['seed'])
             random.shuffle(new_idxes)
             new_idxes = new_idxes[:kshot]
         return x[new_idxes], y[new_idxes]

@@ -51,6 +51,14 @@ def get_backbone(args, pretrained=False):
         model = timm.create_model("vit_base_patch16_224_sam", pretrained=True, num_classes=0)
         model.out_dim = 768
         return model.eval()
+    elif "_random" in name:
+        if name == "pretrained_vit_b16_224_random" or name == "vit_base_patch16_224_random":
+            model = timm.create_model("vit_base_patch16_224",pretrained=True, num_classes=0)
+            model.out_dim = 768
+        elif name == "pretrained_vit_b16_224_in21k_random" or name == "vit_base_patch16_224_in21k_random":
+            model = timm.create_model("vit_base_patch16_224_in21k",pretrained=True, num_classes=0)
+            model.out_dim = 768
+        return model.eval()
     elif '_memo' in name:
         if args["model_name"] == "memo":
             from backbone import vit_memo

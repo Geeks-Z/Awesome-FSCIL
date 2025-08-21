@@ -78,11 +78,13 @@ class InfLoRA(BaseLearner):
         self.test_loader = DataLoader(test_dataset, batch_size=self.batch_size, shuffle=False,
                                       num_workers=self.num_workers)
 
+        # forward transfer dataloader
         if self._total_classes < self.args['nb_classes']:
             self.future_dataset = data_manager.get_dataset(
                 np.arange(self._total_classes, self.args["nb_classes"]),
-                source="test",
-                mode="test",
+                source="train",
+                mode="train",
+                kshot=self.args["kshot"],
             )
             self.future_loader = DataLoader(
                 self.future_dataset,
@@ -336,7 +338,7 @@ class InfLoRA(BaseLearner):
             y_true.append(targets.cpu().numpy())
 
 
-    def _eval_future_task_classify_accuracy(self, loader, y_pred, y_true):
+    def _eval_future_cnn(self, loader, y_pred, y_true):
 
         if self._total_classes < self.args['nb_classes']:
             for _, (_, inputs, targets) in enumerate(loader):

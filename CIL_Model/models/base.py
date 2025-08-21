@@ -123,7 +123,7 @@ class BaseLearner(object):
         y_pred, y_true = [], []
         # 计算分类准确率
         self._eval_cnn(self.test_loader, y_pred, y_true)
-        y_pred, y_true = self._eval_future_task_classify_accuracy(self.future_loader, y_pred, y_true)
+        y_pred, y_true = self._eval_future_cnn(self.future_loader, y_pred, y_true)
 
         cnn_accy = self._evaluate(y_pred, y_true)
 
@@ -178,7 +178,7 @@ class BaseLearner(object):
 
         # return np.concatenate(y_pred), np.concatenate(y_true)  # [N, topk]
 
-    def _eval_future_task_classify_accuracy(self, loader, y_pred, y_true):
+    def _eval_future_cnn(self, loader, y_pred, y_true):
 
         if self._total_classes < self.args['nb_classes']:
             for _, (_, inputs, targets) in enumerate(loader):

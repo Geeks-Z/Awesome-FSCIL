@@ -2,6 +2,8 @@ def get_model(model_name, args):
     name = model_name.lower()
     if name == "simplecil":
         from models.simplecil import Learner
+    elif name == "random":
+        from models.randominit import Learner
     elif name == "adam_finetune":
         from models.adam_finetune import Learner
     elif name == "adam_ssf":

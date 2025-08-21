@@ -55,7 +55,7 @@ class Learner(BaseLearner):
         embedding_list = torch.cat(embedding_list, dim=0)
         label_list = torch.cat(label_list, dim=0)
 
-        class_list = np.unique(self.train_dataset.labels)
+        class_list = np.unique(trainloader.dataset.labels)
         for class_index in class_list:
             data_index = (label_list == class_index).nonzero().squeeze(-1)
             embedding = embedding_list[data_index]
@@ -69,7 +69,11 @@ class Learner(BaseLearner):
         self._total_classes = self._known_classes + data_manager.get_task_size(
             self._cur_task
         )
-        self._network.update_fc(self._total_classes)
+        # self._network.update_fc(self._total_classes)
+        # to evaluate the performance on future classes
+        if self._network.fc is None:
+            self._network.fc = self._network.generate_fc(self.feature_dim, self.args["nb_classes"]).to(self._device).requires_grad_(False)
+
         logging.info(
             "Learning on {}-{}".format(self._known_classes, self._total_classes)
         )
@@ -98,11 +102,14 @@ class Learner(BaseLearner):
             shuffle=False,
             num_workers=num_workers,
         )
+
+        # forward transfer dataloader
         if self._total_classes < self.args['nb_classes']:
             self.future_dataset = data_manager.get_dataset(
                 np.arange(self._total_classes, self.args["nb_classes"]),
-                source="test",
-                mode="test",
+                source="train",
+                mode="train",
+                kshot=self.args["kshot"],
             )
             self.future_loader = DataLoader(
                 self.future_dataset,
@@ -110,6 +117,7 @@ class Learner(BaseLearner):
                 shuffle=False,
                 num_workers=num_workers,
             )
+
         test_curr_dataset = data_manager.get_dataset(
             np.arange(self._known_classes, self._total_classes),
             source="test",
@@ -155,13 +163,13 @@ class Learner(BaseLearner):
             self.update_ema_prompt(train_loader_for_protonet)
             self.replace_fc(train_loader_for_protonet, self._network, None)
 
-        if os.path.exists(self.args["base_model_path"]) and self._cur_task == 0:
-            logging.info(
-                "================= load base model from: {} =================".format(
-                    self.args["base_model_path"]
-                )
-            )
-            self._network.load_state_dict(torch.load(self.args["base_model_path"]))
+        # if os.path.exists(self.args["base_model_path"]) and self._cur_task == 0:
+        #     logging.info(
+        #         "================= load base model from: {} =================".format(
+        #             self.args["base_model_path"]
+        #         )
+        #     )
+        #     self._network.load_state_dict(torch.load(self.args["base_model_path"]))
 
         else:
             if self.args["optimizer"] == "sgd":
@@ -188,15 +196,17 @@ class Learner(BaseLearner):
         if self._cur_task == 0:
             self.update_ema_prompt(train_loader_for_protonet, mode="base")
             self.replace_fc(train_loader_for_protonet, self._network, None)
+        # update future task classifier weights (total_classes -> all classes)
+        self.replace_fc(self.future_loader, self._network, None)
 
     def eval_task(self):
         y_pred, y_true = [], []
-        prompt_time = self._eval_acc(self.test_loader, y_pred, y_true)
-        y_pred, y_true = self._eval_future_task_classify_accuracy(self.future_loader, y_pred, y_true)
+        prompt_time = self._eval_cnn(self.test_loader, y_pred, y_true)
+        y_pred, y_true = self._eval_future_cnn(self.future_loader, y_pred, y_true)
         accy = self._evaluate(y_pred, y_true)
         return accy, prompt_time
 
-    def _eval_acc(self, loader, y_pred, y_true):
+    def _eval_cnn(self, loader, y_pred, y_true):
         self._network.eval()
         all_outputs, all_embedding = [], []
         total_prompt_time = 0.0
@@ -205,7 +215,7 @@ class Learner(BaseLearner):
 
             with torch.no_grad():
                 out = self._network(inputs)
-                outputs = out["logits"]
+                outputs = out["logits"][:, : self._total_classes]
                 embedding = out["features"]
                 total_prompt_time += out["prompt_time"]
             predicts = torch.topk(
@@ -220,18 +230,19 @@ class Learner(BaseLearner):
 
 
         return total_prompt_time  # [N, topk]
-    def _eval_future_task_classify_accuracy(self, loader, y_pred, y_true):
+    def _eval_future_cnn(self, loader, y_pred, y_true):
         if self._total_classes < self.args['nb_classes']:
             for _, (_, inputs, targets) in enumerate(loader):
                 inputs, targets = inputs.to(self._device), targets.to(self._device)
                 with torch.no_grad():
-                    outputs = self._network(inputs)["future_logits"][:, self._total_classes:]
+                    out = self._network(inputs)
+                    outputs = out["logits"]
                 predicts = torch.topk(
                     outputs, k=self.topk, dim=1, largest=True, sorted=True
                 )[
                     1
                 ]  # [bs, topk]
-                y_pred.append(predicts.cpu().numpy() + self._total_classes)  # Adjust for future tasks
+                y_pred.append(predicts.cpu().numpy())  # Adjust for future tasks
                 y_true.append(targets.cpu().numpy())
 
         return np.concatenate(y_pred), np.concatenate(y_true)  # [N, topk]

@@ -203,7 +203,7 @@ class Learner(BaseLearner):
 
         # return np.concatenate(y_pred), np.concatenate(y_true)  # [N, topk]
 
-    def _eval_future_task_classify_accuracy(self, loader, y_pred, y_true):
+    def _eval_future_cnn(self, loader, y_pred, y_true):
         if self._total_classes < self.args['nb_classes']:
             for _, (_, inputs, targets) in enumerate(loader):
                 inputs, targets = inputs.to(self._device), targets.to(self._device)

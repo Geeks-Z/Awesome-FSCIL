@@ -85,8 +85,8 @@ class DPrompt(nn.Module):
             self.prompt_num = round(self.ini_class * self.args["prompt_pool_num"])
         else:
             self.prompt_num = self.prompt_num + round(self.incre_class * self.args["prompt_pool_num"])
-        print(self.last_class_num)
-        print(self.class_num)
+        # print(self.last_class_num)
+        # print(self.class_num)
 
         # print('#################################################')
         # print(self.task_count)

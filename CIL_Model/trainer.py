@@ -106,7 +106,7 @@ def _train(args):
         logging.info(
             "Average Accuracy (CNN): {} \n".format(round(sum(cnn_curve["top1"]) / len(cnn_curve["top1"]), 2)))
 
-    print(f"\n{'=' * 100}")
+    print(f"\n{'=' * 80}")
     print(
         "Finished {}_init{}_inc{}: {}  ".format(
             args["dataset"],
@@ -126,7 +126,7 @@ def _train(args):
         print("Accuracy Matrix (CNN):")
         print(np_acctable)
 
-    print(f"{'=' * 100}\n")
+    print(f"{'=' * 80}\n")
 
 
 
