@@ -69,10 +69,10 @@ class Learner(BaseLearner):
         self._total_classes = self._known_classes + data_manager.get_task_size(
             self._cur_task
         )
-        # self._network.update_fc(self._total_classes)
+        self._network.update_fc(self._total_classes)
         # to evaluate the performance on future classes
-        if self._network.fc is None:
-            self._network.fc = self._network.generate_fc(self.feature_dim, self.args["nb_classes"]).to(self._device).requires_grad_(False)
+        # if self._network.fc is None:
+        #     self._network.fc = self._network.generate_fc(self.feature_dim, self.args["nb_classes"]).to(self._device).requires_grad_(False)
 
         logging.info(
             "Learning on {}-{}".format(self._known_classes, self._total_classes)
@@ -197,7 +197,7 @@ class Learner(BaseLearner):
             self.update_ema_prompt(train_loader_for_protonet, mode="base")
             self.replace_fc(train_loader_for_protonet, self._network, None)
         # update future task classifier weights (total_classes -> all classes)
-        self.replace_fc(self.future_loader, self._network, None)
+        # self.replace_fc(self.future_loader, self._network, None)
 
     def eval_task(self):
         y_pred, y_true = [], []
@@ -232,11 +232,14 @@ class Learner(BaseLearner):
         return total_prompt_time  # [N, topk]
     def _eval_future_cnn(self, loader, y_pred, y_true):
         if self._total_classes < self.args['nb_classes']:
+            self.update_future_head(self._network, self.future_loader)
             for _, (_, inputs, targets) in enumerate(loader):
                 inputs, targets = inputs.to(self._device), targets.to(self._device)
                 with torch.no_grad():
-                    out = self._network(inputs)
-                    outputs = out["logits"]
+                    # out = self._network(inputs)
+                    # outputs = out["future_logits"]["logits"]
+                    features = self._network(inputs)["features"]
+                    outputs = self._network.future_head(features)["logits"]
                 predicts = torch.topk(
                     outputs, k=self.topk, dim=1, largest=True, sorted=True
                 )[
@@ -246,6 +249,30 @@ class Learner(BaseLearner):
                 y_true.append(targets.cpu().numpy())
 
         return np.concatenate(y_pred), np.concatenate(y_true)  # [N, topk]
+
+    def update_future_head(self, model, future_loader):
+        for i in range(self._total_classes):
+            model.future_head.weight.data[i] = model.fc.weight.data[i]
+        model = model.eval()
+        embedding_list = []
+        label_list = []
+        with torch.no_grad():
+            for i, batch in enumerate(future_loader):
+                (_, data, label) = batch
+                data = data.to(self._device)
+                label = label.to(self._device)
+                embedding = model(data)["features"]
+                embedding_list.append(embedding.cpu())
+                label_list.append(label.cpu())
+        embedding_list = torch.cat(embedding_list, dim=0)
+        label_list = torch.cat(label_list, dim=0)
+
+        class_list = np.unique(future_loader.dataset.labels)
+        for class_index in class_list:
+            data_index = (label_list == class_index).nonzero().squeeze(-1)
+            embedding = embedding_list[data_index]
+            proto = embedding.mean(0)
+            model.future_head.weight.data[class_index] = proto
 
     # naive train
     def _init_train(self, train_loader, test_loader, optimizer, scheduler):

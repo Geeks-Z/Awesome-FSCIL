@@ -16,7 +16,7 @@ def load_json(setting_path):
     return param
 def setup_parser():
     parser = argparse.ArgumentParser(description='Reproduce of multiple pre-trained incremental learning algorthms.')
-    parser.add_argument('--config', type=str, default='./scripts/l2p/l2p_cub_B100_Inc10_debug.json',
+    parser.add_argument('--config', type=str, default='./scripts/coda_prompt/coda_prompt_cub_B100_Inc10_debug.json',
                         help='Json file of settings.')
     return parser
 

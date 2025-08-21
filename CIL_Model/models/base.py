@@ -115,10 +115,6 @@ class BaseLearner(object):
         return ret
 
     def eval_task(self):
-        # print("session {} total_test_images: {}".format(self._cur_task, len(self.test_loader.dataset)))
-        # print('-' * 100)
-        # logging.info("session {} total_test_images: {}".format(self._cur_task, len(self.test_loader.dataset)))
-        # logging.info('-' * 100)
         # start_time = time.time()
         y_pred, y_true = [], []
         # 计算分类准确率
@@ -135,6 +131,46 @@ class BaseLearner(object):
         # total_time = time.time() - start_time
         # self.test_time += round(total_time, 2)
         return cnn_accy, nme_accy
+
+    def _eval_cnn(self, loader, y_pred, y_true):
+        self._network.eval()
+        # y_pred, y_true = [], []
+        for _, (_, inputs, targets) in enumerate(loader):
+            inputs = inputs.to(self._device)
+            with torch.no_grad():
+                outputs = self._network(inputs)["logits"]
+            predicts = torch.topk(
+                outputs, k=self.topk, dim=1, largest=True, sorted=True
+            )[
+                1
+            ]  # [bs, topk]
+            y_pred.append(predicts.cpu().numpy())
+            y_true.append(targets.cpu().numpy())
+
+        # return np.concatenate(y_pred), np.concatenate(y_true)  # [N, topk]
+
+    def _eval_future_cnn(self, future_loader, y_pred, y_true):
+
+        if self._total_classes < self.args['nb_classes']:
+            self.update_future_head(self._network, future_loader)
+
+            for _, (_, inputs, targets) in enumerate(future_loader):
+                inputs, targets = inputs.to(self._device), targets.to(self._device)
+                with torch.no_grad():
+                    features = self._network(inputs)["features"]
+                    outputs = self._network.future_head(features)["logits"]
+                predicts = torch.topk(
+                    outputs, k=self.topk, dim=1, largest=True, sorted=True
+                )[
+                    1
+                ]  # [bs, topk]
+                y_pred.append(predicts.cpu().numpy())  # Adjust for future tasks
+                y_true.append(targets.cpu().numpy())
+
+        return np.concatenate(y_pred), np.concatenate(y_true)  # [N, topk]
+
+    def update_future_head(self):
+        pass
 
     def incremental_train(self):
         pass
@@ -161,39 +197,6 @@ class BaseLearner(object):
 
         return np.around(tensor2numpy(correct) * 100 / total, decimals=2)
 
-    def _eval_cnn(self, loader, y_pred, y_true):
-        self._network.eval()
-        # y_pred, y_true = [], []
-        for _, (_, inputs, targets) in enumerate(loader):
-            inputs = inputs.to(self._device)
-            with torch.no_grad():
-                outputs = self._network(inputs)["logits"]
-            predicts = torch.topk(
-                outputs, k=self.topk, dim=1, largest=True, sorted=True
-            )[
-                1
-            ]  # [bs, topk]
-            y_pred.append(predicts.cpu().numpy())
-            y_true.append(targets.cpu().numpy())
-
-        # return np.concatenate(y_pred), np.concatenate(y_true)  # [N, topk]
-
-    def _eval_future_cnn(self, loader, y_pred, y_true):
-
-        if self._total_classes < self.args['nb_classes']:
-            for _, (_, inputs, targets) in enumerate(loader):
-                inputs, targets = inputs.to(self._device), targets.to(self._device)
-                with torch.no_grad():
-                    outputs = self._network(inputs)["future_logits"][:, self._total_classes:]
-                predicts = torch.topk(
-                    outputs, k=self.topk, dim=1, largest=True, sorted=True
-                )[
-                    1
-                ]  # [bs, topk]
-                y_pred.append(predicts.cpu().numpy() + self._total_classes)  # Adjust for future tasks
-                y_true.append(targets.cpu().numpy())
-
-        return np.concatenate(y_pred), np.concatenate(y_true)  # [N, topk]
 
     def _eval_nme(self, loader, class_means):
         self._network.eval()

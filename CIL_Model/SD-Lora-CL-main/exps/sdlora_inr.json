@@ -9,7 +9,7 @@
     "increment": 40,
     "model_name": "sdlora",
     "backbone_type": "vit_base_patch16_224",
-    "device": ["5"],
+    "device": ["2"],
     "optimizer": "adam",
     "scheduler": "constant",
 

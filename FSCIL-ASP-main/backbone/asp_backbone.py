@@ -204,7 +204,7 @@ class SimpleVitNet(BaseNet):
     def __init__(self, args, pretrained):
         super().__init__(args, pretrained)
         # Classifier head(s)
-        self.head = nn.Linear(768, args["nb_classes"])
+        self.future_head = CosineLinear(768, args["nb_classes"])
 
     def update_fc(self, nb_classes, nextperiod_initialization=None):
         fc = self.generate_fc(self.feature_dim, nb_classes).to(self._device)
@@ -237,11 +237,11 @@ class SimpleVitNet(BaseNet):
     def forward(self, x, perturb_var=0):
         x, (mu, std), prompt_time = self.backbone(x, perturb_var)
         out = self.fc(x)
-        future_logits = self.head(x)
+        # future_logits = self.future_head(x)
         out.update({"features": x})
         out.update({"kl": (mu, std)})
         out.update({"prompt_time": prompt_time})
-        out.update({"future_logits": future_logits})
+        # out.update({"future_logits": future_logits})
         return out
 
 

@@ -154,39 +154,6 @@ class BaseLearner(object):
 
         return np.around(tensor2numpy(correct) * 100 / total, decimals=2)
 
-    def _eval_cnn(self, loader,y_pred, y_true):
-        self._network.eval() 
-        # y_pred, y_true = [], []
-        for _, (_, inputs, targets) in enumerate(loader):
-            inputs = inputs.to(self._device)
-            with torch.no_grad():
-                # outputs = self._network.forward(inputs, eval=True)['logits']
-                # print('outputs', outputs['logits'])
-                outputs =  self._network.forward(inputs)['logits'][:, : self._total_classes]
-                # outputs = self._network(inputs)['logits']
-            predicts = torch.topk(outputs, k=self.topk, dim=1, largest=True, sorted=True)[1]  # [bs, topk]
-            y_pred.append(predicts.cpu().numpy())
-            y_true.append(targets.cpu().numpy())
-            # print('y_pred', np.concatenate(y_pred))
-            # print('y_true', y_true)
-        # return np.concatenate(y_pred), np.concatenate(y_true)  # [N, topk]
-    def _eval_future_cnn(self, loader, y_pred, y_true):
-
-        if self._total_classes < self.args['nb_classes']:
-            for _, (_, inputs, targets) in enumerate(loader):
-                inputs, targets = inputs.to(self._device), targets.to(self._device)
-                with torch.no_grad():
-                    outputs =  self._network.forward(inputs)['logits']
-                predicts = torch.topk(
-                    outputs, k=self.topk, dim=1, largest=True, sorted=True
-                )[
-                    1
-                ]  # [bs, topk]
-                y_pred.append(predicts.cpu().numpy())  # Adjust for future tasks
-                y_true.append(targets.cpu().numpy())
-
-        return np.concatenate(y_pred), np.concatenate(y_true)  # [N, topk]
-
     def _eval_nme(self, loader, class_means):
         self._network.eval()
         vectors, y_true = self._extract_vectors(loader)

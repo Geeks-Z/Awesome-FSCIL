@@ -8,5 +8,3 @@ python main.py --config=./scripts/l2p/l2p_inr_B100_Inc10.json
 
 
 
-
-

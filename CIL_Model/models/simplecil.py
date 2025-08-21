@@ -41,9 +41,7 @@ class Learner(BaseLearner):
         label_list = torch.cat(label_list, dim=0)
 
         class_list = np.unique(self.train_dataset.labels)
-        proto_list = []
         for class_index in class_list:
-            # print('Replacing...',class_index)
             data_index = (label_list == class_index).nonzero().squeeze(-1)
             embedding = embedding_list[data_index]
             proto = embedding.mean(0)
@@ -71,11 +69,13 @@ class Learner(BaseLearner):
         self.train_loader_for_protonet = DataLoader(train_dataset, batch_size=self.args["batch_size"],
                                                     shuffle=True, num_workers=num_workers)
 
+        # forward transfer dataloader
         if self._total_classes < self.args['nb_classes']:
             self.future_dataset = data_manager.get_dataset(
                 np.arange(self._total_classes, self.args["nb_classes"]),
-                source="test",
-                mode="test",
+                source="train",
+                mode="train",
+                kshot=self.args["kshot"],
             )
             self.future_loader = DataLoader(
                 self.future_dataset,
@@ -101,3 +101,28 @@ class Learner(BaseLearner):
         # print('-' * 100)
         self._network.to(self._device)
         self.replace_fc(train_loader_for_protonet, self._network,args=None)
+
+    def update_future_head(self, model, future_loader):
+        model = model.eval()
+        embedding_list = []
+        label_list = []
+        with torch.no_grad():
+            for i, batch in enumerate(future_loader):
+                (_, data, label) = batch
+                data = data.to(self._device)
+                label = label.to(self._device)
+                embedding = model.backbone(data)
+                if 'resnet' in self.args['backbone_type']:
+                    embedding_list.append(embedding['features'].cpu())
+                else:
+                    embedding_list.append(embedding.cpu())
+                label_list.append(label.cpu())
+        embedding_list = torch.cat(embedding_list, dim=0)
+        label_list = torch.cat(label_list, dim=0)
+
+        class_list = np.unique(future_loader.dataset.labels)
+        for class_index in class_list:
+            data_index = (label_list == class_index).nonzero().squeeze(-1)
+            embedding = embedding_list[data_index]
+            proto = embedding.mean(0)
+            self._network.future_head.weight.data[class_index] = proto

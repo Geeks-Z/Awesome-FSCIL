@@ -19,6 +19,7 @@ import os
 
 num_workers = 8
 
+
 class Learner(BaseLearner):
     def __init__(self, args):
         super().__init__(args)
@@ -34,7 +35,8 @@ class Learner(BaseLearner):
         )
         # self._network.update_fc(self._total_classes)
         if self._network.fc is None:
-            self._network.fc = self._network.generate_fc(self.feature_dim, self.args["nb_classes"]).to(self._device).requires_grad_(False)
+            self._network.fc = self._network.generate_fc(self.feature_dim, self.args["nb_classes"]).to(
+                self._device).requires_grad_(False)
         logging.info(
             "Learning on {}-{}".format(self._known_classes, self._total_classes)
         )
@@ -65,7 +67,7 @@ class Learner(BaseLearner):
             )
             self.future_loader = DataLoader(
                 self.future_dataset,
-                batch_size=self.batch_size,
+                batch_size=self.args["batch_size"],
                 shuffle=False,
                 num_workers=num_workers,
             )
@@ -103,9 +105,10 @@ class Learner(BaseLearner):
         else:
             rank = 10
         '''
-        rank=10
-        model = LoRA_ViT_timm(vit_model=model.eval(), r=rank, num_classes=10, index=index, increment= self.args['increment'], filepath=self.args['filepath'], 
-        cur_task_index= self._cur_task)
+        rank = 10
+        model = LoRA_ViT_timm(vit_model=model.eval(), r=rank, num_classes=10, index=index,
+                              increment=self.args['increment'], filepath=self.args['filepath'],
+                              cur_task_index=self._cur_task)
         model.out_dim = 768
         return model
 
@@ -128,8 +131,8 @@ class Learner(BaseLearner):
                 self._network = self._network.module
             self._network.backbone = self.update_network(index=False)
             if len(self._multiple_gpus) > 1:
-                self._network = nn.DataParallel(self._network, self._multiple_gpus)       
-            self._network.to(self._device) 
+                self._network = nn.DataParallel(self._network, self._multiple_gpus)
+            self._network.to(self._device)
 
             optimizer = optim.SGD(
                 self._network.parameters(),
@@ -153,8 +156,8 @@ class Learner(BaseLearner):
     def get_optimizer(self):
         if self.args['optimizer'] == 'sgd':
             optimizer = optim.SGD(
-                filter(lambda p: p.requires_grad, self._network.parameters()), 
-                momentum=0.9, 
+                filter(lambda p: p.requires_grad, self._network.parameters()),
+                momentum=0.9,
                 lr=self.init_lr,
                 weight_decay=self.weight_decay
             )
@@ -166,27 +169,27 @@ class Learner(BaseLearner):
                 # weight_decay=self.weight_decay
                 betas=(0.9, 0.999)
             )
-            
+
         elif self.args['optimizer'] == 'adamw':
             optimizer = optim.AdamW(
                 filter(lambda p: p.requires_grad, self._network.parameters()),
-                lr=self.init_lr, 
+                lr=self.init_lr,
                 weight_decay=self.weight_decay
             )
 
         return optimizer
-    
+
     def get_scheduler(self, optimizer):
         if self.args["scheduler"] == 'cosine':
-            scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer=optimizer, T_max=self.args['tuned_epoch'], eta_min=self.args['min_lr'])
+            scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer=optimizer, T_max=self.args['tuned_epoch'],
+                                                             eta_min=self.args['min_lr'])
         elif self.args["scheduler"] == 'steplr':
-            scheduler = optim.lr_scheduler.MultiStepLR(optimizer=optimizer, milestones=self.args["init_milestones"], gamma=self.args["init_lr_decay"])
+            scheduler = optim.lr_scheduler.MultiStepLR(optimizer=optimizer, milestones=self.args["init_milestones"],
+                                                       gamma=self.args["init_lr_decay"])
         elif self.args["scheduler"] == 'constant':
             scheduler = None
 
         return scheduler
-
-
 
     def _init_train(self, train_loader, test_loader, optimizer, scheduler):
         # logging.info("session {} train_images: {}".format(self._cur_task, len(train_loader.dataset)))
@@ -245,12 +248,11 @@ class Learner(BaseLearner):
                 inputs, targets = inputs.to(self._device), targets.to(self._device)
                 # logits = self._network(inputs)["logits"]
                 logits, ortho_loss = self._network(inputs, ortho_loss=True)
-                logits = logits['logits'] 
-                
+                logits = logits['logits']
 
                 fake_targets = targets - self._known_classes
                 loss_clf = F.cross_entropy(
-                    logits[:, self._known_classes :], fake_targets
+                    logits[:, self._known_classes:], fake_targets
                 )
                 # print('@@@@@@@@@@@@@@loss2', loss_clf, torch.mean(ortho_loss))
 
@@ -288,3 +290,58 @@ class Learner(BaseLearner):
                 )
             prog_bar.set_description(info)
         logging.info(info)
+
+    def _eval_cnn(self, loader, y_pred, y_true):
+        self._network.eval()
+        # y_pred, y_true = [], []
+        for _, (_, inputs, targets) in enumerate(loader):
+            inputs = inputs.to(self._device)
+            with torch.no_grad():
+                outputs = self._network(inputs)['logits'][:, : self._total_classes]
+                # outputs = self._network(inputs)['logits']
+            predicts = torch.topk(outputs, k=self.topk, dim=1, largest=True, sorted=True)[1]  # [bs, topk]
+            y_pred.append(predicts.cpu().numpy())
+            y_true.append(targets.cpu().numpy())
+
+    def _eval_future_cnn(self, loader, y_pred, y_true):
+
+        if self._total_classes < self.args['nb_classes']:
+            self.update_future_head(self._network, self.future_loader)
+            for _, (_, inputs, targets) in enumerate(loader):
+                inputs, targets = inputs.to(self._device), targets.to(self._device)
+                with torch.no_grad():
+                    features = self._network(inputs)["features"]
+                    outputs = self._network.future_head(features)["logits"]
+                predicts = torch.topk(
+                    outputs, k=self.topk, dim=1, largest=True, sorted=True
+                )[
+                    1
+                ]  # [bs, topk]
+                y_pred.append(predicts.cpu().numpy())  # Adjust for future tasks
+                y_true.append(targets.cpu().numpy())
+
+        return np.concatenate(y_pred), np.concatenate(y_true)  # [N, topk]
+
+    def update_future_head(self, model, future_loader):
+        for i in range(self._total_classes):
+            model.future_head.weight.data[i] = model.fc.weight.data[i]
+        model = model.eval()
+        embedding_list = []
+        label_list = []
+        with torch.no_grad():
+            for i, batch in enumerate(future_loader):
+                (_, data, label) = batch
+                data = data.to(self._device)
+                label = label.to(self._device)
+                embedding = model(data)["features"]
+                embedding_list.append(embedding.cpu())
+                label_list.append(label.cpu())
+        embedding_list = torch.cat(embedding_list, dim=0)
+        label_list = torch.cat(label_list, dim=0)
+
+        class_list = np.unique(future_loader.dataset.labels)
+        for class_index in class_list:
+            data_index = (label_list == class_index).nonzero().squeeze(-1)
+            embedding = embedding_list[data_index]
+            proto = embedding.mean(0)
+            model.future_head.weight.data[class_index] = proto

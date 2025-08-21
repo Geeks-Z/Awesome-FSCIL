@@ -346,8 +346,8 @@ class IncrementalNet(BaseNet):
         if hasattr(self, "gradcam") and self.gradcam:
             self._gradcam_hooks = [None, None]
             self.set_gradcam_hook()
-        # Classifier head(s)
-        self.head = nn.Linear(768, args["nb_classes"])
+        # Classifier heads for future tasks
+        self.future_head = CosineLinear(768, args["nb_classes"])
 
     def update_fc(self, nb_classes):
         fc = self.generate_fc(self.feature_dim, nb_classes)
@@ -389,7 +389,7 @@ class IncrementalNet(BaseNet):
             out["gradcam_gradients"] = self._gradcam_gradients
             out["gradcam_activations"] = self._gradcam_activations
 
-        future_logtis = self.head(out["features"])
+        future_logtis = self.future_head(out["features"])
         out.update({"future_logits": future_logtis})
         return out
 
@@ -597,7 +597,7 @@ class SimpleVitNet(BaseNet):
         self.W_rand = None
         self.RP_dim = None
         # Classifier head(s)
-        self.head = nn.Linear(768, args["nb_classes"])
+        self.future_head = CosineLinear(768, args["nb_classes"])
 
 
     def update_fc(self, nb_classes, nextperiod_initialization=None):
@@ -636,8 +636,8 @@ class SimpleVitNet(BaseNet):
         else:
             out = self.fc(x)
             out.update({"features": x})
-        future_logtis = self.head(out["features"])
-        out.update({"future_logits": future_logtis})
+        # future_logtis = self.head(out["features"])
+        # out.update({"future_logits": future_logtis})
         return out
 
 # l2p and dualprompt
@@ -649,6 +649,8 @@ class PromptVitNet(nn.Module):
             self.original_backbone = self.get_original_backbone(args)
         else:
             self.original_backbone = None
+        # Classifier head(s)
+        self.future_head = CosineLinear(768, args["nb_classes"])
             
     def get_original_backbone(self, args):
         return timm.create_model(
@@ -678,9 +680,12 @@ class CodaPromptVitNet(nn.Module):
         self.backbone = get_backbone(args, pretrained)
         self.fc = nn.Linear(768, args["nb_classes"])
         self.prompt = CodaPrompt(768, args["nb_tasks"], args["prompt_param"])
+        # Classifier head(s)
+        self.future_head = CosineLinear(768, args["nb_classes"])
 
     # pen: get penultimate features  
     def forward(self, x, pen=False, train=False):
+        res = dict()
         if self.prompt is not None:
             with torch.no_grad():
                 q, _ = self.backbone(x)
@@ -691,12 +696,16 @@ class CodaPromptVitNet(nn.Module):
             out, _ = self.backbone(x)
             out = out[:,0,:]
         out = out.view(out.size(0), -1)
+        res.update({"features": out})
+        res.update({"prompt_loss": prompt_loss})
         if not pen:
             out = self.fc(out)
-        if self.prompt is not None and train:
-            return out, prompt_loss
-        else:
-            return out
+            res.update({"logits": out})
+        # if self.prompt is not None and train:
+        #     return out, prompt_loss
+        # else:
+        #     return out
+        return res
 
 
 class MultiBranchCosineIncrementalNet(BaseNet):

@@ -51,31 +51,6 @@ class Learner(BaseLearner):
                 if param.requires_grad:
                     logging.info("{}: {}".format(name, param.numel()))
 
-    def replace_fc(self, trainloader, model, args):
-        # use class prototype as classifier weights.
-        model = model.eval()
-        embedding_list = []
-        label_list = []
-        with torch.no_grad():
-            for i, batch in enumerate(trainloader):
-                (_, data, label) = batch
-                data = data.to(self._device)
-                label = label.to(self._device)
-                embedding = model(data)["pre_logits"]
-                embedding_list.append(embedding.cpu())
-                label_list.append(label.cpu())
-        embedding_list = torch.cat(embedding_list, dim=0)
-        label_list = torch.cat(label_list, dim=0)
-
-        class_list = np.unique(trainloader.dataset.labels)
-        for class_index in class_list:
-            data_index = (label_list == class_index).nonzero().squeeze(-1)
-            embedding = embedding_list[data_index]
-            proto = embedding.mean(0)
-            self._network.backbone.head.weight.data[class_index] = proto
-
-        return model
-
     def after_task(self):
         self._known_classes = self._total_classes
 
@@ -116,7 +91,6 @@ class Learner(BaseLearner):
         total_time = time.time() - start_time
         self.train_time += round(total_time, 2)
 
-        self.replace_fc(self.future_loader, self._network, None)
 
         if len(self._multiple_gpus) > 1:
             self._network = self._network.module
@@ -291,19 +265,47 @@ class Learner(BaseLearner):
 
     def _eval_future_cnn(self, loader, y_pred, y_true):
         if self._total_classes < self.args['nb_classes']:
+            self.update_future_head(self._network, self.future_loader)
             for _, (_, inputs, targets) in enumerate(loader):
                 inputs, targets = inputs.to(self._device), targets.to(self._device)
                 with torch.no_grad():
-                    outputs = self._network(inputs, task_id=self._cur_task)["logits"][:, self._total_classes:]
+                    features = self._network(inputs, task_id=self._cur_task)["pre_logits"]
+                    outputs = self._network.future_head(features)["logits"]
                 predicts = torch.topk(
                     outputs, k=self.topk, dim=1, largest=True, sorted=True
                 )[
                     1
                 ]  # [bs, topk]
-                y_pred.append(predicts.cpu().numpy() + self._total_classes)  # Adjust for future tasks
+                y_pred.append(predicts.cpu().numpy() )  # Adjust for future tasks
                 y_true.append(targets.cpu().numpy())
 
         return np.concatenate(y_pred), np.concatenate(y_true)  # [N, topk]
+
+    def update_future_head(self, model, future_loader):
+        for i in range(self._total_classes):
+            model.future_head.weight.data[i] = model.backbone.head.weight.data[i]
+        model = model.eval()
+        embedding_list = []
+        label_list = []
+        with torch.no_grad():
+            for i, batch in enumerate(future_loader):
+                (_, data, label) = batch
+                data = data.to(self._device)
+                label = label.to(self._device)
+                embedding = model(data, task_id=self._cur_task)["pre_logits"]
+                embedding_list.append(embedding.cpu())
+                label_list.append(label.cpu())
+        embedding_list = torch.cat(embedding_list, dim=0)
+        label_list = torch.cat(label_list, dim=0)
+
+        class_list = np.unique(future_loader.dataset.labels)
+        for class_index in class_list:
+            data_index = (label_list == class_index).nonzero().squeeze(-1)
+            embedding = embedding_list[data_index]
+            proto = embedding.mean(0)
+            model.future_head.weight.data[class_index] = proto
+    
+    
 
     def _compute_accuracy(self, model, loader):
         model.eval()

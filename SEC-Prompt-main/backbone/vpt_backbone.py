@@ -9,7 +9,7 @@ import time
 
 
 def build_promptmodel(
-    modelname="vit_base_patch16_224", Prompt_Token_num=10, VPT_type="Deep", args=None
+        modelname="vit_base_patch16_224", Prompt_Token_num=10, VPT_type="Deep", args=None
 ):
     basic_model = timm.create_model(
         modelname, pretrained=True
@@ -35,26 +35,26 @@ def build_promptmodel(
 
 class VPT_ViT(VisionTransformer):
     def __init__(
-        self,
-        img_size=224,
-        patch_size=16,
-        in_chans=3,
-        num_classes=200,
-        embed_dim=768,
-        depth=12,
-        num_heads=12,
-        mlp_ratio=4.0,
-        qkv_bias=True,
-        drop_rate=0.0,
-        attn_drop_rate=0.0,
-        drop_path_rate=0.0,
-        embed_layer=PatchEmbed,
-        norm_layer=None,
-        act_layer=None,
-        Prompt_Token_num=1,
-        VPT_type="Shallow",
-        basic_state_dict=None,
-        args=None,
+            self,
+            img_size=224,
+            patch_size=16,
+            in_chans=3,
+            num_classes=200,
+            embed_dim=768,
+            depth=12,
+            num_heads=12,
+            mlp_ratio=4.0,
+            qkv_bias=True,
+            drop_rate=0.0,
+            attn_drop_rate=0.0,
+            drop_path_rate=0.0,
+            embed_layer=PatchEmbed,
+            norm_layer=None,
+            act_layer=None,
+            Prompt_Token_num=1,
+            VPT_type="Shallow",
+            basic_state_dict=None,
+            args=None,
     ):
 
         # Recreate ViT
@@ -224,8 +224,7 @@ class SimpleVitNet(BaseNet):
     def __init__(self, args, pretrained):
         super().__init__(args, pretrained)
         # Classifier head(s)
-        self.head = nn.Linear(768, args["nb_classes"])
-
+        self.future_head = CosineLinear(768, args["nb_classes"])
 
     def update_fc(self, nb_classes, nextperiod_initialization=None):
         fc = self.generate_fc(self.feature_dim, nb_classes).to(self._device)
@@ -262,17 +261,17 @@ class SimpleVitNet(BaseNet):
             x, targets=targets, train=train, proto=proto
         )
         out = self.fc(x)
-        future_logits = self.head(x)
+        # future_logits = self.future_head(x)
         out.update({"features": x})
         out.update({"loss_match": loss_match})
         out.update({"prompt_time": prompt_time})
-        out.update({"future_logits": future_logits})
+        # out.update({"future_logits": future_logits})
         return out
 
 
 class CosineLinear(nn.Module):
     def __init__(
-        self, in_features, out_features, nb_proxy=1, to_reduce=False, sigma=True
+            self, in_features, out_features, nb_proxy=1, to_reduce=False, sigma=True
     ):
         super(CosineLinear, self).__init__()
         self.in_features = in_features
@@ -301,7 +300,7 @@ class CosineLinear(nn.Module):
             weight = torch.cat(
                 (
                     self.weight[: self.old_out].detach().clone(),
-                    self.weight[self.old_out :,],
+                    self.weight[self.old_out:, ],
                 )
             )
         out = F.linear(F.normalize(input, p=2, dim=1), F.normalize(weight, p=2, dim=1))

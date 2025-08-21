@@ -1,1 +1,0 @@
-Please download the pretrained weights and put them here.
