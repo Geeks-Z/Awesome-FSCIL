@@ -257,7 +257,7 @@ class Learner(BaseLearner):
         for i, (_, inputs, targets) in enumerate(loader):
             inputs = inputs.to(self._device)
             with torch.no_grad():
-                outputs = model(inputs)[:, :self._total_classes]
+                outputs = model(inputs)['logits'][:, :self._total_classes]
             predicts = torch.max(outputs, dim=1)[1]
             correct += (predicts.cpu() == targets).sum()
             total += len(targets)
