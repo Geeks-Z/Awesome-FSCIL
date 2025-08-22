@@ -18,7 +18,7 @@ def load_json(setting_path):
 
 def setup_parser():
     parser = argparse.ArgumentParser(description='Reproduce of multiple pre-trained incremental learning algorthms.')
-    parser.add_argument('--config', type=str, default='./exps/sdlora_cub.json',
+    parser.add_argument('--config', type=str, default='./exps/sdlora_cub_debug.json',
                         help='Json file of settings.')
     parser.add_argument('--seed', type=int, help='The seed value')
     # parser.add_argument("--local_rank", type=int, default=0)

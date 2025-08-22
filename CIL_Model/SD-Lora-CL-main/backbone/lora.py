@@ -6,7 +6,7 @@ import timm
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from einops import rearrange
+# from einops import rearrange
 # from safetensors import safe_open
 # from safetensors.torch import save_file
 from timm.models.vision_transformer import VisionTransformer as timm_ViT

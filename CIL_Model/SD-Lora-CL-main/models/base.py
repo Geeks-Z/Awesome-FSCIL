@@ -116,7 +116,7 @@ class BaseLearner(object):
     def eval_task(self):
         y_pred, y_true = [], []
         self._eval_cnn(self.test_loader, y_pred, y_true)
-        y_pred, y_true = self._eval_future_cnn(self.future_loader, y_pred, y_true)
+        y_pred, y_true = self._eval_future_task_classify_accuracy(self.future_loader, y_pred, y_true)
         cnn_accy = self._evaluate(y_pred, y_true)
 
         if hasattr(self, "_class_means"):

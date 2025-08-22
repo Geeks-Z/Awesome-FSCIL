@@ -225,17 +225,20 @@ class Learner(BaseLearner):
         # return np.concatenate(y_pred), np.concatenate(y_true)  # [N, topk]
     def _eval_future_cnn(self, loader, y_pred, y_true):
         if self._total_classes < self.args['nb_classes']:
+            self.update_future_head(self._network, self.future_loader)
             for _, (_, inputs, targets) in enumerate(loader):
                 inputs, targets = inputs.to(self._device), targets.to(self._device)
                 output_emas = []
                 with torch.no_grad():
-                    outputs = self._network.forward_future(inputs)[:, self._total_classes: ]
+                    features = self._network.forward_future_features(inputs)
+                    outputs = self._network.future_head(features)["logits"]
                 output_emas.append(outputs.softmax(dim=1))
 
                 self._network.attach_pets_vit(self._network.pets_emas)
                 # using off_model to predict
                 with torch.no_grad():
-                    outputs = self._network.forward_future(inputs)[:, self._total_classes: ]
+                    features = self._network.forward_future_features(inputs)
+                    outputs = self._network.future_head(features)["logits"]
                 output_emas.append(outputs.softmax(dim=1))
 
                 self._network.attach_pets_vit(self._network.pets)
@@ -247,10 +250,35 @@ class Learner(BaseLearner):
                 )[
                     1
                 ]  # [bs, topk]
-                y_pred.append(predicts.cpu().numpy()+ self._total_classes)  # Adjust for future tasks
+                y_pred.append(predicts.cpu().numpy())
                 y_true.append(targets.cpu().numpy())
 
         return np.concatenate(y_pred), np.concatenate(y_true)  # [N, topk]
+
+    def update_future_head(self, model, future_loader):
+        # for i in range(self._total_classes):
+        #     model.future_head.weight.data[i] = model.fc.weight.data[i]
+        model = model.eval()
+        embedding_list = []
+        label_list = []
+        with torch.no_grad():
+            for i, batch in enumerate(future_loader):
+                (_, data, label) = batch
+                data = data.to(self._device)
+                label = label.to(self._device)
+                embedding = model.forward_future_features(data)
+                embedding_list.append(embedding.cpu())
+                label_list.append(label.cpu())
+        embedding_list = torch.cat(embedding_list, dim=0)
+        label_list = torch.cat(label_list, dim=0)
+
+        class_list = np.unique(future_loader.dataset.labels)
+        for class_index in class_list:
+            data_index = (label_list == class_index).nonzero().squeeze(-1)
+            embedding = embedding_list[data_index]
+            proto = embedding.mean(0)
+            model.future_head.weight.data[class_index] = proto
+
     def _compute_accuracy(self, model, loader):
         model.eval()
         correct, total = 0, 0

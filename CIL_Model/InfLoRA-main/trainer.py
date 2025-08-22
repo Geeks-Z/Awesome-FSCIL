@@ -105,7 +105,7 @@ def _train(args):
             args["dataset"],
             args["init_cls"],
             args["increment"],
-            args["backbone_type"],
+            args["model_name"],
         )
     )
     print("Base Accuracy: {}".format(round(cnn_curve["top1"][0], 2)))

@@ -9,7 +9,7 @@
   "increment": 5,
   "model_name": "random",
   "backbone_type": "pretrained_vit_b16_224_random",
-  "device": ["4"],
+  "device": ["1"],
   "seed": [1993],
   "kshot": 5,
   "tuned_epoch": 1,

@@ -1,6 +1,8 @@
 import torch
 import torch.nn as nn
 import copy
+import math
+from torch.nn import functional as F
 
 from models.vit_inflora import VisionTransformer, PatchEmbed, Block,resolve_pretrained_cfg, build_model_with_cfg, checkpoint_filter_fn
 from models.zoo import CodaPrompt
@@ -84,8 +86,8 @@ class SiNet(nn.Module):
         # self.prompt_pool = CodaPrompt(args["embd_dim"], args["total_sessions"], args["prompt_param"])
 
         self.numtask = 0
-        # Classifier head(s)
-        self.head = nn.Linear(768, args["nb_classes"])
+        # Classifier heads for future tasks
+        self.future_head = CosineLinear(768, args["nb_classes"])
 
     @property
     def feature_dim(self):
@@ -133,14 +135,13 @@ class SiNet(nn.Module):
 
         logits = torch.cat(logits,1)
         return logits
-    def future_interface(self, image, task_id = None):
+    def future_features(self, image, task_id = None):
         image_features, _ = self.image_encoder(image, task_id=self.numtask-1 if task_id is None else task_id)
 
         image_features = image_features[:,0,:]
         image_features = image_features.view(image_features.size(0),-1)
 
-        logits = self.head(image_features)
-        return logits
+        return image_features
     
     def interface1(self, image, task_ids):
         logits = []
@@ -181,3 +182,48 @@ class SiNet(nn.Module):
         self.eval()
 
         return self
+
+class CosineLinear(nn.Module):
+    def __init__(self, in_features, out_features, nb_proxy=1, to_reduce=False, sigma=True):
+        super(CosineLinear, self).__init__()
+        self.in_features = in_features
+        self.out_features = out_features * nb_proxy
+        self.nb_proxy = nb_proxy
+        self.to_reduce = to_reduce
+        self.weight = nn.Parameter(torch.Tensor(self.out_features, in_features))
+        if sigma:
+            self.sigma = nn.Parameter(torch.Tensor(1))
+        else:
+            self.register_parameter('sigma', None)
+        self.reset_parameters()
+
+    def reset_parameters(self):
+        stdv = 1. / math.sqrt(self.weight.size(1))
+        self.weight.data.uniform_(-stdv, stdv)
+        if self.sigma is not None:
+            self.sigma.data.fill_(1)
+
+    def forward(self, input):
+        out = F.linear(F.normalize(input, p=2, dim=1), F.normalize(self.weight, p=2, dim=1))
+
+        if self.to_reduce:
+            # Reduce_proxy
+            out = reduce_proxies(out, self.nb_proxy)
+
+        if self.sigma is not None:
+            out = self.sigma * out
+
+        return {'logits': out}
+
+def reduce_proxies(out, nb_proxy):
+    if nb_proxy == 1:
+        return out
+    bs = out.shape[0]
+    nb_classes = out.shape[1] / nb_proxy
+    assert nb_classes.is_integer(), 'Shape error'
+    nb_classes = int(nb_classes)
+
+    simi_per_class = out.view(bs, nb_classes, nb_proxy)
+    attentions = F.softmax(simi_per_class, dim=-1)
+
+    return (attentions * simi_per_class).sum(-1)

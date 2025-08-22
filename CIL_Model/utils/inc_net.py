@@ -1176,7 +1176,7 @@ class LAE(nn.Module):
             pk.requires_grad = False
         self.attach_pets_vit(self.pets)
         # Classifier head(s)
-        self.head = nn.Linear(768, args["nb_classes"])
+        self.future_head = CosineLinear(768, args["nb_classes"])
 
     @property
     def feature_dim(self):
@@ -1221,12 +1221,12 @@ class LAE(nn.Module):
 
         return out
 
-    def forward_future(self, x):
+    def forward_future_features(self, x):
         x = self.backbone(x)
         x = x[:, 0, :]
-        out = self.head(x)
+        # out = self.head(x)
 
-        return out
+        return x
 
     def update_fc(self, nb_classes):
         fc = self.generate_fc(self.feature_dim, nb_classes)

@@ -9,7 +9,7 @@
   "increment": 5,
   "model_name": "lae",
   "backbone_type": "vit_base_patch16_224_lae",
-  "device": ["7"],
+  "device": ["1"],
   "seed": [1993],
   "kshot": 5,
   "tuned_epoch": 20,
@@ -20,7 +20,6 @@
   "optimizer": "adam",
   "scheduler": "constant",
   "reinit_optimizer": true,
-
   "pretrained": true,
   "drop": 0.0,
   "drop_path": 0.0,
