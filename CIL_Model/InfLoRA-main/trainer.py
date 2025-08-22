@@ -187,7 +187,7 @@ def forward_transfer(dataset, matrix):
     """
     if dataset == "cub":
         rand_init_acc = np.array([86.51, 52.53, 65.04, 67.86, 74.62, 57.89, 71.82, 87.97, 68.6, 83.61, 85.37])
-    elif dataset == "cifar224":
+    elif dataset == "cifar224" or dataset == "cifar100":
         rand_init_acc = np.array([77.5, 44.4, 51.8, 30.4, 56.8, 68.4, 44.0, 36.4, 41.4])
     elif dataset == "mini_imagenet":
         rand_init_acc = np.array([94.97, 90.6, 69.2, 81.2, 82.8, 73.4, 70.2, 90.6, 89.8])

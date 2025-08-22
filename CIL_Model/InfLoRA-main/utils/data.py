@@ -365,7 +365,7 @@ class vtab(iData):
 
 class iMiniImageNet(iData):
 
-    class_order = np.arange(50).tolist()
+    class_order = np.arange(100).tolist()
 
     def __init__(self, args):
         super().__init__()
