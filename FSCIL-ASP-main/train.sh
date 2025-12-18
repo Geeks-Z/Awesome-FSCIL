@@ -1,5 +1,9 @@
 #!/bin/bash
-python main.py --config ./scripts/asp_cub.json
-python main.py --config ./scripts/asp_cifar.json
-python main.py --config ./scripts/asp_mini.json
-python main.py --config ./scripts/asp_inr.json
+python main.py --config=./scripts/asp_cub_B100_Inc5.json
+python main.py --config=./scripts/asp_cub_B100_Inc10.json
+python main.py --config=./scripts/asp_cifar_B60_Inc2.json
+python main.py --config=./scripts/asp_cifar_B60_Inc5.json
+python main.py --config=./scripts/asp_mini_B60_Inc2.json
+python main.py --config=./scripts/asp_mini_B60_Inc5.json
+python main.py --config=./scripts/asp_inr_B100_Inc5.json
+python main.py --config=./scripts/asp_inr_B100_Inc10.json

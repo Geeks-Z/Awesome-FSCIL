@@ -116,7 +116,7 @@ def _train(args):
         )
     )
     print("Base Accuracy: {}".format(round(cnn_curve["top1"][0], 2)))
-    print("Lase Accuracy: {}".format(round(cnn_curve["top1"][-1], 2)))
+    print("Last Accuracy: {}".format(round(cnn_curve["top1"][-1], 2)))
     print("Average Accuracy (Top1): {}".format(round(sum(cnn_curve["top1"]) / len(cnn_curve["top1"]), 2)))
     print("PD: {:.2f}".format(cnn_curve["top1"][0] - cnn_curve["top1"][-1]))
     print("Backward Transfer (BWT):", backward_transfer(np.array(cnn_matrix)))
