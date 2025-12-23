@@ -10,7 +10,7 @@
   "model_name": "lae",
   "backbone_type": "vit_base_patch16_224_lae",
   "device": ["2"],
-  "seed": [2025],
+  "seed": [1993],
   "kshot": 5,
   "tuned_epoch": 20,
   "init_lr": 0.0028125,

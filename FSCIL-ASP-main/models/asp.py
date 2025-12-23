@@ -10,7 +10,7 @@ from torch.nn import functional as F
 from torch.utils.data import DataLoader
 from backbone.asp_backbone import SimpleVitNet
 from models.base import BaseLearner
-from utils.toolkit import target2onehot, tensor2numpy
+from utils.toolkit import target2onehot, tensor2numpy, count_parameters
 
 # tune the model at first session with vpt, and then conduct simple shot.
 num_workers = 1
@@ -35,6 +35,8 @@ class Learner(BaseLearner):
         )
         self.min_lr = args["min_lr"] if args["min_lr"] is not None else 1e-8
         self.args = args
+        self.last_epochs = 0  # 记录最后训练的epoch数
+        self.train_time = 0  # 记录纯训练时间(不含测试)
 
     def after_task(self):
         self._known_classes = self._total_classes
@@ -69,14 +71,30 @@ class Learner(BaseLearner):
         self._total_classes = self._known_classes + data_manager.get_task_size(
             self._cur_task
         )
+        logging.info(
+            "Learning on {}-{}".format(self._known_classes, self._total_classes)
+        )
+        
+        # 统计所有参数和可训练参数(不包括分类器fc和future_head)
+        logging.info("All params: {}".format(count_parameters(self._network)))
+        
+        total_trainable = 0
+        for name, param in self._network.named_parameters():
+            if param.requires_grad and 'fc.' not in name and 'future_head.' not in name:
+                total_trainable += param.numel()
+                logging.info("{}: {}".format(name, param.numel()))
+        
+        logging.info(
+            "Trainable params (without fc): {}".format(total_trainable)
+        )
         self._network.update_fc(self._total_classes)
         # to evaluate the performance on future classes
         # if self._network.fc is None:
         #     self._network.fc = self._network.generate_fc(self.feature_dim, self.args["nb_classes"]).to(self._device).requires_grad_(False)
 
-        logging.info(
-            "Learning on {}-{}".format(self._known_classes, self._total_classes)
-        )
+        
+        
+        
 
         train_dataset = data_manager.get_dataset(
             np.arange(self._known_classes, self._total_classes),
@@ -156,12 +174,15 @@ class Learner(BaseLearner):
             self._network = self._network.module
 
     def _train(self, train_loader, test_loader, train_loader_for_protonet):
-
+        import time
         self._network.to(self._device)
 
         if self._cur_task > 0:
+            train_start = time.time()
             self.update_ema_prompt(train_loader_for_protonet)
             self.replace_fc(train_loader_for_protonet, self._network, None)
+            self.train_time = time.time() - train_start
+            self.last_epochs = 1  # 增量任务设为1以正确显示时间
 
         # if os.path.exists(self.args["base_model_path"]) and self._cur_task == 0:
         #     logging.info(
@@ -276,11 +297,18 @@ class Learner(BaseLearner):
 
     # naive train
     def _init_train(self, train_loader, test_loader, optimizer, scheduler):
+        import time
         if isinstance(self.args["kshot"], int) and self._known_classes > 0:
             total_epoch = self.args["fs_epoch"]
         else:
             total_epoch = self.args["tuned_epoch"]
+        
+        # 记录训练的epoch数
+        self.last_epochs = total_epoch
+        self.train_time = 0  # 重置训练时间
+        
         for _, epoch in enumerate(range(total_epoch)):
+            epoch_start = time.time()
 
             if self._cur_task == 0:
                 anchor_samples = self.find_anchor_sample(
@@ -344,6 +372,11 @@ class Learner(BaseLearner):
 
             scheduler.step()
             train_acc = np.around(tensor2numpy(correct) * 100 / total, decimals=2)
+            
+            # 记录epoch纯训练时间(不含测试)
+            epoch_train_time = time.time() - epoch_start
+            self.train_time += epoch_train_time
+            
             test_cur_acc = self._compute_accuracy(self._network, self.test_curr_loader)
             test_acc = self._compute_accuracy(self._network, test_loader)
             info = "Task {}, Epoch {} => Loss {:.3f}, Train_accy {:.2f}, Test_curr_accy {:.2f}, Test_accy {:.2f}".format(

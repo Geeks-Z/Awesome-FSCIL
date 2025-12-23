@@ -31,6 +31,15 @@ def _train(args):
         args["kshot"],
         args["beta"],
     )
+    
+    # Initialize statistics tracking
+    stats_tracker = {
+        "params": [],
+        "gpu_memory": [],
+        "time_per_epoch": [],
+        "task_times": [],
+        "task_epochs": []
+    }
     saved_path = "saved_model/{}/{}/{}_{}/{}_{}".format(
         "sec_tr",
         args["dataset"],
@@ -100,17 +109,50 @@ def _train(args):
     total_test_time = 0.0
     total_prompt_time = 0.0
     for task in range(data_manager.nb_tasks):
-        logging.info("All params: {}".format(count_parameters(model._network)))
-        logging.info(
-            "Trainable params: {}".format(count_parameters(model._network, True))
-        )
+        
+        # Reset GPU memory stats before training
+        device = model._device if hasattr(model, '_device') else args["device"][0]
+        if torch.cuda.is_available() and device.type == 'cuda':
+            # Ensure the device is initialized
+            with torch.cuda.device(device):
+                torch.cuda.reset_peak_memory_stats()
+                torch.cuda.empty_cache()
 
         start_time = time.time()
 
         model.incremental_train(data_manager)
 
         train_end_time = time.time()
-        total_train_time += train_end_time - start_time
+        task_train_time = train_end_time - start_time
+        total_train_time += task_train_time
+        
+        # Collect ACTUAL trainable parameters used in training (excluding classifier)
+        # This is set inside incremental_train after freeze operations and optimizer creation
+        trainable_params_before = count_parameters(model._network, True)
+        actual_trainable_params = getattr(model, 'task_trainable_params', trainable_params_before)
+        stats_tracker["params"].append(actual_trainable_params / 1e6)  # Convert to millions
+        
+        # Collect GPU memory statistics
+        if torch.cuda.is_available() and device.type == 'cuda':
+            with torch.cuda.device(device):
+                peak_memory = torch.cuda.max_memory_allocated() / (1024 ** 2)  # Convert to MiB
+            stats_tracker["gpu_memory"].append(peak_memory)
+        else:
+            stats_tracker["gpu_memory"].append(0.0)
+        
+        # Determine number of epochs for this task
+        if task == 0:
+            num_epochs = args["tuned_epoch"]
+        else:
+            if isinstance(args["kshot"], int):
+                num_epochs = args["fs_epoch"]
+            else:
+                num_epochs = args["tuned_epoch"]
+        
+        stats_tracker["task_times"].append(task_train_time)
+        stats_tracker["task_epochs"].append(num_epochs)
+        time_per_epoch = task_train_time / num_epochs if num_epochs > 0 else 0
+        stats_tracker["time_per_epoch"].append(time_per_epoch)
 
         cnn_accy = model.eval_task()
         total_prompt_time += cnn_accy.get("prompt_time", 0)
@@ -168,6 +210,9 @@ def _train(args):
         print(np_acctable)
 
     print(f"{'=' * 80}\n")
+    
+    # Print training statistics
+    print_training_statistics(stats_tracker, data_manager.nb_tasks)
 
 
 def _set_device(args):
@@ -198,6 +243,44 @@ def _set_random(seed=1):
 def print_args(args):
     for key, value in args.items():
         logging.info("{}: {}".format(key, value))
+
+
+def print_training_statistics(stats_tracker, nb_tasks):
+    """
+    Print training statistics in a formatted table.
+    
+    Args:
+        stats_tracker: Dictionary containing params, gpu_memory, time_per_epoch, etc.
+        nb_tasks: Number of tasks
+    """
+    print("\n" + "=" * 80)
+    print("Training Statistics for SEC-Prompt")
+    print("=" * 80)
+    print(f"{'Task':<8}{'Params ↓':<12}{'GPU ↓':<12}{'Time/Epoch ↓':<12}")
+    print("=" * 80)
+    
+    for i in range(nb_tasks):
+        task_name = f"Task {i}"
+        params_str = f"{stats_tracker['params'][i]:.2f}M"
+        gpu_str = f"{stats_tracker['gpu_memory'][i]:.2f}MiB"
+        time_str = f"{stats_tracker['time_per_epoch'][i]:.2f}s"
+        
+        print(f"{task_name:<8}{params_str:<12}{gpu_str:<12}{time_str:<12}")
+    
+    print("-" * 80)
+    
+    # Calculate statistics
+    avg_params = sum(stats_tracker['params']) / len(stats_tracker['params'])
+    avg_gpu = sum(stats_tracker['gpu_memory']) / len(stats_tracker['gpu_memory'])
+    avg_time = sum(stats_tracker['time_per_epoch']) / len(stats_tracker['time_per_epoch'])
+    max_gpu = max(stats_tracker['gpu_memory'])
+    total_params = sum(stats_tracker['params'])
+    total_time = sum(stats_tracker['task_times'])
+    
+    print(f"{'Average':<8}{avg_params:.2f}M{'':<4}{avg_gpu:.2f}MiB{'':<4}{avg_time:.2f}s")
+    print(f"{'Max GPU':<8}{'':<12}{max_gpu:.2f}MiB")
+    print(f"{'Total':<8}{total_params:.2f}M{'':<12}{'':<12}{total_time:.2f}s")
+    print("=" * 80 + "\n")
 
 
 def Harmonic_Accuracy(grouped_acc, init_cls):

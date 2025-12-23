@@ -10,7 +10,7 @@
   "model_name": "sdlora",
   "backbone_type": "vit_base_patch16_224",
   "device": ["2"],
-  "seed": [2025],
+  "seed": [1993],
   "scheduler": "cosine",
   "min_lr": 5e-3,
   "tuned_epoch": 10,

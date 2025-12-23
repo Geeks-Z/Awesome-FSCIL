@@ -13,7 +13,7 @@
   "embd_dim": 768,
   "num_heads": 12,
   "total_sessions": 9,
-  "seed": [2025],
+  "seed": [1993],
   "kshot": 5,
   "device": ["1"],
   "EPSILON": 1e-8,

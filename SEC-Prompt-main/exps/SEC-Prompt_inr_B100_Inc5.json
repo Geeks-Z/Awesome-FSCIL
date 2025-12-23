@@ -1,8 +1,8 @@
 {
   "model_name": "sec",
   "backbone_type": "pretrained_vit_b16_224_vpt",
-  "device": ["5"],
-  "seed": [2025],
+  "device": ["2"],
+  "seed": [1993],
   "dataset": "imagenetr",
   "init_cls": 100,
   "increment": 5,

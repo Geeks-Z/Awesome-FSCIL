@@ -2,7 +2,7 @@
   "model_name": "asp",
   "backbone_type": "pretrained_vit_b16_224_vpt",
   "device": ["1"],
-  "seed": [2025],
+  "seed": [1993],
   "dataset": "cub",
   "init_cls": 100,
   "increment": 10,

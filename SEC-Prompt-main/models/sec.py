@@ -11,6 +11,7 @@ from torch.nn import functional as F
 from torch.utils.data import DataLoader
 from backbone.vpt_backbone import SimpleVitNet
 from models.base import BaseLearner
+from utils.toolkit import count_parameters
 
 # tune the model at first session with vpt, and then conduct simple shot.
 num_workers = 1
@@ -104,14 +105,76 @@ class Learner(BaseLearner):
         self._total_classes = self._known_classes + data_manager.get_task_size(
             self._cur_task
         )
+        
+        logging.info(
+            "Learning on {}-{}".format(self._known_classes, self._total_classes)
+        )
+
         # print(self._total_classes)
         self._network.update_fc(self._total_classes)
         # to evaluate the performance on future classes
         self._network.backbone.TSP.process_task_count(self._total_classes)
         self._network.backbone.RSP.process_task_count()
-        logging.info(
-            "Learning on {}-{}".format(self._known_classes, self._total_classes)
-        )
+
+        # 统计实际参与训练的参数量（考虑detach的影响）
+        # 必须在process_task_count()之后，此时TSP已经初始化
+        total_params = sum(p.numel() for p in self._network.backbone.parameters())
+        
+        # 计算TSP实际训练的prompt数量
+        if self._cur_task == 0:
+            # Task 0: 所有prompts都参与训练
+            tsp_active_prompts = self._network.backbone.TSP.prompt_num
+            # RSP使用e_pool_size，且Task 0全部参与训练
+            rsp_active_prompts = self._network.backbone.RSP.e_pool_size if hasattr(self._network.backbone, 'RSP') else 0
+        else:
+            # Task 1+: 只有新增的prompts参与训练（旧的被detach）
+            tsp_active_prompts = self._network.backbone.TSP.prompt_num - self._network.backbone.TSP.last_prompt_num
+            rsp_active_prompts = 0  # RSP在增量阶段被冻结
+        
+        # 计算实际训练参数量
+        # TSP: active_prompts × (e_p_length + 1 + 1) × embed_dim × num_layers
+        # e_p_length个token + 1个key + 1个attention
+        tsp_params_per_layer = tsp_active_prompts * (self._network.backbone.TSP.e_p_length + 2) * self._network.backbone.TSP.emb_d
+        tsp_total_params = tsp_params_per_layer * len(self._network.backbone.TSP.e_layers)
+        
+        # RSP: 同样的计算方式
+        if rsp_active_prompts > 0:
+            rsp_params_per_layer = rsp_active_prompts * (self._network.backbone.RSP.e_p_length + 2) * self._network.backbone.RSP.emb_d
+            rsp_total_params = rsp_params_per_layer * len(self._network.backbone.RSP.e_layers)
+        else:
+            rsp_total_params = 0
+        
+        actual_trainable_params = tsp_total_params + rsp_total_params
+        
+        logging.info("All params: {}".format(total_params))
+        logging.info("Actual trainable params (excluding detached): {}".format(actual_trainable_params))
+        logging.info("TSP active prompts: {} (total: {})".format(tsp_active_prompts, self._network.backbone.TSP.prompt_num))
+        if hasattr(self._network.backbone, 'RSP'):
+            logging.info("RSP active prompts: {} (total: {})".format(rsp_active_prompts, self._network.backbone.RSP.e_pool_size))
+        logging.info("Excluded params: head, detached prompts")
+        
+        # 详细打印每层的参数量
+        if actual_trainable_params > 0:
+            # TSP参数详情
+            tsp_e_p_params = tsp_active_prompts * self._network.backbone.TSP.e_p_length * self._network.backbone.TSP.emb_d
+            tsp_e_k_params = tsp_active_prompts * self._network.backbone.TSP.emb_d
+            tsp_e_a_params = tsp_active_prompts * self._network.backbone.TSP.emb_d
+            
+            for layer in self._network.backbone.TSP.e_layers:
+                logging.info("backbone.TSP.e_p_{}: {}".format(layer, tsp_e_p_params))
+                logging.info("backbone.TSP.e_k_{}: {}".format(layer, tsp_e_k_params))
+                logging.info("backbone.TSP.e_a_{}: {}".format(layer, tsp_e_a_params))
+            
+            # RSP参数详情
+            if rsp_active_prompts > 0:
+                rsp_e_p_params = rsp_active_prompts * self._network.backbone.RSP.e_p_length * self._network.backbone.RSP.emb_d
+                rsp_e_k_params = rsp_active_prompts * self._network.backbone.RSP.emb_d
+                rsp_e_a_params = rsp_active_prompts * self._network.backbone.RSP.emb_d
+                
+                for layer in self._network.backbone.RSP.e_layers:
+                    logging.info("backbone.RSP.e_p_{}: {}".format(layer, rsp_e_p_params))
+                    logging.info("backbone.RSP.e_k_{}: {}".format(layer, rsp_e_k_params))
+                    logging.info("backbone.RSP.e_a_{}: {}".format(layer, rsp_e_a_params))
 
         if isinstance(self.args["kshot"], int) and self._known_classes > 0:
             train_bs = self.args["fs_batch_size"]
@@ -229,6 +292,27 @@ class Learner(BaseLearner):
                         lr=self.init_lr,
                         weight_decay=self.weight_decay,
                     )
+                
+                # Record actual trainable parameters (excluding classifier and detached prompts)
+                # 使用之前计算的实际训练参数量
+                if self._cur_task == 0:
+                    tsp_active_prompts = self._network.backbone.TSP.prompt_num
+                    rsp_active_prompts = self._network.backbone.RSP.e_pool_size if hasattr(self._network.backbone, 'RSP') else 0
+                else:
+                    tsp_active_prompts = self._network.backbone.TSP.prompt_num - self._network.backbone.TSP.last_prompt_num
+                    rsp_active_prompts = 0
+                
+                tsp_params_per_layer = tsp_active_prompts * (self._network.backbone.TSP.e_p_length + 2) * self._network.backbone.TSP.emb_d
+                tsp_total_params = tsp_params_per_layer * len(self._network.backbone.TSP.e_layers)
+                
+                if rsp_active_prompts > 0:
+                    rsp_params_per_layer = rsp_active_prompts * (self._network.backbone.RSP.e_p_length + 2) * self._network.backbone.RSP.emb_d
+                    rsp_total_params = rsp_params_per_layer * len(self._network.backbone.RSP.e_layers)
+                else:
+                    rsp_total_params = 0
+                
+                self.task_trainable_params = tsp_total_params + rsp_total_params
+                
                 scheduler = optim.lr_scheduler.CosineAnnealingLR(
                     optimizer, T_max=self.args["tuned_epoch"], eta_min=self.min_lr
                 )
@@ -253,6 +337,27 @@ class Learner(BaseLearner):
                         lr=self.fs_lr,
                         weight_decay=self.weight_decay,
                     )
+                
+                # Record actual trainable parameters (excluding classifier and detached prompts)
+                # 使用之前计算的实际训练参数量
+                if self._cur_task == 0:
+                    tsp_active_prompts = self._network.backbone.TSP.prompt_num
+                    rsp_active_prompts = self._network.backbone.RSP.e_pool_size if hasattr(self._network.backbone, 'RSP') else 0
+                else:
+                    tsp_active_prompts = self._network.backbone.TSP.prompt_num - self._network.backbone.TSP.last_prompt_num
+                    rsp_active_prompts = 0
+                
+                tsp_params_per_layer = tsp_active_prompts * (self._network.backbone.TSP.e_p_length + 2) * self._network.backbone.TSP.emb_d
+                tsp_total_params = tsp_params_per_layer * len(self._network.backbone.TSP.e_layers)
+                
+                if rsp_active_prompts > 0:
+                    rsp_params_per_layer = rsp_active_prompts * (self._network.backbone.RSP.e_p_length + 2) * self._network.backbone.RSP.emb_d
+                    rsp_total_params = rsp_params_per_layer * len(self._network.backbone.RSP.e_layers)
+                else:
+                    rsp_total_params = 0
+                
+                self.task_trainable_params = tsp_total_params + rsp_total_params
+                
                 scheduler = optim.lr_scheduler.CosineAnnealingLR(
                     optimizer, T_max=self.args["fs_epoch"], eta_min=self.min_lr
                 )

@@ -99,23 +99,70 @@ def _train(args):
     total_train_time = 0.0
     total_test_time = 0.0
     total_prompt_time = 0.0
+    
+    # 初始化训练统计字典
+    train_stats = {
+        'task': [],
+        'params': [],
+        'gpu': [],
+        'time': [],
+        'epochs': []
+    }
+    
     for task in range(data_manager.nb_tasks):
-        logging.info("All params: {}".format(count_parameters(model._network)))
-        logging.info(
-            "Trainable params: {}".format(count_parameters(model._network, True))
-        )
-
-        start_time = time.time()
+        # 统计可训练参数(不包括分类器fc和future_head)
+        total_trainable_params = 0
+        for name, param in model._network.named_parameters():
+            if param.requires_grad and 'fc.' not in name and 'future_head.' not in name:
+                total_trainable_params += param.numel()
+        
+        # 记录参数量
+        train_stats['params'].append(total_trainable_params)
+        
+        # 重置GPU显存统计（使用模型所在的设备）
+        if torch.cuda.is_available() and hasattr(model._network, 'device'):
+            # 获取模型所在的设备
+            device = model._network.device if hasattr(model._network.device, 'index') else torch.device('cuda:0')
+            device_id = device.index if hasattr(device, 'index') else 0
+            torch.cuda.reset_peak_memory_stats(device=device_id)
+            torch.cuda.empty_cache()
+        elif torch.cuda.is_available():
+            # 如果无法获取模型设备，使用第一个可用GPU
+            device_id = int(str(args['device'][0]).split(':')[-1]) if len(args['device']) > 0 else 0
+            torch.cuda.reset_peak_memory_stats(device=device_id)
+            torch.cuda.empty_cache()
 
         model.incremental_train(data_manager)
+        
+        # 使用模型记录的纯训练时间
+        task_time = model.train_time
+        total_train_time += task_time
+        
+        # 获取GPU峰值显存（使用模型所在的设备）
+        if torch.cuda.is_available() and hasattr(model._network, 'device'):
+            device = model._network.device if hasattr(model._network.device, 'index') else torch.device('cuda:0')
+            device_id = device.index if hasattr(device, 'index') else 0
+            peak_memory = torch.cuda.max_memory_allocated(device=device_id) / (1024 ** 2)  # 转换为MiB
+        elif torch.cuda.is_available():
+            device_id = int(str(args['device'][0]).split(':')[-1]) if len(args['device']) > 0 else 0
+            peak_memory = torch.cuda.max_memory_allocated(device=device_id) / (1024 ** 2)
+        else:
+            peak_memory = 0
+        
+        # 记录统计信息
+        train_stats['task'].append(task)
+        train_stats['gpu'].append(peak_memory)
+        train_stats['time'].append(task_time)
+        train_stats['epochs'].append(model.last_epochs)
+        
+        # 打印当前任务的可训练参数量
+        logging.info(f"Task {task} Trainable params: {total_trainable_params / 1e6:.2f}M, GPU: {peak_memory:.2f}MiB")
 
-        train_end_time = time.time()
-        total_train_time += train_end_time - start_time
-
+        test_start_time = time.time()
         cnn_accy, prompt_time = model.eval_task()
         total_prompt_time += prompt_time
 
-        total_test_time += time.time() - train_end_time
+        total_test_time += time.time() - test_start_time
         model.after_task()
 
         cnn_keys = [key for key in cnn_accy["grouped"].keys() if "-" in key]
@@ -169,6 +216,11 @@ def _train(args):
         print(np_acctable)
 
     print(f"{'=' * 80}\n")
+    
+    # 打印训练统计信息（使用独立的分隔线）
+    print("\n" + "=" * 80)
+    print_training_statistics(train_stats, args)
+    print("=" * 80 + "\n")
 
 
 def _set_device(args):
@@ -272,3 +324,40 @@ def forward_transfer(dataset, matrix):
     # print(f"Forward Transfer 平均分: {forward_transfer:.2f}")
 
     return np.round(forward_transfer, 2)
+
+
+def print_training_statistics(train_stats, args):
+    """打印训练统计信息"""
+    print("\nTraining Statistics")
+    print("-" * 80)
+    print(f"{'Task':<8} {'Params ↓':<14} {'GPU ↓':<14} {'Time (s/epoch)':<12}")
+    print("-" * 80)
+    
+    for i in range(len(train_stats['task'])):
+        task = train_stats['task'][i]
+        params = train_stats['params'][i] / 1e6  # 转换为M
+        gpu = train_stats['gpu'][i]
+        time_total = train_stats['time'][i]
+        epochs = train_stats['epochs'][i]
+        
+        # 计算每epoch时间
+        time_per_epoch = time_total / epochs if epochs > 0 else 0
+        
+        print(f"Task {task:<3} {params:.2f}M{'':<6} {gpu:.0f}MiB{'':<8} {time_per_epoch:.2f}s")
+    
+    # 计算平均值和总计
+    avg_params = sum(train_stats['params']) / len(train_stats['params']) / 1e6
+    total_params = sum(train_stats['params']) / 1e6  # 累计总参数量
+    avg_gpu = sum(train_stats['gpu']) / len(train_stats['gpu'])
+    max_gpu = max(train_stats['gpu'])
+    total_time = sum(train_stats['time'])
+    
+    # 计算平均每epoch时间
+    total_epochs = sum(train_stats['epochs'])
+    avg_time_per_epoch = total_time / total_epochs if total_epochs > 0 else 0
+    
+    print("-" * 80)
+    print(f"{'Average':<8} {avg_params:.2f}M{'':<6} {avg_gpu:.0f}MiB{'':<8} {avg_time_per_epoch:.2f}s")
+    print(f"{'Max GPU':<8} {'':<14} {max_gpu:.0f}MiB")
+    print(f"{'Total':<8} {total_params:.2f}M{'':<6} {'':<14} {total_time:.2f}s")
+
