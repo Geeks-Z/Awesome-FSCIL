@@ -18,9 +18,10 @@ def get_backbone(args, pretrained=False):
         return model
 
     elif name == "pretrained_vit_b16_224_in21k" or name == "vit_base_patch16_224_in21k":
-        model = timm.create_model("vit_base_patch16_224_in21k",pretrained=True, num_classes=0)
+        model = timm.create_model("vit_base_patch16_224_in21k", pretrained=True, num_classes=0)
+        model = LoRA_ViT_timm(vit_model=model.eval(), r=10, num_classes=10, increment=args['increment'], filepath=args['filepath'])
         model.out_dim = 768
-        return model.eval()
+        return model
 
     elif '_memo' in name:
         if args["model_name"] == "memo":

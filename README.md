@@ -14,6 +14,10 @@ FSCIL: Few-shot Class-Incremental Learning/小样本类增量学习
 | [Few-shot Class-incremental Learning: A Survey](http://arxiv.org/abs/2308.06764) |                 |      |      |               |
 |                                                              |                 |      |      |               |
 
+
+
+
+
 ## 🌟 Papers
 
 | Title                                                        | Venue | Year | Type | Code         | Code_Position |
@@ -21,6 +25,23 @@ FSCIL: Few-shot Class-Incremental Learning/小样本类增量学习
 | [MgSvF: Multi-Grained Slow versus Fast Framework for Few-Shot Class-Incremental Learning](https://ieeexplore.ieee.org/document/9645290/?arnumber=9645290) | TPAMI | 2024 |      | [Official]() | `📁  `         |
 |                                                              |       |      |      |              |               |
 |                                                              |       |      |      |              |               |
+## 📊 支持的 Backbone 对照表
+
+| 方法            | ImageNet-1K Backbone               | ImageNet-21K Backbone                    | 状态         |
+| --------------- | ---------------------------------- | ---------------------------------------- | ------------ |
+| **L2P**         | `vit_base_patch16_224_l2p`         | `vit_base_patch16_224_in21k_l2p`         | ✅ 新增       |
+| **DualPrompt**  | `vit_base_patch16_224_dualprompt`  | `vit_base_patch16_224_in21k_dualprompt`  | ✅ 已存在     |
+| **CODA-Prompt** | `vit_base_patch16_224_coda_prompt` | `vit_base_patch16_224_in21k_coda_prompt` | ✅ 新增       |
+| **Adapter**     | `pretrained_vit_b16_224_adapter`   | `pretrained_vit_b16_224_in21k_adapter`   | ✅ 已存在     |
+| **EASE**        | `vit_base_patch16_224_ease`        | `vit_base_patch16_224_in21k_ease`        | ✅ 函数已存在 |
+| **MOS**         | `vit_base_patch16_224_mos`         | `vit_base_patch16_224_in21k_mos`         | ✅ 函数已存在 |
+| **ASP**         | `pretrained_vit_b16_224_vpt`       | `pretrained_vit_b16_224_in21k_vpt`       | ✅ 新增       |
+| **SEC**         | `pretrained_vit_b16_224_vpt`       | `pretrained_vit_b16_224_in21k_vpt`       | ✅ 新增       |
+
+---
+
+## 
+
 ## 📝 Reproduced Results
 
 ### Evaluation protocol
@@ -35,6 +56,7 @@ FSCIL: Few-shot Class-Incremental Learning/小样本类增量学习
    A_t = \frac{\displaystyle \sum_{(\boldsymbol{x}_i, y_i) \in E_0 \cup E_1 \cup \ldots E_t} \left[ f(\boldsymbol{x}_i) = y_i \right]}{N_0^E + N_1^E + \ldots + N_t^E}
    $$
    where $N^E_{\tau}$ is the number of evaluation examples for session $\tau$, and $[\cdot]$ the indicator function.
+   
    - `00-59`: $\frac{【0-59类别】分类正确的样本数量}{【0-59类别】阶段所有样本数量}$
 1. `CNN top1 curve`: 每个阶段所有已见类别的分类准确率，即每个阶段的`total`
 2. `Average Accuracy (CNN)`:  CNN top1 curve的平均值

@@ -9,13 +9,25 @@ def get_backbone(args, pretrained=False):
         model.out_dim = 768
         return model.eval()
     
+    # Support IN21K backbone
+    elif name == "pretrained_vit_b16_224_in21k" or name == "vit_base_patch16_224_in21k":
+        model = timm.create_model("vit_base_patch16_224_in21k",pretrained=True, num_classes=0)
+        model.out_dim = 768
+        return model.eval()
+    
     # VPT
     elif '_vpt' in name:
 
         if args["model_name"] == "asp":
             from backbone.asp_backbone import build_promptmodel
-            if name == "pretrained_vit_b16_224_vpt":
+            
+            # Support IN21K backbone
+            if "in21k" in name:
+                basicmodelname = "vit_base_patch16_224_in21k"
+            elif name == "pretrained_vit_b16_224_vpt":
                 basicmodelname = "vit_base_patch16_224" 
+            else:
+                basicmodelname = "vit_base_patch16_224"
             
             print("modelname,", name, "basicmodelname", basicmodelname)
             VPT_type = "Deep"
@@ -27,8 +39,7 @@ def get_backbone(args, pretrained=False):
             prompt_state_dict = model.obtain_prompt()
             model.load_prompt(prompt_state_dict)
 
-            if name == "pretrained_vit_b16_224_vpt":
-                model.out_dim = 768
+            model.out_dim = 768
             
             return model.eval()
 

@@ -134,10 +134,12 @@ def get_backbone(args, pretrained=False):
             return model.eval()
         else:
             raise NotImplementedError("Inconsistent model name and model type")
-    # L2P
+    # L2P (supports both IN1K and IN21K via registered models)
     elif '_l2p' in name:
         if args["model_name"] == "l2p":
             from backbone import vit_l2p
+            # timm will automatically load the correct model based on backbone_type
+            # e.g., vit_base_patch16_224_l2p or vit_base_patch16_224_in21k_l2p
             model = timm.create_model(
                 args["backbone_type"],
                 pretrained=args["pretrained"],
@@ -160,10 +162,12 @@ def get_backbone(args, pretrained=False):
             return model
         else:
             raise NotImplementedError("Inconsistent model name and model type")
-    # dualprompt
+    # DualPrompt (supports both IN1K and IN21K via registered models)
     elif '_dualprompt' in name:
         if args["model_name"] == "dualprompt":
             from backbone import vit_dualprompt
+            # timm will automatically load the correct model based on backbone_type
+            # e.g., vit_base_patch16_224_dualprompt or vit_base_patch16_224_in21k_dualprompt
             model = timm.create_model(
                 args["backbone_type"],
                 pretrained=args["pretrained"],
@@ -198,6 +202,8 @@ def get_backbone(args, pretrained=False):
     elif '_coda_prompt' in name:
         if args["model_name"] == "coda_prompt":
             from backbone import vit_coda_promtpt
+            # Directly use backbone_type, which already includes _coda_prompt suffix
+            # e.g., "vit_base_patch16_224_coda_prompt" or "vit_base_patch16_224_in21k_coda_prompt"
             model = timm.create_model(args["backbone_type"], pretrained=args["pretrained"])
             # model = vision_transformer_coda_prompt.VisionTransformer(img_size=224, patch_size=16, embed_dim=768, depth=12,
             #                 num_heads=12, ckpt_layer=0,

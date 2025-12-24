@@ -77,13 +77,13 @@ SEC-Prompt/
 
 ```bash
 # CIFAR-100
-python main.py --config ./exps/cifar.json
+python main.py --config ./configs/cifar.json
 
 # CUB-200
-python main.py --config ./exps/cub.json
+python main.py --config ./configs/cub.json
 
 # ImageNet-R
-python main.py --config ./exps/inr.json
+python main.py --config ./configs/inr.json
 ```
 
 ---

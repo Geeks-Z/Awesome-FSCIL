@@ -14,7 +14,8 @@ def build_promptmodel(
     modelname="vit_base_patch16_224", Prompt_Token_num=10, VPT_type="Deep", args=None
 ):
     basic_model = timm.create_model(modelname, pretrained=True)
-    if modelname in ["vit_base_patch16_224"]:
+    # Support both IN1K and IN21K backbones
+    if modelname in ["vit_base_patch16_224", "vit_base_patch16_224_in21k"]:
         model = VPT_ViT(Prompt_Token_num=Prompt_Token_num, VPT_type=VPT_type, args=args)
     else:
         raise NotImplementedError("Unknown type {}".format(modelname))
