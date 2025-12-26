@@ -11,6 +11,7 @@ import time
 def build_promptmodel(
         modelname="vit_base_patch16_224", Prompt_Token_num=10, VPT_type="Deep", args=None
 ):
+    # Original timm models
     basic_model = timm.create_model(
         modelname, pretrained=True
     )  # pretrained_cfg_overlay=dict(file=args['model_path'])

@@ -14,20 +14,20 @@ echo "测试 1/4: CODA-Prompt with IN21K"
 echo "------------------------------------------"
 cd /home/team/zhaohongwei/Code/Research/Awesome-FSCIL/CIL_Model
 # 临时修改配置文件的epoch为1（仅用于测试）
-python main.py --config=./scripts/coda_prompt/coda_prompt_cub_B100_Inc10_in21k.json 2>&1 | head -100
+python main.py --config=./configs/coda_prompt/coda_prompt_cub_B100_Inc10_in21k.json 2>&1 | head -100
 
 # 测试 2: L2P + IN21K
 echo ""
 echo "测试 2/4: L2P with IN21K"
 echo "------------------------------------------"
-python main.py --config=./scripts/l2p/l2p_cub_B100_Inc10_in21k.json 2>&1 | head -100
+python main.py --config=./configs/l2p/l2p_cub_B100_Inc10_in21k.json 2>&1 | head -100
 
 # 测试 3: ASP + IN21K
 echo ""
 echo "测试 3/4: ASP with IN21K"
 echo "------------------------------------------"
 cd ../FSCIL-ASP-main
-python main.py --config=./scripts/asp_cub_B100_Inc10_in21k.json 2>&1 | head -100
+python main.py --config=./configs/asp_cub_B100_Inc10_in21k.json 2>&1 | head -100
 
 # 测试 4: SEC + IN21K
 echo ""

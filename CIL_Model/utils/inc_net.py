@@ -9,6 +9,7 @@ import timm
 
 def get_backbone(args, pretrained=False):
     name = args["backbone_type"].lower()
+    
     # Resnet
     if name == "pretrained_resnet18":
         from backbone.resnet import resnet18, resnet34, resnet50, resnet101, resnet152

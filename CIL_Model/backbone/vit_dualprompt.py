@@ -1275,3 +1275,4 @@ def vit_base_patch16_18x2_224_dualprompt(pretrained=False, **kwargs):
         patch_size=16, embed_dim=768, depth=18, num_heads=12, init_values=1e-5, block_fn=ParallelBlock, **kwargs)
     model = _create_vision_transformer('vit_base_patch16_18x2_224', pretrained=pretrained, **model_kwargs)
     return model
+

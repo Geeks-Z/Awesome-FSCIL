@@ -11,27 +11,27 @@ cd CIL_Model
 
 echo ""
 echo ">>> [1/10] Training Full Finetune..."
-bash scripts/train_finetune_in21k.sh
+bash configs/train_finetune_in21k.sh
 
 echo ""
 echo ">>> [2/10] Training SimpleFSCIL..."
-bash scripts/train_simplecil_in21k.sh
+bash configs/train_simplecil_in21k.sh
 
 echo ""
 echo ">>> [3/10] Training L2P..."
-bash scripts/train_l2p_in21k.sh
+bash configs/train_l2p_in21k.sh
 
 echo ""
 echo ">>> [4/10] Training CODA-Prompt..."
-bash scripts/train_coda_prompt_in21k.sh
+bash configs/train_coda_prompt_in21k.sh
 
 echo ""
 echo ">>> [5/10] Training LAE..."
-bash scripts/train_lae_in21k.sh
+bash configs/train_lae_in21k.sh
 
 echo ""
 echo ">>> [6/10] Training DualPrompt..."
-bash scripts/train_dualprompt_in21k.sh
+bash configs/train_dualprompt_in21k.sh
 
 echo ""
 echo ">>> [7/10] Training InfLoRA..."

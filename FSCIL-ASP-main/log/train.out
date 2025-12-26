@@ -1,5 +1,5 @@
 nohup: 忽略输入
-2025-12-23 12:10:43,942 [trainer.py] => config: ./scripts/asp_cub_B100_Inc10.json
+2025-12-23 12:10:43,942 [trainer.py] => config: ./configs/asp_cub_B100_Inc10.json
 2025-12-23 12:10:43,942 [trainer.py] => model_name: asp
 2025-12-23 12:10:43,942 [trainer.py] => backbone_type: pretrained_vit_b16_224_vpt
 2025-12-23 12:10:43,942 [trainer.py] => device: [device(type='cuda', index=1)]
