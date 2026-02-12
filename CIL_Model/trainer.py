@@ -201,18 +201,18 @@ def forward_transfer(dataset, matrix):
     elif dataset == "mini_imagenet":
         rand_init_acc = np.array([94.97, 90.6, 69.2, 81.2, 82.8, 73.4, 70.2, 90.6, 89.8])
     else:
-        rand_init_acc = np.array([62.95, 28.08, 51.15, 38.64, 56.76, 50.93, 41.38, 61.25, 49.1, 43.37, 44.44]) # INR
+        rand_init_acc = np.array([62.95, 28.08, 51.15, 38.64, 56.76, 50.93, 41.38, 61.25, 49.1, 43.37, 44.44])  # INR
 
-    fwt_accs = np.diag(matrix, k=1)  # 得到 R_0,1, R_1,2, ... (0-based)
-    rand_init_acc_for_fwt = rand_init_acc[1:]  # 需要 R_0,1, R_0,2, ... (0-based)
+    fwt_accs = np.diag(matrix, k=1)       # R_0,1, R_1,2, ...
+    rand_init_acc_for_fwt = rand_init_acc[1:]  # R_0,1, R_0,2, ...
+
+    # 维度不匹配时直接返回提示，不再计算，避免报错
+    if fwt_accs.shape[0] != rand_init_acc_for_fwt.shape[0]:
+        msg = f"FWT 计算失败：矩阵长度不匹配。"
+        # print(msg)
+        return msg
 
     fwt_diffs = fwt_accs - rand_init_acc_for_fwt
-    forward_transfer = np.mean(fwt_diffs)
+    forward_transfer_value = np.mean(fwt_diffs)
 
-    # print("--- Forward Transfer (FWT) ---")
-    # print(f"新任务在前一任务训练后的准确率 (R_i-1,i): {np.round(fwt_accs, 2)}")
-    # print(f"新任务在随机初始化时的准确率 (R_0,i): {np.round(rand_init_acc_for_fwt, 2)}")
-    # print(f"FWT 差值 (R_i-1,i - R_0,i): {np.round(fwt_diffs, 2)}")
-    # print(f"Forward Transfer 平均分: {forward_transfer:.2f}")
-
-    return np.round(forward_transfer, 2)
+    return np.round(forward_transfer_value, 2)

@@ -1,6 +1,6 @@
 {
   "prefix": " ",
-  "dataset": "cifar100",
+  "dataset": "cifar224",
   "memory_size": 0,
   "memory_per_class": 0,
   "fixed_memory": true,

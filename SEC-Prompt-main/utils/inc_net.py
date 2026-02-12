@@ -15,19 +15,46 @@ def get_backbone(args, pretrained=False):
         model.out_dim = 768
         return model.eval()
     
+    # Support DINO backbone
+    elif name == "pretrained_vit_b16_224_dino" or name == "vit_base_patch16_224_dino":
+        model = timm.create_model("vit_base_patch16_224_dino",pretrained=True, num_classes=args["nb_classes"])
+        model.out_dim = 768
+        return model.eval()
+    
+    # Support ViT-Large backbone
+    elif name == "pretrained_vit_large_patch16_224" or name == "vit_large_patch16_224":
+        model = timm.create_model("vit_large_patch16_224", pretrained=True, num_classes=args["nb_classes"])
+        model.out_dim = 1024
+        return model.eval()
+    
     # VPT
     elif '_vpt' in name:
 
         if args["model_name"] == "sec":
             from backbone.vpt_backbone import build_promptmodel
             
-            # Support IN21K backbone
-            if "in21k" in name:
+            # Support IN21K, DINO, and Large backbones
+            if "large" in name:
+                basicmodelname = "vit_large_patch16_224"
+                out_dim = 1024
+                # Add depth to args for dynamic e_layers in DPrompt/NDPrompt
+                args["depth"] = 24
+            elif "in21k" in name:
                 basicmodelname = "vit_base_patch16_224_in21k"
+                out_dim = 768
+                args["depth"] = 12
+            elif "dino" in name:
+                basicmodelname = "vit_base_patch16_224_dino"
+                out_dim = 768
+                args["depth"] = 12
             elif name == "pretrained_vit_b16_224_vpt":
-                basicmodelname = "vit_base_patch16_224" 
+                basicmodelname = "vit_base_patch16_224"
+                out_dim = 768
+                args["depth"] = 12
             else:
                 basicmodelname = "vit_base_patch16_224"
+                out_dim = 768
+                args["depth"] = 12
             
             print("modelname,", name, "basicmodelname", basicmodelname)
             VPT_type = "Deep"
@@ -39,7 +66,7 @@ def get_backbone(args, pretrained=False):
             prompt_state_dict = model.obtain_prompt()
             model.load_prompt(prompt_state_dict)
 
-            model.out_dim = 768
+            model.out_dim = out_dim
             
             return model.eval()
 

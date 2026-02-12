@@ -63,7 +63,16 @@ class DPrompt(nn.Module):
         # prompt basic param
         self.nb_task = int(nb_task)
         self.e_p_length = int(e_p_length)
-        self.e_layers = [1, 2, 3, 4, 5, 6, 7, 8]
+        
+        # Dynamic e_layers based on model depth (first 1/3 of layers)
+        # For ViT-Base (depth=12): use layers [1,2,3,4] (first 1/3)
+        # For ViT-Large (depth=24): use layers [1,2,3,4,5,6,7,8] (first 1/3)
+        depth = self.args.get("depth", 12)
+        if depth == 24:  # ViT-Large
+            self.e_layers = list(range(1, 9))  # layers 1-8
+        else:  # ViT-Base (depth=12)
+            self.e_layers = [1, 2, 3, 4]
+        
         self.e_pool_size = round(self.ini_class * self.args["prompt_pool_num"]) + nb_task * round(self.incre_class * self.args["prompt_pool_num"])
         # strenth of ortho penalty
         self.ortho_mu = ortho_mu
@@ -311,7 +320,15 @@ class NDPrompt(nn.Module):
         # prompt basic param
         self.e_pool_size = int(e_pool_size)
         self.e_p_length = int(e_p_length)
-        self.e_layers = [1, 2, 3, 4, 5]
+        
+        # Dynamic e_layers based on model depth (first 1/3 of layers)
+        # For ViT-Base (depth=12): use layers [1,2,3,4] (first 1/3)
+        # For ViT-Large (depth=24): use layers [1,2,3,4,5,6,7,8] (first 1/3)
+        depth = self.args.get("depth", 12)
+        if depth == 24:  # ViT-Large
+            self.e_layers = list(range(1, 9))  # layers 1-8
+        else:  # ViT-Base (depth=12)
+            self.e_layers = [1, 2, 3, 4]
 
         # strenth of ortho penalty
         self.ortho_mu = ortho_mu

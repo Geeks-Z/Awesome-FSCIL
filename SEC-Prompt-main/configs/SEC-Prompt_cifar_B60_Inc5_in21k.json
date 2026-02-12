@@ -1,9 +1,9 @@
 {
   "model_name": "sec",
   "backbone_type": "pretrained_vit_b16_224_in21k_vpt",
-  "device": ["7"],
+  "device": ["0"],
   "seed": [1993],
-  "dataset": "cifar100",
+  "dataset": "cifar224",
   "init_cls": 60,
   "increment": 5,
   "kshot": 5,

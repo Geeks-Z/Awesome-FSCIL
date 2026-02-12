@@ -1,0 +1,22 @@
+{
+  "prefix": "exp",
+  "dataset": "mini_imagenet",
+  "memory_size": 0,
+  "memory_per_class": 0,
+  "fixed_memory": false,
+  "shuffle": false,
+  "init_cls": 60,
+  "increment": 5,
+  "model_name": "ease",
+  "backbone_type": "vit_base_patch16_224_ease",
+  "weight_decay": 0.0005,
+  "ffn_num": 10,
+  "optimizer": "sgd",
+  "min_lr": 0,
+  "device": ["1"],
+  "seed": [1993],
+  "kshot": 5,
+  "tuned_epoch": 20,
+  "init_lr": 0.01,
+  "batch_size": 48
+}

@@ -6,17 +6,28 @@ from timm.models.vision_transformer import VisionTransformer, PatchEmbed
 def build_promptmodel(modelname='vit_base_patch16_224',  Prompt_Token_num=10, VPT_type="Deep"):
     
     # VPT_type = "Deep" / "Shallow"
+    # Supported models: vit_base_patch16_224, vit_base_patch16_224_in21k, vit_base_patch16_224_dino
     edge_size=224
     patch_size=16  
-    num_classes=1000 if modelname == 'vit_base_patch16_224' else 21843
-    basic_model = timm.create_model(modelname, pretrained=True)
+    
+    # Determine num_classes based on model type (DINO has no classifier head)
+    if modelname == 'vit_base_patch16_224':
+        num_classes = 1000
+    elif modelname == 'vit_base_patch16_224_in21k':
+        num_classes = 21843
+    elif modelname == 'vit_base_patch16_224_dino':
+        num_classes = 0  # DINO has no classifier head
+    else:
+        num_classes = 0
+    
+    basic_model = timm.create_model(modelname, pretrained=True, num_classes=num_classes)
     model = VPT_ViT(Prompt_Token_num=Prompt_Token_num,VPT_type=VPT_type)
     # model.New_CLS_head(num_classes)
 
-    # drop head.weight and head.bias
+    # drop head.weight and head.bias (if they exist - DINO has no head)
     basicmodeldict=basic_model.state_dict()
-    basicmodeldict.pop('head.weight')
-    basicmodeldict.pop('head.bias')
+    basicmodeldict.pop('head.weight', None)
+    basicmodeldict.pop('head.bias', None)
 
     model.load_state_dict(basicmodeldict, False)
     

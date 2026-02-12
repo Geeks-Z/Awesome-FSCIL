@@ -7,4 +7,4 @@ conda activate peft
 ## 单卡
 
 nohup ./train.sh > ../results/ASP-IN1K-Shuffle_1993-A40.out 2>&1 &
-nohup ./train_asp_in21k.sh > ../results/ASP-IN21K-NoShuffle-1993-A40.out 2>&1 &
+nohup ./train_asp.sh > ../results/ASP-L16-mini-NoShuffle-1993-A40.out 2>&1 &

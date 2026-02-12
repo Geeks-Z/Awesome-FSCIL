@@ -1,9 +1,9 @@
 {
   "model_name": "sec",
   "backbone_type": "pretrained_vit_b16_224_in21k_vpt",
-  "device": ["7"],
+  "device": ["0"],
   "seed": [1993],
-  "dataset": "imagenet_r",
+  "dataset": "imagenetr",
   "init_cls": 100,
   "increment": 5,
   "kshot": 5,

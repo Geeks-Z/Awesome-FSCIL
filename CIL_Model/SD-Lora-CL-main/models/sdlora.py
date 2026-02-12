@@ -80,13 +80,24 @@ class Learner(BaseLearner):
             self._network = self._network.module
 
     def update_network(self, index=True):
-        # if use VIT-B-16
-        # model = timm.create_model("vit_base_patch16_224",pretrained=True, num_classes=0)
-        model = timm.create_model("vit_base_patch16_224_in21k", pretrained=True,
-                                  num_classes=0)
-
-        # if use DINO
-        # model = timm.create_model('vit_base_patch16_224_dino', pretrained=True, num_classes=0)
+        # Use backbone_type from config for ViT-Large support
+        backbone_type = self.args.get("backbone_type", "vit_base_patch16_224").lower()
+        
+        # Map backbone_type to timm model name
+        if "large" in backbone_type:
+            timm_model_name = "vit_large_patch16_224"
+            out_dim = 1024
+        elif "in21k" in backbone_type:
+            timm_model_name = "vit_base_patch16_224_in21k"
+            out_dim = 768
+        elif "dino" in backbone_type:
+            timm_model_name = "vit_base_patch16_224_dino"
+            out_dim = 768
+        else:
+            timm_model_name = "vit_base_patch16_224"
+            out_dim = 768
+            
+        model = timm.create_model(timm_model_name, pretrained=True, num_classes=0)
 
         # SD-LoRA-RR
         '''
@@ -102,8 +113,9 @@ class Learner(BaseLearner):
         rank=10
         model = LoRA_ViT_timm(vit_model=model.eval(), r=rank, num_classes=10, index=index, increment= self.args['increment'], filepath=self.args['filepath'], 
         cur_task_index= self._cur_task)
-        model.out_dim = 768
+        model.out_dim = out_dim
         return model
+
 
     def _train(self, train_loader, test_loader):
         self._network.to(self._device)

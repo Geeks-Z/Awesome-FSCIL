@@ -13,18 +13,39 @@ import time
 def build_promptmodel(
     modelname="vit_base_patch16_224", Prompt_Token_num=10, VPT_type="Deep", args=None
 ):
+    # Determine architecture parameters based on model name
+    if "large" in modelname:
+        embed_dim, depth, num_heads = 1024, 24, 16
+    else:
+        embed_dim, depth, num_heads = 768, 12, 12
+    
     # Original timm models
-    basic_model = timm.create_model(modelname, pretrained=True)
-    # Support both IN1K and IN21K backbones
-    if modelname in ["vit_base_patch16_224", "vit_base_patch16_224_in21k"]:
-        model = VPT_ViT(Prompt_Token_num=Prompt_Token_num, VPT_type=VPT_type, args=args)
+    # Support IN1K, IN21K, DINO, and Large backbones
+    if modelname == "vit_base_patch16_224_dino":
+        # DINO has no classifier head, so set num_classes=0
+        basic_model = timm.create_model(modelname, pretrained=True, num_classes=0)
+    elif modelname == "vit_large_patch16_224":
+        basic_model = timm.create_model(modelname, pretrained=True, num_classes=0)
+    else:
+        basic_model = timm.create_model(modelname, pretrained=True)
+    
+    if modelname in ["vit_base_patch16_224", "vit_base_patch16_224_in21k", "vit_base_patch16_224_dino"]:
+        model = VPT_ViT(
+            embed_dim=embed_dim, depth=depth, num_heads=num_heads,
+            Prompt_Token_num=Prompt_Token_num, VPT_type=VPT_type, args=args
+        )
+    elif modelname == "vit_large_patch16_224":
+        model = VPT_ViT(
+            embed_dim=embed_dim, depth=depth, num_heads=num_heads,
+            Prompt_Token_num=Prompt_Token_num, VPT_type=VPT_type, args=args
+        )
     else:
         raise NotImplementedError("Unknown type {}".format(modelname))
 
-    # drop head.weight and head.bias
+    # drop head.weight and head.bias (if they exist - DINO has no head)
     basicmodeldict = basic_model.state_dict()
-    basicmodeldict.pop("head.weight")
-    basicmodeldict.pop("head.bias")
+    basicmodeldict.pop("head.weight", None)
+    basicmodeldict.pop("head.bias", None)
 
     model.load_state_dict(basicmodeldict, False)
 
@@ -205,8 +226,9 @@ class VPT_ViT(VisionTransformer):
 class SimpleVitNet(BaseNet):
     def __init__(self, args, pretrained):
         super().__init__(args, pretrained)
-        # Classifier head(s)
-        self.future_head = CosineLinear(768, args["nb_classes"])
+        # Classifier head(s) - use dynamic feature dimension
+        feature_dim = getattr(self.backbone, 'embed_dim', 768)
+        self.future_head = CosineLinear(feature_dim, args["nb_classes"])
 
     def update_fc(self, nb_classes, nextperiod_initialization=None):
         fc = self.generate_fc(self.feature_dim, nb_classes).to(self._device)

@@ -66,20 +66,30 @@ class SiNet(nn.Module):
     def __init__(self, args):
         super(SiNet, self).__init__()
 
-        model_kwargs = dict(patch_size=16, embed_dim=768, depth=12, num_heads=12, n_tasks=args["total_sessions"], rank=args["rank"])
-        self.image_encoder =_create_vision_transformer('vit_base_patch16_224', pretrained=True, **model_kwargs)
+        # Dynamically select ViT-Base or ViT-Large based on embd_dim
+        embd_dim = args.get("embd_dim", 768)
+        num_heads = args.get("num_heads", 12)
+        
+        if embd_dim == 1024:
+            # ViT-Large: embed_dim=1024, depth=24, num_heads=16
+            model_kwargs = dict(patch_size=16, embed_dim=1024, depth=24, num_heads=16, n_tasks=args["total_sessions"], rank=args["rank"])
+            self.image_encoder = _create_vision_transformer('vit_large_patch16_224', pretrained=True, **model_kwargs)
+        else:
+            # ViT-Base: embed_dim=768, depth=12, num_heads=12
+            model_kwargs = dict(patch_size=16, embed_dim=768, depth=12, num_heads=12, n_tasks=args["total_sessions"], rank=args["rank"])
+            self.image_encoder = _create_vision_transformer('vit_base_patch16_224', pretrained=True, **model_kwargs)
         # print(self.image_encoder)
         # exit()
 
         self.class_num = 1
         self.class_num = args["init_cls"]
         self.classifier_pool = nn.ModuleList([
-            nn.Linear(args["embd_dim"], self.class_num, bias=True)
+            nn.Linear(embd_dim, self.class_num, bias=True)
             for i in range(args["total_sessions"])
         ])
 
         self.classifier_pool_backup = nn.ModuleList([
-            nn.Linear(args["embd_dim"], self.class_num, bias=True)
+            nn.Linear(embd_dim, self.class_num, bias=True)
             for i in range(args["total_sessions"])
         ])
 
@@ -87,7 +97,8 @@ class SiNet(nn.Module):
 
         self.numtask = 0
         # Classifier heads for future tasks
-        self.future_head = CosineLinear(768, args["nb_classes"])
+        self.future_head = CosineLinear(embd_dim, args["nb_classes"])
+
 
     @property
     def feature_dim(self):

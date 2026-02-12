@@ -18,6 +18,10 @@ def get_convnet(args, pretrained=False):
         model=timm.create_model("vit_base_patch16_224_in21k",pretrained=True, num_classes=args["nb_classes"])
         model.out_dim=768
         return model.eval()
+    elif name=="pretrained_vit_b16_224_dino" or name=="vit_base_patch16_224_dino":
+        model=timm.create_model("vit_base_patch16_224_dino",pretrained=True, num_classes=args["nb_classes"])
+        model.out_dim=768
+        return model.eval()
     
     # SSF 
     # elif '_ssf' in name:

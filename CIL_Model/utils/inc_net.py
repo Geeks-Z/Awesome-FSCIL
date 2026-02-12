@@ -89,6 +89,10 @@ def get_backbone(args, pretrained=False):
                 basicmodelname = "vit_base_patch16_224" 
             elif name == "pretrained_vit_b16_224_in21k_vpt":
                 basicmodelname = "vit_base_patch16_224_in21k"
+            elif name == "pretrained_vit_b16_224_dino_vpt" or name == "vit_base_patch16_224_dino_vpt":
+                basicmodelname = "vit_base_patch16_224_dino"
+            else:
+                raise NotImplementedError("Unknown VPT backbone type: {}".format(name))
             
             print("modelname,", name, "basicmodelname", basicmodelname)
             VPT_type = "Deep"
@@ -109,6 +113,13 @@ def get_backbone(args, pretrained=False):
         if args["model_name"] == "adam_adapter" or args["model_name"] == "ranpac":
             from backbone import vit_adapter
             from easydict import EasyDict
+            
+            # Determine d_model based on model variant
+            if 'large' in name:
+                d_model = 1024
+            else:
+                d_model = 768
+            
             tuning_config = EasyDict(
                 # AdaptFormer
                 ffn_adapt=True,
@@ -117,7 +128,7 @@ def get_backbone(args, pretrained=False):
                 ffn_adapter_init_option="lora",
                 ffn_adapter_scalar="0.1",
                 ffn_num=ffn_num,
-                d_model=768,
+                d_model=d_model,
                 # VPT related
                 vpt_on=False,
                 vpt_num=0,
@@ -130,6 +141,10 @@ def get_backbone(args, pretrained=False):
                 model = vit_adapter.vit_base_patch16_224_in21k_adapter(num_classes=0,
                     global_pool=False, drop_path_rate=0.0, tuning_config=tuning_config)
                 model.out_dim=768
+            elif name == "pretrained_vit_large_patch16_224_adapter" or name == "vit_large_patch16_224_adapter":
+                model = vit_adapter.vit_large_patch16_224_adapter(num_classes=0,
+                    global_pool=False, drop_path_rate=0.0, tuning_config=tuning_config)
+                model.out_dim=1024
             else:
                 raise NotImplementedError("Unknown type {}".format(name))
             return model.eval()
@@ -219,6 +234,13 @@ def get_backbone(args, pretrained=False):
         if args["model_name"] == "ease" :
             from backbone import vit_ease
             from easydict import EasyDict
+            
+            # Determine d_model based on model variant
+            if 'large' in name:
+                d_model = 1024
+            else:
+                d_model = 768
+            
             tuning_config = EasyDict(
                 # AdaptFormer
                 ffn_adapt=True,
@@ -227,7 +249,7 @@ def get_backbone(args, pretrained=False):
                 ffn_adapter_init_option="lora",
                 ffn_adapter_scalar="0.1",
                 ffn_num=ffn_num,
-                d_model=768,
+                d_model=d_model,
                 # VPT related
                 vpt_on=False,
                 vpt_num=0,
@@ -241,6 +263,14 @@ def get_backbone(args, pretrained=False):
                 model = vit_ease.vit_base_patch16_224_in21k_ease(num_classes=0,
                     global_pool=False, drop_path_rate=0.0, tuning_config=tuning_config)
                 model.out_dim=768
+            elif name == "vit_base_patch16_224_dino_ease":
+                model = vit_ease.vit_base_patch16_224_dino_ease(num_classes=0,
+                    global_pool=False, drop_path_rate=0.0, tuning_config=tuning_config)
+                model.out_dim=768
+            elif name == "vit_large_patch16_224_ease":
+                model = vit_ease.vit_large_patch16_224_ease(num_classes=0,
+                    global_pool=False, drop_path_rate=0.0, tuning_config=tuning_config)
+                model.out_dim=1024
             else:
                 raise NotImplementedError("Unknown type {}".format(name))
             return model.eval()
@@ -353,8 +383,9 @@ class IncrementalNet(BaseNet):
         if hasattr(self, "gradcam") and self.gradcam:
             self._gradcam_hooks = [None, None]
             self.set_gradcam_hook()
-        # Classifier heads for future tasks
-        self.future_head = CosineLinear(768, args["nb_classes"])
+        # Classifier heads for future tasks - use dynamic dimension
+        embed_dim = 1024 if "large" in args.get("backbone_type", "").lower() else 768
+        self.future_head = CosineLinear(embed_dim, args["nb_classes"])
 
     def update_fc(self, nb_classes):
         fc = self.generate_fc(self.feature_dim, nb_classes)
@@ -603,8 +634,9 @@ class SimpleVitNet(BaseNet):
         # for RanPAC
         self.W_rand = None
         self.RP_dim = None
-        # Classifier head(s)
-        self.future_head = CosineLinear(768, args["nb_classes"])
+        # Classifier head(s) - use dynamic dimension
+        embed_dim = 1024 if "large" in args.get("backbone_type", "").lower() else 768
+        self.future_head = CosineLinear(embed_dim, args["nb_classes"])
 
 
     def update_fc(self, nb_classes, nextperiod_initialization=None):
@@ -656,8 +688,9 @@ class PromptVitNet(nn.Module):
             self.original_backbone = self.get_original_backbone(args)
         else:
             self.original_backbone = None
-        # Classifier head(s)
-        self.future_head = CosineLinear(768, args["nb_classes"])
+        # Classifier head(s) - use dynamic dimension
+        embed_dim = 1024 if "large" in args.get("backbone_type", "").lower() else 768
+        self.future_head = CosineLinear(embed_dim, args["nb_classes"])
             
     def get_original_backbone(self, args):
         return timm.create_model(
@@ -685,10 +718,16 @@ class CodaPromptVitNet(nn.Module):
         super(CodaPromptVitNet, self).__init__()
         self.args = args
         self.backbone = get_backbone(args, pretrained)
-        self.fc = nn.Linear(768, args["nb_classes"])
-        self.prompt = CodaPrompt(768, args["nb_tasks"], args["prompt_param"])
+        # Dynamically determine embed_dim based on backbone_type
+        if "large" in args.get("backbone_type", "").lower():
+            embed_dim = 1024
+        else:
+            embed_dim = 768
+        self.fc = nn.Linear(embed_dim, args["nb_classes"])
+        self.prompt = CodaPrompt(embed_dim, args["nb_tasks"], args["prompt_param"])
         # Classifier head(s)
-        self.future_head = CosineLinear(768, args["nb_classes"])
+        self.future_head = CosineLinear(embed_dim, args["nb_classes"])
+
 
     # pen: get penultimate features  
     def forward(self, x, pen=False, train=False):
@@ -1166,7 +1205,8 @@ class LAE(nn.Module):
     def __init__(self, args, pretrained=True):
         super().__init__()
         self.backbone = get_backbone(args, pretrained=pretrained)
-        self.backbone.out_dim = 768
+        # Dynamic out_dim based on backbone type
+        self.backbone.out_dim = 1024 if "large" in args.get("backbone_type", "").lower() else 768
         self.fc = None
         self._device = args["device"][0]
         self.args = args
@@ -1182,8 +1222,9 @@ class LAE(nn.Module):
             pk.data.copy_(pq.data)
             pk.requires_grad = False
         self.attach_pets_vit(self.pets)
-        # Classifier head(s)
-        self.future_head = CosineLinear(768, args["nb_classes"])
+        # Classifier head(s) - use dynamic dimension
+        embed_dim = 1024 if "large" in args.get("backbone_type", "").lower() else 768
+        self.future_head = CosineLinear(embed_dim, args["nb_classes"])
 
     @property
     def feature_dim(self):

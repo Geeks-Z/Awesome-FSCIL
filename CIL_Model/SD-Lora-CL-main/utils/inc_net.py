@@ -23,6 +23,20 @@ def get_backbone(args, pretrained=False):
         model.out_dim = 768
         return model
 
+    elif name == "pretrained_vit_b16_224_dino" or name == "vit_base_patch16_224_dino":
+        model = timm.create_model("vit_base_patch16_224_dino", pretrained=True, num_classes=0)
+        model = LoRA_ViT_timm(vit_model=model.eval(), r=10, num_classes=10, increment=args['increment'], filepath=args['filepath'])
+        model.out_dim = 768
+        return model
+
+    # ViT-Large
+    elif name == "pretrained_vit_large_patch16_224" or name == "vit_large_patch16_224":
+        model = timm.create_model("vit_large_patch16_224", pretrained=True, num_classes=0)
+        model = LoRA_ViT_timm(vit_model=model.eval(), r=10, num_classes=10, increment=args['increment'], filepath=args['filepath'])
+        model.out_dim = 1024
+        return model
+
+
     elif '_memo' in name:
         if args["model_name"] == "memo":
             from backbone import vision_transformer_memo
@@ -248,8 +262,9 @@ class IncrementalNet(BaseNet):
             self.set_gradcam_hook()
         # # Classifier head(s)
         # self.head = nn.Linear(768, args["nb_classes"])
-        # Classifier heads for future tasks
-        self.future_head = CosineLinear(768, args["nb_classes"])
+        # Classifier heads for future tasks - use dynamic dimension
+        embed_dim = 1024 if "large" in args.get("backbone_type", "").lower() else 768
+        self.future_head = CosineLinear(embed_dim, args["nb_classes"])
 
     
     def save_fc(self, filename, task_id):

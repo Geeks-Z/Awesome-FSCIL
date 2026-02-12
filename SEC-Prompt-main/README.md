@@ -61,7 +61,7 @@ SEC-Prompt/
 ├── data/
 │   ├── cifar100/           # auto-downloaded
 │   ├── cub200/
-│   └── imagenet_r/
+│   └── imagenetr/
 ├── data/index_list/
 │   └── README.md
 └── ...

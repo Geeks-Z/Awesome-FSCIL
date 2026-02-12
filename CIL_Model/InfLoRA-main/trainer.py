@@ -100,12 +100,14 @@ def _train(args):
         # torch.save(model._network.state_dict(), os.path.join(logfilename, "task_{}.pth".format(int(task))))
 
     print(f"\n{'=' * 80}")
+    # Determine model size from backbone_type
+    backbone_type = args.get("backbone_type", "vit_base_patch16_224")
     print(
-        "Finished {}_init{}_inc{}: {}  ".format(
+        "Finished {}_init{}_inc{}: {} ".format(
             args["dataset"],
             args["init_cls"],
             args["increment"],
-            args["model_name"],
+            backbone_type
         )
     )
     print("Base Accuracy: {}".format(round(cnn_curve["top1"][0], 2)))
@@ -187,24 +189,24 @@ def forward_transfer(dataset, matrix):
     """
     if dataset == "cub":
         rand_init_acc = np.array([86.51, 52.53, 65.04, 67.86, 74.62, 57.89, 71.82, 87.97, 68.6, 83.61, 85.37])
-    elif dataset == "cifar224" or dataset == "cifar100":
+    elif dataset == "cifar224":
         rand_init_acc = np.array([77.5, 44.4, 51.8, 30.4, 56.8, 68.4, 44.0, 36.4, 41.4])
     elif dataset == "mini_imagenet":
         rand_init_acc = np.array([94.97, 90.6, 69.2, 81.2, 82.8, 73.4, 70.2, 90.6, 89.8])
     else:
-        rand_init_acc = np.array([62.95, 28.08, 51.15, 38.64, 56.76, 50.93, 41.38, 61.25, 49.1, 43.37, 44.44]) # INR
+        rand_init_acc = np.array([62.95, 28.08, 51.15, 38.64, 56.76, 50.93, 41.38, 61.25, 49.1, 43.37, 44.44])  # INR
 
-    fwt_accs = np.diag(matrix, k=1)  # 得到 R_0,1, R_1,2, ... (0-based)
-    rand_init_acc_for_fwt = rand_init_acc[1:]  # 需要 R_0,1, R_0,2, ... (0-based)
+    fwt_accs = np.diag(matrix, k=1)       # R_0,1, R_1,2, ...
+    rand_init_acc_for_fwt = rand_init_acc[1:]  # R_0,1, R_0,2, ...
+
+    # 维度不匹配时直接返回提示，不再计算，避免报错
+    if fwt_accs.shape[0] != rand_init_acc_for_fwt.shape[0]:
+        msg = f"FWT 计算失败：矩阵长度不匹配。"
+        # print(msg)
+        return msg
 
     fwt_diffs = fwt_accs - rand_init_acc_for_fwt
-    forward_transfer = np.mean(fwt_diffs)
+    forward_transfer_value = np.mean(fwt_diffs)
 
-    # print("--- Forward Transfer (FWT) ---")
-    # print(f"新任务在前一任务训练后的准确率 (R_i-1,i): {np.round(fwt_accs, 2)}")
-    # print(f"新任务在随机初始化时的准确率 (R_0,i): {np.round(rand_init_acc_for_fwt, 2)}")
-    # print(f"FWT 差值 (R_i-1,i - R_0,i): {np.round(fwt_diffs, 2)}")
-    # print(f"Forward Transfer 平均分: {forward_transfer:.2f}")
-
-    return np.round(forward_transfer, 2)
+    return np.round(forward_transfer_value, 2)
 

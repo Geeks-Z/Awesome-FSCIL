@@ -495,3 +495,101 @@ def vit_base_patch16_224_in21k_ease(pretrained=False, **kwargs):
             p.requires_grad = False 
     return model
 
+
+def vit_base_patch16_224_dino_ease(pretrained=False, **kwargs):
+    """ViT-Base/16 with EASE Adapter (DINO self-supervised pretrained)
+    
+    DINO: Self-supervised learning with knowledge distillation
+    Architecture: patch_size=16, embed_dim=768, depth=12, num_heads=12
+    """
+    model = VisionTransformer(patch_size=16, embed_dim=768, depth=12, num_heads=12, mlp_ratio=4, qkv_bias=True,
+        norm_layer=partial(nn.LayerNorm, eps=1e-6), **kwargs)
+
+    # Load DINO pretrained weights
+    checkpoint_model = timm.create_model("vit_base_patch16_224.dino", pretrained=True, num_classes=0)
+    state_dict = checkpoint_model.state_dict()
+    
+    # modify the checkpoint state dict to match the model
+    # first, split qkv weight into q, k, v
+    for key in list(state_dict.keys()):
+        if 'qkv.weight' in key:
+            qkv_weight = state_dict.pop(key)
+            q_weight = qkv_weight[:768]
+            k_weight = qkv_weight[768:768*2]
+            v_weight = qkv_weight[768*2:]
+            state_dict[key.replace('qkv.weight', 'q_proj.weight')] = q_weight
+            state_dict[key.replace('qkv.weight', 'k_proj.weight')] = k_weight
+            state_dict[key.replace('qkv.weight', 'v_proj.weight')] = v_weight
+        elif 'qkv.bias' in key:
+            qkv_bias = state_dict.pop(key)
+            q_bias = qkv_bias[:768]
+            k_bias = qkv_bias[768:768*2]
+            v_bias = qkv_bias[768*2:]
+            state_dict[key.replace('qkv.bias', 'q_proj.bias')] = q_bias
+            state_dict[key.replace('qkv.bias', 'k_proj.bias')] = k_bias
+            state_dict[key.replace('qkv.bias', 'v_proj.bias')] = v_bias
+    # second, modify the mlp.fc.weight to match fc.weight
+    for key in list(state_dict.keys()):
+        if 'mlp.fc' in key:
+            fc_weight = state_dict.pop(key)
+            state_dict[key.replace('mlp.', '')] = fc_weight
+
+    msg = model.load_state_dict(state_dict, strict=False)
+
+    # freeze all but the adapter
+    for name, p in model.named_parameters():
+        if name in msg.missing_keys:
+            p.requires_grad = True
+        else:
+            p.requires_grad = False 
+    return model
+
+
+def vit_large_patch16_224_ease(pretrained=False, **kwargs):
+    """ViT-Large/16 with EASE Adapter (ImageNet-1K pretrained)
+    
+    Architecture: patch_size=16, embed_dim=1024, depth=24, num_heads=16
+    """
+    model = VisionTransformer(patch_size=16, embed_dim=1024, depth=24, num_heads=16, mlp_ratio=4, qkv_bias=True,
+        norm_layer=partial(nn.LayerNorm, eps=1e-6), **kwargs)
+
+    checkpoint_model = timm.create_model("vit_large_patch16_224", pretrained=True, num_classes=0)
+    state_dict = checkpoint_model.state_dict()
+    
+    # For ViT-Large, embed_dim = 1024
+    embed_dim = 1024
+    
+    # modify the checkpoint state dict to match the model
+    # first, split qkv weight into q, k, v
+    for key in list(state_dict.keys()):
+        if 'qkv.weight' in key:
+            qkv_weight = state_dict.pop(key)
+            q_weight = qkv_weight[:embed_dim]
+            k_weight = qkv_weight[embed_dim:embed_dim*2]
+            v_weight = qkv_weight[embed_dim*2:]
+            state_dict[key.replace('qkv.weight', 'q_proj.weight')] = q_weight
+            state_dict[key.replace('qkv.weight', 'k_proj.weight')] = k_weight
+            state_dict[key.replace('qkv.weight', 'v_proj.weight')] = v_weight
+        elif 'qkv.bias' in key:
+            qkv_bias = state_dict.pop(key)
+            q_bias = qkv_bias[:embed_dim]
+            k_bias = qkv_bias[embed_dim:embed_dim*2]
+            v_bias = qkv_bias[embed_dim*2:]
+            state_dict[key.replace('qkv.bias', 'q_proj.bias')] = q_bias
+            state_dict[key.replace('qkv.bias', 'k_proj.bias')] = k_bias
+            state_dict[key.replace('qkv.bias', 'v_proj.bias')] = v_bias
+    # second, modify the mlp.fc.weight to match fc.weight
+    for key in list(state_dict.keys()):
+        if 'mlp.fc' in key:
+            fc_weight = state_dict.pop(key)
+            state_dict[key.replace('mlp.', '')] = fc_weight
+
+    msg = model.load_state_dict(state_dict, strict=False)
+
+    # freeze all but the adapter
+    for name, p in model.named_parameters():
+        if name in msg.missing_keys:
+            p.requires_grad = True
+        else:
+            p.requires_grad = False 
+    return model

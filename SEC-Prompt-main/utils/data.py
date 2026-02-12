@@ -67,13 +67,14 @@ class iCIFAR100(iData):
             test_dataset.targets
         )
 
+
 def build_transform_coda_prompt(is_train, args):
-    if is_train:        
+    if is_train:
         transform = [
             transforms.RandomResizedCrop(224),
             transforms.RandomHorizontalFlip(),
             transforms.ToTensor(),
-            transforms.Normalize((0.0,0.0,0.0), (1.0,1.0,1.0)),
+            transforms.Normalize((0.0, 0.0, 0.0), (1.0, 1.0, 1.0)),
         ]
         return transform
 
@@ -83,16 +84,17 @@ def build_transform_coda_prompt(is_train, args):
             transforms.Resize(256),
             transforms.CenterCrop(224),
             transforms.ToTensor(),
-            transforms.Normalize((0.0,0.0,0.0), (1.0,1.0,1.0)),
+            transforms.Normalize((0.0, 0.0, 0.0), (1.0, 1.0, 1.0)),
         ]
     else:
         t = [
             transforms.Resize(224),
             transforms.ToTensor(),
-            transforms.Normalize((0.0,0.0,0.0), (1.0,1.0,1.0)),
+            transforms.Normalize((0.0, 0.0, 0.0), (1.0, 1.0, 1.0)),
         ]
 
     return t
+
 
 def build_transform(is_train, args):
     input_size = 224
@@ -100,7 +102,7 @@ def build_transform(is_train, args):
     if is_train:
         scale = (0.05, 1.0)
         ratio = (3. / 4., 4. / 3.)
-        
+
         transform = [
             transforms.RandomResizedCrop(input_size, scale=scale, ratio=ratio),
             transforms.RandomHorizontalFlip(p=0.5),
@@ -116,9 +118,10 @@ def build_transform(is_train, args):
         )
         t.append(transforms.CenterCrop(input_size))
     t.append(transforms.ToTensor())
-    
+
     # return transforms.Compose(t)
     return t
+
 
 class iCIFAR224(iData):
     def __init__(self, args):
@@ -147,7 +150,7 @@ class iCIFAR224(iData):
         self.test_data, self.test_targets = test_dataset.data, np.array(
             test_dataset.targets
         )
-        self.data2label=None
+        self.data2label = None
 
 
 class iImageNet1000(iData):
@@ -167,6 +170,7 @@ class iImageNet1000(iData):
     ]
 
     class_order = np.arange(1000).tolist()
+
     # self.txt = "./data/index_list/imagenet-r"
     def download_data(self):
         assert 0, "You should specify the folder of your dataset"
@@ -214,7 +218,7 @@ class iImageNetR(iData):
         super().__init__()
         self.args = args
         self.use_path = True
-        self.txt = "./data/index_list/imagenet-r"
+
         if args["model_name"] == "coda_prompt":
             self.train_trsf = build_transform_coda_prompt(True, args)
             self.test_trsf = build_transform_coda_prompt(False, args)
@@ -237,17 +241,14 @@ class iImageNetR(iData):
 
         self.train_data, self.train_targets = split_images_labels(train_dset.imgs)
         self.test_data, self.test_targets = split_images_labels(test_dset.imgs)
-        self.data2label = {}
-        for i in range(len(self.train_data)):
-            self.data2label[self.train_data[i]] = self.train_targets[i]
 
 
 class iImageNetA(iData):
     use_path = True
-    
+
     train_trsf = build_transform(True, None)
     test_trsf = build_transform(False, None)
-    common_trsf = [    ]
+    common_trsf = []
 
     class_order = np.arange(200).tolist()
 
@@ -263,17 +264,15 @@ class iImageNetA(iData):
         self.test_data, self.test_targets = split_images_labels(test_dset.imgs)
 
 
-
 class CUB(iData):
     def __init__(self, args):
         self.use_path = True
 
         self.train_trsf = build_transform(True, None)
         self.test_trsf = build_transform(False, None)
-        self.common_trsf = [    ]
+        self.common_trsf = []
         self.txt = "./data/index_list/cub"
         self.class_order = np.arange(200).tolist()
-
 
     def download_data(self):
         # assert 0, "You should specify the folder of your dataset"
@@ -292,10 +291,10 @@ class CUB(iData):
 
 class objectnet(iData):
     use_path = True
-    
+
     train_trsf = build_transform(True, None)
     test_trsf = build_transform(False, None)
-    common_trsf = [    ]
+    common_trsf = []
 
     class_order = np.arange(200).tolist()
 
@@ -313,10 +312,10 @@ class objectnet(iData):
 
 class omnibenchmark(iData):
     use_path = True
-    
+
     train_trsf = build_transform(True, None)
     test_trsf = build_transform(False, None)
-    common_trsf = [    ]
+    common_trsf = []
 
     class_order = np.arange(300).tolist()
 
@@ -332,13 +331,12 @@ class omnibenchmark(iData):
         self.test_data, self.test_targets = split_images_labels(test_dset.imgs)
 
 
-
 class vtab(iData):
     use_path = True
-    
+
     train_trsf = build_transform(True, None)
     test_trsf = build_transform(False, None)
-    common_trsf = [    ]
+    common_trsf = []
 
     class_order = np.arange(50).tolist()
 
@@ -356,14 +354,14 @@ class vtab(iData):
         self.train_data, self.train_targets = split_images_labels(train_dset.imgs)
         self.test_data, self.test_targets = split_images_labels(test_dset.imgs)
 
+
 class iMiniImageNet(iData):
     class_order = np.arange(100).tolist()
+
     def __init__(self, args):
         super().__init__()
         self.args = args
         self.use_path = True
-        self.txt = "./data/index_list/mini_imagenet"
-        self.class_order = np.arange(100).tolist()
 
         init_size = 256
         image_size = 224
@@ -407,41 +405,32 @@ class iMiniImageNet(iData):
 
         self.train_data, self.test_data = [], []
         self.train_targets, self.test_targets = [], []
-        self.data2label, self.test_data2label = {}, {}
+        self.train_data2label, self.test_data2label = {}, {}
 
         lb = -1
 
         self.train_wnids, self.test_wnids = [], []
 
-
-
-
         for l in train_lines:
             name, wnid = l.split(',')
             path = osp.join(self.IMAGE_PATH, name)
-            # if not os.path.exists(path):
-            #     print(f"警告：训练图片缺失 {path}")
-            #     continue
             if wnid not in self.train_wnids:
                 self.train_wnids.append(wnid)
                 lb += 1
             self.train_data.append(path)
             self.train_targets.append(lb)
-            self.data2label[path] = lb
+            # self.train_data2label[path] = lb
         # test
         lb = -1
         for l in test_lines:
             name, wnid = l.split(',')
             path = osp.join(self.IMAGE_PATH, name)
-            # if not os.path.exists(path):
-            #     print(f"警告：测试图片缺失 {path}")
-            #     continue
             if wnid not in self.test_wnids:
                 self.test_wnids.append(wnid)
                 lb += 1
             self.test_data.append(path)
             self.test_targets.append(lb)
-            self.test_data2label[path] = lb
+            # self.test_data2label[path] = lb
 
         self.train_data = np.array(self.train_data)
         self.test_data = np.array(self.test_data)

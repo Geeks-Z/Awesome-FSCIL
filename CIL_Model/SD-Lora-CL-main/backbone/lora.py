@@ -363,12 +363,14 @@ class LoRA_ViT_timm(nn.Module):
 
     def reset_lora_vit_head(self):
         task_incremental = self.increment
-        self.lora_vit.head = self.generate_fc(768, (self.task_id)*task_incremental).cuda()
+        # Use self.dim for dynamic dimension (768 for ViT-Base, 1024 for ViT-Large)
+        self.lora_vit.head = self.generate_fc(self.dim, (self.task_id)*task_incremental).cuda()
         temp_weights = torch.load(self.save_file+'CLs_weight'+str(self.task_id-1)+'.pt') 
         temp_bias = torch.load(self.save_file+'CLs_bias'+str(self.task_id-1)+'.pt') 
 
         self.lora_vit.head.weight.data = temp_weights.data.cuda()
         self.lora_vit.head.bias.data = temp_bias.data.cuda()
+
 
 
     # This part is only used during the evaluation

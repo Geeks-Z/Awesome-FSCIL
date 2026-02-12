@@ -4,13 +4,15 @@ import copy
 
 #coda_prompt
 class CodaPrompt(nn.Module):
-    def __init__(self, emb_d, n_tasks, prompt_param, key_dim=768):
+    def __init__(self, emb_d, n_tasks, prompt_param, key_dim=None):
         super().__init__()
         self.task_count = 0
         self.emb_d = emb_d
-        self.key_d = key_dim
+        # If key_dim not specified, use emb_d (supports ViT-Large)
+        self.key_d = key_dim if key_dim is not None else emb_d
         self.n_tasks = n_tasks
         self._init_smart(emb_d, prompt_param)
+
 
         # e prompt init
         for e in self.e_layers:

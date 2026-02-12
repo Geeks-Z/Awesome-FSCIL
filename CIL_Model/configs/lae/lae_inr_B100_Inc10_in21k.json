@@ -1,6 +1,6 @@
 {
   "prefix": " ",
-  "dataset": "imagenet_r",
+  "dataset": "imagenetr",
   "memory_size": 0,
   "memory_per_class": 0,
   "fixed_memory": false,
@@ -9,7 +9,7 @@
   "increment": 10,
   "model_name": "lae",
   "backbone_type": "vit_base_patch16_224_in21k_lae",
-  "device": ["2"],
+  "device": ["3"],
   "seed": [1993],
   "kshot": 5,
   "tuned_epoch": 50,
