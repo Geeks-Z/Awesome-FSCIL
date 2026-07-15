@@ -1,0 +1,1836 @@
+nohup: ignoring input
+2025-12-23 21:07:46,606 [trainer.py] => config: ./configs/asp_cub_B100_Inc5.json
+2025-12-23 21:07:46,628 [trainer.py] => model_name: asp
+2025-12-23 21:07:46,628 [trainer.py] => backbone_type: pretrained_vit_b16_224_vpt
+2025-12-23 21:07:46,628 [trainer.py] => device: [device(type='cuda', index=1)]
+2025-12-23 21:07:46,628 [trainer.py] => seed: 1993
+2025-12-23 21:07:46,628 [trainer.py] => dataset: cub
+2025-12-23 21:07:46,628 [trainer.py] => init_cls: 100
+2025-12-23 21:07:46,628 [trainer.py] => increment: 5
+2025-12-23 21:07:46,628 [trainer.py] => kshot: 5
+2025-12-23 21:07:46,628 [trainer.py] => vpt_type: Deep
+2025-12-23 21:07:46,628 [trainer.py] => prompt_token_num: 6
+2025-12-23 21:07:46,628 [trainer.py] => avg_alpha: 0.8
+2025-12-23 21:07:46,628 [trainer.py] => perturb_var: 1
+2025-12-23 21:07:46,628 [trainer.py] => EMA_beta: 0.99
+2025-12-23 21:07:46,628 [trainer.py] => anchor_lambda: 0.1
+2025-12-23 21:07:46,628 [trainer.py] => kl_weight: 0.001
+2025-12-23 21:07:46,628 [trainer.py] => TIP_init: zero
+2025-12-23 21:07:46,628 [trainer.py] => tuned_epoch: 20
+2025-12-23 21:07:46,628 [trainer.py] => fs_epoch: 0
+2025-12-23 21:07:46,628 [trainer.py] => init_lr: 0.01
+2025-12-23 21:07:46,628 [trainer.py] => fs_lr: 0.001
+2025-12-23 21:07:46,628 [trainer.py] => batch_size: 24
+2025-12-23 21:07:46,628 [trainer.py] => fs_batch_size: 16
+2025-12-23 21:07:46,629 [trainer.py] => weight_decay: 0.005
+2025-12-23 21:07:46,629 [trainer.py] => min_lr: 0
+2025-12-23 21:07:46,629 [trainer.py] => optimizer: sgd
+2025-12-23 21:07:46,629 [trainer.py] => memory_size: 0
+2025-12-23 21:07:46,629 [trainer.py] => memory_per_class: 0
+2025-12-23 21:07:46,629 [trainer.py] => fixed_memory: False
+2025-12-23 21:07:46,629 [trainer.py] => shuffle: False
+2025-12-23 21:07:46,629 [trainer.py] => top_k: 5
+2025-12-23 21:07:46,629 [trainer.py] => base_model_path: saved_model/asp/cub/100_5/asp_20_1993_pretrained_vit_b16_224_vpt.pth
+2025-12-23 21:07:46,629 [trainer.py] => prefix: asp
+2025-12-23 21:07:46,629 [trainer.py] => model_prefix: asp
+2025-12-23 21:07:46,629 [trainer.py] => gpu_models: ['NVIDIA A800 80GB PCIe']
+2025-12-23 21:07:46,875 [data_manager.py] => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199]
+This is for the BaseNet initialization.
+modelname, pretrained_vit_b16_224_vpt basicmodelname vit_base_patch16_224
+Using VPT model
+Using Deep Prompt
+After BaseNet initialization.
+2025-12-23 21:08:18,325 [asp.py] => Learning on 0-100
+2025-12-23 21:08:18,344 [asp.py] => All params: 173749761
+2025-12-23 21:08:18,344 [asp.py] => backbone.TIP: 27648
+2025-12-23 21:08:18,345 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-23 21:08:18,345 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-23 21:08:18,345 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-23 21:08:18,345 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-23 21:08:18,345 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-23 21:08:18,345 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-23 21:08:18,345 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-23 21:08:18,345 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-23 21:08:18,346 [asp.py] => Trainable params (without fc): 1998848
+2025-12-23 21:08:19,947 [asp.py] => training set size: 4693, fc construct set size: 4693
+anchor samples found
+2025-12-23 21:25:16,163 [asp.py] => Task 0, Epoch 1 => Loss 6.028, Train_accy 10.31, Test_curr_accy 37.06, Test_accy 37.06
+anchor samples found
+2025-12-23 21:43:51,315 [asp.py] => Task 0, Epoch 2 => Loss 2.913, Train_accy 57.66, Test_curr_accy 80.53, Test_accy 80.53
+anchor samples found
+2025-12-23 22:02:19,237 [asp.py] => Task 0, Epoch 3 => Loss 1.232, Train_accy 77.78, Test_curr_accy 85.99, Test_accy 85.99
+anchor samples found
+2025-12-23 22:20:52,076 [asp.py] => Task 0, Epoch 4 => Loss 1.002, Train_accy 80.69, Test_curr_accy 85.99, Test_accy 85.99
+anchor samples found
+2025-12-23 22:38:03,787 [asp.py] => Task 0, Epoch 5 => Loss 0.902, Train_accy 83.06, Test_curr_accy 87.96, Test_accy 87.96
+anchor samples found
+2025-12-23 22:54:43,754 [asp.py] => Task 0, Epoch 6 => Loss 0.868, Train_accy 83.12, Test_curr_accy 86.34, Test_accy 86.34
+anchor samples found
+2025-12-23 23:11:44,785 [asp.py] => Task 0, Epoch 7 => Loss 0.807, Train_accy 84.36, Test_curr_accy 89.24, Test_accy 89.24
+anchor samples found
+2025-12-23 23:28:30,428 [asp.py] => Task 0, Epoch 8 => Loss 0.832, Train_accy 83.27, Test_curr_accy 89.50, Test_accy 89.50
+anchor samples found
+2025-12-23 23:44:56,566 [asp.py] => Task 0, Epoch 9 => Loss 0.800, Train_accy 84.49, Test_curr_accy 88.56, Test_accy 88.56
+anchor samples found
+2025-12-24 00:01:28,416 [asp.py] => Task 0, Epoch 10 => Loss 0.768, Train_accy 85.47, Test_curr_accy 88.56, Test_accy 88.56
+anchor samples found
+2025-12-24 00:17:40,948 [asp.py] => Task 0, Epoch 11 => Loss 0.772, Train_accy 85.08, Test_curr_accy 88.56, Test_accy 88.56
+anchor samples found
+2025-12-24 00:33:58,034 [asp.py] => Task 0, Epoch 12 => Loss 0.756, Train_accy 85.51, Test_curr_accy 89.24, Test_accy 89.24
+anchor samples found
+2025-12-24 00:50:13,004 [asp.py] => Task 0, Epoch 13 => Loss 0.743, Train_accy 86.19, Test_curr_accy 90.01, Test_accy 90.01
+anchor samples found
+2025-12-24 01:06:27,882 [asp.py] => Task 0, Epoch 14 => Loss 0.732, Train_accy 86.83, Test_curr_accy 89.50, Test_accy 89.50
+anchor samples found
+2025-12-24 01:22:53,866 [asp.py] => Task 0, Epoch 15 => Loss 0.715, Train_accy 86.55, Test_curr_accy 89.24, Test_accy 89.24
+anchor samples found
+2025-12-24 01:39:21,406 [asp.py] => Task 0, Epoch 16 => Loss 0.700, Train_accy 86.94, Test_curr_accy 89.92, Test_accy 89.92
+anchor samples found
+2025-12-24 01:52:55,489 [asp.py] => Task 0, Epoch 17 => Loss 0.735, Train_accy 86.17, Test_curr_accy 90.01, Test_accy 90.01
+anchor samples found
+2025-12-24 02:06:14,986 [asp.py] => Task 0, Epoch 18 => Loss 0.693, Train_accy 87.77, Test_curr_accy 90.61, Test_accy 90.61
+anchor samples found
+2025-12-24 02:21:04,375 [asp.py] => Task 0, Epoch 19 => Loss 0.697, Train_accy 87.43, Test_curr_accy 90.26, Test_accy 90.26
+anchor samples found
+2025-12-24 02:36:15,434 [asp.py] => Task 0, Epoch 20 => Loss 0.692, Train_accy 87.66, Test_curr_accy 90.44, Test_accy 90.44
+2025-12-24 02:40:26,807 [trainer.py] => Task 0 Trainable params: 2.00M, GPU: 5212.56MiB
+2025-12-24 02:41:53,056 [trainer.py] => CNN: {'total': 87.87, '00-99': 87.87, '100-104': 88.0, '105-109': 88.0, '110-114': 84.0, '115-119': 76.0, '120-124': 72.0, '125-129': 64.0, '130-134': 80.0, '135-139': 92.0, '140-144': 68.0, '145-149': 100.0, '150-154': 56.0, '155-159': 80.0, '160-164': 72.0, '165-169': 72.0, '170-174': 80.0, '175-179': 84.0, '180-184': 88.0, '185-189': 84.0, '190-194': 84.0, '195-199': 80.0, 'old': 0, 'new': 87.87}
+2025-12-24 02:41:53,086 [trainer.py] => Top1 curve: [87.87]
+2025-12-24 02:41:53,086 [trainer.py] => Average Accuracy (CNN): 87.87
+2025-12-24 02:41:53,824 [asp.py] => Learning on 100-105
+2025-12-24 02:41:53,826 [asp.py] => All params: 173826562
+2025-12-24 02:41:53,826 [asp.py] => backbone.TIP: 27648
+2025-12-24 02:41:53,826 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 02:41:53,827 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 02:41:53,827 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 02:41:53,827 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 02:41:53,827 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 02:41:53,827 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 02:41:53,827 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 02:41:53,827 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 02:41:53,827 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 02:41:53,856 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 02:41:56,840 [trainer.py] => Task 1 Trainable params: 2.00M, GPU: 874.85MiB
+2025-12-24 02:43:17,089 [trainer.py] => CNN: {'total': 87.11, '00-99': 87.53, '100-104': 76.6, '105-109': 92.0, '110-114': 80.0, '115-119': 72.0, '120-124': 76.0, '125-129': 72.0, '130-134': 64.0, '135-139': 84.0, '140-144': 80.0, '145-149': 72.0, '150-154': 68.0, '155-159': 80.0, '160-164': 92.0, '165-169': 68.0, '170-174': 76.0, '175-179': 80.0, '180-184': 84.0, '185-189': 88.0, '190-194': 68.0, '195-199': 80.0, 'old': 87.53, 'new': 76.6}
+2025-12-24 02:43:17,115 [trainer.py] => Top1 curve: [87.87, 87.11]
+2025-12-24 02:43:17,115 [trainer.py] => Average Accuracy (CNN): 87.49
+2025-12-24 02:43:17,119 [asp.py] => Learning on 105-110
+2025-12-24 02:43:17,120 [asp.py] => All params: 173830402
+2025-12-24 02:43:17,120 [asp.py] => backbone.TIP: 27648
+2025-12-24 02:43:17,121 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 02:43:17,121 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 02:43:17,121 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 02:43:17,121 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 02:43:17,121 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 02:43:17,121 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 02:43:17,121 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 02:43:17,121 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 02:43:17,121 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 02:43:17,147 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 02:43:19,655 [trainer.py] => Task 2 Trainable params: 2.00M, GPU: 874.86MiB
+2025-12-24 02:44:39,481 [trainer.py] => CNN: {'total': 86.38, '00-99': 87.45, '100-104': 76.6, '105-109': 71.15, '110-114': 92.0, '115-119': 72.0, '120-124': 72.0, '125-129': 76.0, '130-134': 68.0, '135-139': 80.0, '140-144': 84.0, '145-149': 88.0, '150-154': 76.0, '155-159': 72.0, '160-164': 68.0, '165-169': 72.0, '170-174': 80.0, '175-179': 88.0, '180-184': 96.0, '185-189': 80.0, '190-194': 84.0, '195-199': 88.0, 'old': 87.03, 'new': 71.15}
+2025-12-24 02:44:39,517 [trainer.py] => Top1 curve: [87.87, 87.11, 86.38]
+2025-12-24 02:44:39,517 [trainer.py] => Average Accuracy (CNN): 87.12
+2025-12-24 02:44:39,520 [asp.py] => Learning on 110-115
+2025-12-24 02:44:39,521 [asp.py] => All params: 173834242
+2025-12-24 02:44:39,521 [asp.py] => backbone.TIP: 27648
+2025-12-24 02:44:39,522 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 02:44:39,522 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 02:44:39,522 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 02:44:39,522 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 02:44:39,522 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 02:44:39,522 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 02:44:39,522 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 02:44:39,522 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 02:44:39,522 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 02:44:39,544 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 02:44:42,127 [trainer.py] => Task 3 Trainable params: 2.00M, GPU: 874.88MiB
+2025-12-24 02:46:00,717 [trainer.py] => CNN: {'total': 86.21, '00-99': 87.45, '100-104': 76.6, '105-109': 71.15, '110-114': 82.46, '115-119': 76.0, '120-124': 84.0, '125-129': 76.0, '130-134': 68.0, '135-139': 92.0, '140-144': 72.0, '145-149': 76.0, '150-154': 76.0, '155-159': 80.0, '160-164': 84.0, '165-169': 48.0, '170-174': 84.0, '175-179': 88.0, '180-184': 84.0, '185-189': 88.0, '190-194': 92.0, '195-199': 92.0, 'old': 86.38, 'new': 82.46}
+2025-12-24 02:46:00,752 [trainer.py] => Top1 curve: [87.87, 87.11, 86.38, 86.21]
+2025-12-24 02:46:00,752 [trainer.py] => Average Accuracy (CNN): 86.89
+2025-12-24 02:46:00,759 [asp.py] => Learning on 115-120
+2025-12-24 02:46:00,760 [asp.py] => All params: 173838082
+2025-12-24 02:46:00,760 [asp.py] => backbone.TIP: 27648
+2025-12-24 02:46:00,761 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 02:46:00,761 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 02:46:00,761 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 02:46:00,761 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 02:46:00,761 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 02:46:00,761 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 02:46:00,761 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 02:46:00,761 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 02:46:00,761 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 02:46:00,785 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 02:46:03,020 [trainer.py] => Task 4 Trainable params: 2.00M, GPU: 874.89MiB
+2025-12-24 02:47:23,302 [trainer.py] => CNN: {'total': 84.85, '00-99': 87.36, '100-104': 76.6, '105-109': 71.15, '110-114': 75.44, '115-119': 65.15, '120-124': 76.0, '125-129': 64.0, '130-134': 56.0, '135-139': 92.0, '140-144': 52.0, '145-149': 76.0, '150-154': 72.0, '155-159': 72.0, '160-164': 88.0, '165-169': 80.0, '170-174': 72.0, '175-179': 76.0, '180-184': 84.0, '185-189': 92.0, '190-194': 80.0, '195-199': 80.0, 'old': 85.83, 'new': 65.15}
+2025-12-24 02:47:23,328 [trainer.py] => Top1 curve: [87.87, 87.11, 86.38, 86.21, 84.85]
+2025-12-24 02:47:23,328 [trainer.py] => Average Accuracy (CNN): 86.48
+2025-12-24 02:47:23,331 [asp.py] => Learning on 120-125
+2025-12-24 02:47:23,332 [asp.py] => All params: 173841922
+2025-12-24 02:47:23,332 [asp.py] => backbone.TIP: 27648
+2025-12-24 02:47:23,333 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 02:47:23,333 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 02:47:23,333 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 02:47:23,333 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 02:47:23,334 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 02:47:23,334 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 02:47:23,334 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 02:47:23,334 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 02:47:23,334 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 02:47:23,357 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 02:47:26,268 [trainer.py] => Task 5 Trainable params: 2.00M, GPU: 874.91MiB
+2025-12-24 02:48:47,387 [trainer.py] => CNN: {'total': 84.95, '00-99': 87.36, '100-104': 76.6, '105-109': 71.15, '110-114': 73.68, '115-119': 65.15, '120-124': 89.8, '125-129': 68.0, '130-134': 76.0, '135-139': 92.0, '140-144': 80.0, '145-149': 88.0, '150-154': 72.0, '155-159': 60.0, '160-164': 88.0, '165-169': 72.0, '170-174': 88.0, '175-179': 80.0, '180-184': 88.0, '185-189': 76.0, '190-194': 88.0, '195-199': 96.0, 'old': 84.78, 'new': 89.8}
+2025-12-24 02:48:47,412 [trainer.py] => Top1 curve: [87.87, 87.11, 86.38, 86.21, 84.85, 84.95]
+2025-12-24 02:48:47,412 [trainer.py] => Average Accuracy (CNN): 86.23
+2025-12-24 02:48:47,415 [asp.py] => Learning on 125-130
+2025-12-24 02:48:47,417 [asp.py] => All params: 173845762
+2025-12-24 02:48:47,417 [asp.py] => backbone.TIP: 27648
+2025-12-24 02:48:47,418 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 02:48:47,418 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 02:48:47,418 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 02:48:47,418 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 02:48:47,418 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 02:48:47,418 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 02:48:47,418 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 02:48:47,418 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 02:48:47,418 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 02:48:47,449 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 02:48:49,804 [trainer.py] => Task 6 Trainable params: 2.00M, GPU: 874.92MiB
+2025-12-24 02:50:11,121 [trainer.py] => CNN: {'total': 83.39, '00-99': 87.28, '100-104': 76.6, '105-109': 71.15, '110-114': 73.68, '115-119': 63.64, '120-124': 75.51, '125-129': 61.9, '130-134': 80.0, '135-139': 84.0, '140-144': 60.0, '145-149': 84.0, '150-154': 72.0, '155-159': 84.0, '160-164': 84.0, '165-169': 68.0, '170-174': 76.0, '175-179': 80.0, '180-184': 92.0, '185-189': 88.0, '190-194': 92.0, '195-199': 80.0, 'old': 84.33, 'new': 61.9}
+2025-12-24 02:50:11,145 [trainer.py] => Top1 curve: [87.87, 87.11, 86.38, 86.21, 84.85, 84.95, 83.39]
+2025-12-24 02:50:11,145 [trainer.py] => Average Accuracy (CNN): 85.82
+2025-12-24 02:50:11,305 [asp.py] => Learning on 130-135
+2025-12-24 02:50:11,307 [asp.py] => All params: 173849602
+2025-12-24 02:50:11,307 [asp.py] => backbone.TIP: 27648
+2025-12-24 02:50:11,308 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 02:50:11,308 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 02:50:11,308 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 02:50:11,308 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 02:50:11,308 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 02:50:11,308 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 02:50:11,308 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 02:50:11,308 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 02:50:11,308 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 02:50:11,339 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 02:50:13,565 [trainer.py] => Task 7 Trainable params: 2.00M, GPU: 874.94MiB
+2025-12-24 02:51:34,809 [trainer.py] => CNN: {'total': 82.86, '00-99': 87.28, '100-104': 76.6, '105-109': 71.15, '110-114': 73.68, '115-119': 63.64, '120-124': 73.47, '125-129': 61.9, '130-134': 73.68, '135-139': 88.0, '140-144': 76.0, '145-149': 92.0, '150-154': 72.0, '155-159': 72.0, '160-164': 88.0, '165-169': 68.0, '170-174': 80.0, '175-179': 72.0, '180-184': 92.0, '185-189': 88.0, '190-194': 92.0, '195-199': 72.0, 'old': 83.32, 'new': 73.68}
+2025-12-24 02:51:34,853 [trainer.py] => Top1 curve: [87.87, 87.11, 86.38, 86.21, 84.85, 84.95, 83.39, 82.86]
+2025-12-24 02:51:34,853 [trainer.py] => Average Accuracy (CNN): 85.45
+2025-12-24 02:51:34,857 [asp.py] => Learning on 135-140
+2025-12-24 02:51:34,858 [asp.py] => All params: 173853442
+2025-12-24 02:51:34,858 [asp.py] => backbone.TIP: 27648
+2025-12-24 02:51:34,859 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 02:51:34,859 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 02:51:34,859 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 02:51:34,859 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 02:51:34,859 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 02:51:34,859 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 02:51:34,859 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 02:51:34,859 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 02:51:34,859 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 02:51:34,880 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 02:51:37,081 [trainer.py] => Task 8 Trainable params: 2.00M, GPU: 874.95MiB
+2025-12-24 02:52:59,320 [trainer.py] => CNN: {'total': 83.0, '00-99': 87.28, '100-104': 76.6, '105-109': 71.15, '110-114': 73.68, '115-119': 63.64, '120-124': 73.47, '125-129': 61.9, '130-134': 69.74, '135-139': 92.59, '140-144': 60.0, '145-149': 88.0, '150-154': 84.0, '155-159': 68.0, '160-164': 76.0, '165-169': 76.0, '170-174': 76.0, '175-179': 76.0, '180-184': 72.0, '185-189': 88.0, '190-194': 84.0, '195-199': 88.0, 'old': 82.67, 'new': 92.59}
+2025-12-24 02:52:59,339 [trainer.py] => Top1 curve: [87.87, 87.11, 86.38, 86.21, 84.85, 84.95, 83.39, 82.86, 83.0]
+2025-12-24 02:52:59,339 [trainer.py] => Average Accuracy (CNN): 85.18
+2025-12-24 02:52:59,777 [asp.py] => Learning on 140-145
+2025-12-24 02:52:59,781 [asp.py] => All params: 173857282
+2025-12-24 02:52:59,781 [asp.py] => backbone.TIP: 27648
+2025-12-24 02:52:59,784 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 02:52:59,785 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 02:52:59,785 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 02:52:59,785 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 02:52:59,785 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 02:52:59,785 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 02:52:59,785 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 02:52:59,786 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 02:52:59,786 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 02:52:59,830 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 02:53:02,087 [trainer.py] => Task 9 Trainable params: 2.00M, GPU: 874.96MiB
+2025-12-24 02:54:24,049 [trainer.py] => CNN: {'total': 82.31, '00-99': 87.19, '100-104': 76.6, '105-109': 71.15, '110-114': 73.68, '115-119': 63.64, '120-124': 73.47, '125-129': 61.9, '130-134': 69.74, '135-139': 92.59, '140-144': 62.0, '145-149': 76.0, '150-154': 88.0, '155-159': 76.0, '160-164': 88.0, '165-169': 84.0, '170-174': 68.0, '175-179': 80.0, '180-184': 84.0, '185-189': 80.0, '190-194': 96.0, '195-199': 92.0, 'old': 82.94, 'new': 62.0}
+2025-12-24 02:54:24,072 [trainer.py] => Top1 curve: [87.87, 87.11, 86.38, 86.21, 84.85, 84.95, 83.39, 82.86, 83.0, 82.31]
+2025-12-24 02:54:24,073 [trainer.py] => Average Accuracy (CNN): 84.89
+2025-12-24 02:54:24,079 [asp.py] => Learning on 145-150
+2025-12-24 02:54:24,081 [asp.py] => All params: 173861122
+2025-12-24 02:54:24,081 [asp.py] => backbone.TIP: 27648
+2025-12-24 02:54:24,082 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 02:54:24,082 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 02:54:24,082 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 02:54:24,082 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 02:54:24,082 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 02:54:24,082 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 02:54:24,082 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 02:54:24,082 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 02:54:24,082 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 02:54:24,115 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 02:54:26,952 [trainer.py] => Task 10 Trainable params: 2.00M, GPU: 874.98MiB
+2025-12-24 02:55:49,599 [trainer.py] => CNN: {'total': 81.88, '00-99': 87.19, '100-104': 74.47, '105-109': 71.15, '110-114': 73.68, '115-119': 62.12, '120-124': 73.47, '125-129': 61.9, '130-134': 69.74, '135-139': 92.59, '140-144': 56.0, '145-149': 78.12, '150-154': 80.0, '155-159': 80.0, '160-164': 72.0, '165-169': 60.0, '170-174': 92.0, '175-179': 84.0, '180-184': 96.0, '185-189': 88.0, '190-194': 84.0, '195-199': 92.0, 'old': 82.02, 'new': 78.12}
+2025-12-24 02:55:49,630 [trainer.py] => Top1 curve: [87.87, 87.11, 86.38, 86.21, 84.85, 84.95, 83.39, 82.86, 83.0, 82.31, 81.88]
+2025-12-24 02:55:49,631 [trainer.py] => Average Accuracy (CNN): 84.62
+2025-12-24 02:55:49,659 [asp.py] => Learning on 150-155
+2025-12-24 02:55:49,661 [asp.py] => All params: 173864962
+2025-12-24 02:55:49,661 [asp.py] => backbone.TIP: 27648
+2025-12-24 02:55:49,662 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 02:55:49,662 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 02:55:49,662 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 02:55:49,662 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 02:55:49,662 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 02:55:49,662 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 02:55:49,662 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 02:55:49,663 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 02:55:49,663 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 02:55:49,688 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 02:55:52,519 [trainer.py] => Task 11 Trainable params: 2.00M, GPU: 874.99MiB
+2025-12-24 02:57:15,506 [trainer.py] => CNN: {'total': 81.7, '00-99': 87.19, '100-104': 74.47, '105-109': 71.15, '110-114': 73.68, '115-119': 62.12, '120-124': 73.47, '125-129': 61.9, '130-134': 69.74, '135-139': 92.59, '140-144': 56.0, '145-149': 78.12, '150-154': 76.67, '155-159': 76.0, '160-164': 92.0, '165-169': 72.0, '170-174': 76.0, '175-179': 80.0, '180-184': 72.0, '185-189': 92.0, '190-194': 88.0, '195-199': 76.0, 'old': 81.88, 'new': 76.67}
+2025-12-24 02:57:15,528 [trainer.py] => Top1 curve: [87.87, 87.11, 86.38, 86.21, 84.85, 84.95, 83.39, 82.86, 83.0, 82.31, 81.88, 81.7]
+2025-12-24 02:57:15,528 [trainer.py] => Average Accuracy (CNN): 84.38
+2025-12-24 02:57:16,293 [asp.py] => Learning on 155-160
+2025-12-24 02:57:16,297 [asp.py] => All params: 173868802
+2025-12-24 02:57:16,297 [asp.py] => backbone.TIP: 27648
+2025-12-24 02:57:16,300 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 02:57:16,300 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 02:57:16,300 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 02:57:16,301 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 02:57:16,301 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 02:57:16,301 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 02:57:16,301 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 02:57:16,301 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 02:57:16,301 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 02:57:16,333 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 02:57:18,450 [trainer.py] => Task 12 Trainable params: 2.00M, GPU: 875.01MiB
+2025-12-24 02:58:40,454 [trainer.py] => CNN: {'total': 81.71, '00-99': 87.19, '100-104': 74.47, '105-109': 71.15, '110-114': 73.68, '115-119': 62.12, '120-124': 73.47, '125-129': 61.9, '130-134': 69.74, '135-139': 92.59, '140-144': 56.0, '145-149': 76.56, '150-154': 76.67, '155-159': 84.0, '160-164': 88.0, '165-169': 52.0, '170-174': 80.0, '175-179': 84.0, '180-184': 92.0, '185-189': 100.0, '190-194': 88.0, '195-199': 76.0, 'old': 81.65, 'new': 84.0}
+2025-12-24 02:58:40,479 [trainer.py] => Top1 curve: [87.87, 87.11, 86.38, 86.21, 84.85, 84.95, 83.39, 82.86, 83.0, 82.31, 81.88, 81.7, 81.71]
+2025-12-24 02:58:40,480 [trainer.py] => Average Accuracy (CNN): 84.17
+2025-12-24 02:58:40,483 [asp.py] => Learning on 160-165
+2025-12-24 02:58:40,484 [asp.py] => All params: 173872642
+2025-12-24 02:58:40,484 [asp.py] => backbone.TIP: 27648
+2025-12-24 02:58:40,485 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 02:58:40,485 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 02:58:40,485 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 02:58:40,486 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 02:58:40,486 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 02:58:40,486 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 02:58:40,486 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 02:58:40,486 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 02:58:40,486 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 02:58:40,518 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 02:58:43,304 [trainer.py] => Task 13 Trainable params: 2.00M, GPU: 875.02MiB
+2025-12-24 03:00:05,531 [trainer.py] => CNN: {'total': 81.95, '00-99': 87.19, '100-104': 74.47, '105-109': 71.15, '110-114': 73.68, '115-119': 62.12, '120-124': 73.47, '125-129': 61.9, '130-134': 69.74, '135-139': 92.59, '140-144': 56.0, '145-149': 76.56, '150-154': 76.67, '155-159': 82.0, '160-164': 89.86, '165-169': 72.0, '170-174': 72.0, '175-179': 80.0, '180-184': 88.0, '185-189': 92.0, '190-194': 92.0, '195-199': 92.0, 'old': 81.66, 'new': 89.86}
+2025-12-24 03:00:05,555 [trainer.py] => Top1 curve: [87.87, 87.11, 86.38, 86.21, 84.85, 84.95, 83.39, 82.86, 83.0, 82.31, 81.88, 81.7, 81.71, 81.95]
+2025-12-24 03:00:05,555 [trainer.py] => Average Accuracy (CNN): 84.01
+2025-12-24 03:00:05,558 [asp.py] => Learning on 165-170
+2025-12-24 03:00:05,560 [asp.py] => All params: 173876482
+2025-12-24 03:00:05,560 [asp.py] => backbone.TIP: 27648
+2025-12-24 03:00:05,561 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 03:00:05,561 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 03:00:05,561 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 03:00:05,561 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 03:00:05,561 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 03:00:05,561 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 03:00:05,561 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 03:00:05,561 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 03:00:05,561 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 03:00:05,586 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 03:00:07,846 [trainer.py] => Task 14 Trainable params: 2.00M, GPU: 875.04MiB
+2025-12-24 03:01:31,755 [trainer.py] => CNN: {'total': 82.43, '00-99': 87.19, '100-104': 74.47, '105-109': 71.15, '110-114': 73.68, '115-119': 62.12, '120-124': 73.47, '125-129': 61.9, '130-134': 69.74, '135-139': 92.59, '140-144': 56.0, '145-149': 76.56, '150-154': 76.67, '155-159': 82.0, '160-164': 89.86, '165-169': 96.88, '170-174': 84.0, '175-179': 88.0, '180-184': 96.0, '185-189': 96.0, '190-194': 96.0, '195-199': 68.0, 'old': 81.95, 'new': 96.88}
+2025-12-24 03:01:31,788 [trainer.py] => Top1 curve: [87.87, 87.11, 86.38, 86.21, 84.85, 84.95, 83.39, 82.86, 83.0, 82.31, 81.88, 81.7, 81.71, 81.95, 82.43]
+2025-12-24 03:01:31,789 [trainer.py] => Average Accuracy (CNN): 83.91
+2025-12-24 03:01:31,792 [asp.py] => Learning on 170-175
+2025-12-24 03:01:31,793 [asp.py] => All params: 173880322
+2025-12-24 03:01:31,793 [asp.py] => backbone.TIP: 27648
+2025-12-24 03:01:31,794 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 03:01:31,794 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 03:01:31,794 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 03:01:31,794 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 03:01:31,794 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 03:01:31,794 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 03:01:31,794 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 03:01:31,794 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 03:01:31,795 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 03:01:31,823 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 03:01:34,422 [trainer.py] => Task 15 Trainable params: 2.00M, GPU: 875.05MiB
+2025-12-24 03:02:58,665 [trainer.py] => CNN: {'total': 82.11, '00-99': 87.19, '100-104': 74.47, '105-109': 71.15, '110-114': 73.68, '115-119': 62.12, '120-124': 73.47, '125-129': 61.9, '130-134': 69.74, '135-139': 92.59, '140-144': 56.0, '145-149': 76.56, '150-154': 76.67, '155-159': 80.0, '160-164': 85.51, '165-169': 92.19, '170-174': 83.1, '175-179': 76.0, '180-184': 88.0, '185-189': 92.0, '190-194': 84.0, '195-199': 92.0, 'old': 82.08, 'new': 83.1}
+2025-12-24 03:02:58,688 [trainer.py] => Top1 curve: [87.87, 87.11, 86.38, 86.21, 84.85, 84.95, 83.39, 82.86, 83.0, 82.31, 81.88, 81.7, 81.71, 81.95, 82.43, 82.11]
+2025-12-24 03:02:58,688 [trainer.py] => Average Accuracy (CNN): 83.79
+2025-12-24 03:02:58,780 [asp.py] => Learning on 175-180
+2025-12-24 03:02:58,781 [asp.py] => All params: 173884162
+2025-12-24 03:02:58,781 [asp.py] => backbone.TIP: 27648
+2025-12-24 03:02:58,782 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 03:02:58,782 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 03:02:58,782 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 03:02:58,782 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 03:02:58,782 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 03:02:58,782 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 03:02:58,782 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 03:02:58,782 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 03:02:58,783 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 03:02:58,806 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 03:03:01,047 [trainer.py] => Task 16 Trainable params: 2.00M, GPU: 875.07MiB
+2025-12-24 03:04:25,280 [trainer.py] => CNN: {'total': 82.02, '00-99': 87.19, '100-104': 74.47, '105-109': 71.15, '110-114': 73.68, '115-119': 62.12, '120-124': 73.47, '125-129': 61.9, '130-134': 69.74, '135-139': 92.59, '140-144': 56.0, '145-149': 76.56, '150-154': 76.67, '155-159': 80.0, '160-164': 82.61, '165-169': 87.5, '170-174': 83.1, '175-179': 88.0, '180-184': 64.0, '185-189': 92.0, '190-194': 68.0, '195-199': 92.0, 'old': 81.87, 'new': 88.0}
+2025-12-24 03:04:25,312 [trainer.py] => Top1 curve: [87.87, 87.11, 86.38, 86.21, 84.85, 84.95, 83.39, 82.86, 83.0, 82.31, 81.88, 81.7, 81.71, 81.95, 82.43, 82.11, 82.02]
+2025-12-24 03:04:25,312 [trainer.py] => Average Accuracy (CNN): 83.69
+2025-12-24 03:04:25,315 [asp.py] => Learning on 180-185
+2025-12-24 03:04:25,317 [asp.py] => All params: 173888002
+2025-12-24 03:04:25,317 [asp.py] => backbone.TIP: 27648
+2025-12-24 03:04:25,318 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 03:04:25,318 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 03:04:25,318 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 03:04:25,318 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 03:04:25,318 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 03:04:25,318 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 03:04:25,318 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 03:04:25,318 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 03:04:25,318 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 03:04:25,341 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 03:04:27,514 [trainer.py] => Task 17 Trainable params: 2.00M, GPU: 875.08MiB
+2025-12-24 03:05:52,183 [trainer.py] => CNN: {'total': 82.11, '00-99': 87.19, '100-104': 74.47, '105-109': 71.15, '110-114': 73.68, '115-119': 62.12, '120-124': 73.47, '125-129': 61.9, '130-134': 69.74, '135-139': 92.59, '140-144': 56.0, '145-149': 76.56, '150-154': 76.67, '155-159': 80.0, '160-164': 82.61, '165-169': 87.5, '170-174': 83.1, '175-179': 84.0, '180-184': 88.71, '185-189': 88.0, '190-194': 92.0, '195-199': 96.0, 'old': 81.92, 'new': 88.71}
+2025-12-24 03:05:52,210 [trainer.py] => Top1 curve: [87.87, 87.11, 86.38, 86.21, 84.85, 84.95, 83.39, 82.86, 83.0, 82.31, 81.88, 81.7, 81.71, 81.95, 82.43, 82.11, 82.02, 82.11]
+2025-12-24 03:05:52,211 [trainer.py] => Average Accuracy (CNN): 83.60
+2025-12-24 03:05:52,216 [asp.py] => Learning on 185-190
+2025-12-24 03:05:52,218 [asp.py] => All params: 173891842
+2025-12-24 03:05:52,218 [asp.py] => backbone.TIP: 27648
+2025-12-24 03:05:52,220 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 03:05:52,220 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 03:05:52,220 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 03:05:52,220 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 03:05:52,220 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 03:05:52,220 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 03:05:52,220 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 03:05:52,220 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 03:05:52,221 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 03:05:52,243 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 03:05:55,052 [trainer.py] => Task 18 Trainable params: 2.00M, GPU: 875.10MiB
+2025-12-24 03:07:19,921 [trainer.py] => CNN: {'total': 82.46, '00-99': 87.19, '100-104': 74.47, '105-109': 71.15, '110-114': 73.68, '115-119': 62.12, '120-124': 73.47, '125-129': 61.9, '130-134': 69.74, '135-139': 92.59, '140-144': 56.0, '145-149': 76.56, '150-154': 76.67, '155-159': 80.0, '160-164': 82.61, '165-169': 87.5, '170-174': 83.1, '175-179': 84.0, '180-184': 87.1, '185-189': 96.67, '190-194': 84.0, '195-199': 96.0, 'old': 82.07, 'new': 96.67}
+2025-12-24 03:07:19,935 [trainer.py] => Top1 curve: [87.87, 87.11, 86.38, 86.21, 84.85, 84.95, 83.39, 82.86, 83.0, 82.31, 81.88, 81.7, 81.71, 81.95, 82.43, 82.11, 82.02, 82.11, 82.46]
+2025-12-24 03:07:19,935 [trainer.py] => Average Accuracy (CNN): 83.54
+2025-12-24 03:07:20,651 [asp.py] => Learning on 190-195
+2025-12-24 03:07:20,653 [asp.py] => All params: 173895682
+2025-12-24 03:07:20,654 [asp.py] => backbone.TIP: 27648
+2025-12-24 03:07:20,655 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 03:07:20,655 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 03:07:20,655 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 03:07:20,655 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 03:07:20,655 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 03:07:20,655 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 03:07:20,655 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 03:07:20,655 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 03:07:20,655 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 03:07:20,675 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 03:07:22,852 [trainer.py] => Task 19 Trainable params: 2.00M, GPU: 875.11MiB
+2025-12-24 03:08:48,727 [trainer.py] => CNN: {'total': 82.83, '00-99': 87.19, '100-104': 74.47, '105-109': 71.15, '110-114': 73.68, '115-119': 62.12, '120-124': 73.47, '125-129': 61.9, '130-134': 69.74, '135-139': 92.59, '140-144': 56.0, '145-149': 76.56, '150-154': 76.67, '155-159': 80.0, '160-164': 82.61, '165-169': 87.5, '170-174': 83.1, '175-179': 84.0, '180-184': 87.1, '185-189': 95.0, '190-194': 96.92, '195-199': 80.0, 'old': 82.42, 'new': 96.92}
+2025-12-24 03:08:48,758 [trainer.py] => Top1 curve: [87.87, 87.11, 86.38, 86.21, 84.85, 84.95, 83.39, 82.86, 83.0, 82.31, 81.88, 81.7, 81.71, 81.95, 82.43, 82.11, 82.02, 82.11, 82.46, 82.83]
+2025-12-24 03:08:48,759 [trainer.py] => Average Accuracy (CNN): 83.51
+2025-12-24 03:08:49,557 [asp.py] => Learning on 195-200
+2025-12-24 03:08:49,561 [asp.py] => All params: 173899522
+2025-12-24 03:08:49,561 [asp.py] => backbone.TIP: 27648
+2025-12-24 03:08:49,564 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 03:08:49,564 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 03:08:49,565 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 03:08:49,565 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 03:08:49,565 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 03:08:49,565 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 03:08:49,565 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 03:08:49,566 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 03:08:49,566 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 03:08:49,597 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 03:08:51,897 [trainer.py] => Task 20 Trainable params: 2.00M, GPU: 875.13MiB
+2025-12-24 03:10:17,202 [trainer.py] => CNN: {'total': 82.95, '00-99': 87.19, '100-104': 74.47, '105-109': 71.15, '110-114': 73.68, '115-119': 62.12, '120-124': 73.47, '125-129': 61.9, '130-134': 69.74, '135-139': 92.59, '140-144': 56.0, '145-149': 76.56, '150-154': 76.67, '155-159': 80.0, '160-164': 82.61, '165-169': 87.5, '170-174': 83.1, '175-179': 84.0, '180-184': 87.1, '185-189': 95.0, '190-194': 92.31, '195-199': 93.1, 'old': 82.7, 'new': 93.1}
+2025-12-24 03:10:17,232 [trainer.py] => Top1 curve: [87.87, 87.11, 86.38, 86.21, 84.85, 84.95, 83.39, 82.86, 83.0, 82.31, 81.88, 81.7, 81.71, 81.95, 82.43, 82.11, 82.02, 82.11, 82.46, 82.83, 82.95]
+2025-12-24 03:10:17,232 [trainer.py] => Average Accuracy (CNN): 83.48
+
+================================================================================
+Finished cub_init100_inc5: pretrained_vit_b16_224_vpt  
+Base Accuracy: 87.87
+Last Accuracy: 82.95
+Average Accuracy (Top1): 83.48
+PD: 4.92
+Backward Transfer (BWT): -3.75
+Traceback (most recent call last):
+  File "/public/home/hanlida/Dr.1/Code/Research/Awesome-FSCIL/FSCIL-ASP-main/main.py", line 25, in <module>
+    main()
+  File "/public/home/hanlida/Dr.1/Code/Research/Awesome-FSCIL/FSCIL-ASP-main/main.py", line 11, in main
+    train(args)
+  File "/public/home/hanlida/Dr.1/Code/Research/Awesome-FSCIL/FSCIL-ASP-main/trainer.py", line 32, in train
+    _train(args)
+  File "/public/home/hanlida/Dr.1/Code/Research/Awesome-FSCIL/FSCIL-ASP-main/trainer.py", line 207, in _train
+    print("Forward Transfer (FWT):", forward_transfer(args["dataset"], np.array(cnn_matrix)))
+  File "/public/home/hanlida/Dr.1/Code/Research/Awesome-FSCIL/FSCIL-ASP-main/trainer.py", line 317, in forward_transfer
+    fwt_diffs = fwt_accs - rand_init_acc_for_fwt
+ValueError: operands could not be broadcast together with shapes (20,) (10,) 
+2025-12-24 03:10:43,539 [trainer.py] => config: ./configs/asp_cifar_B60_Inc2.json
+2025-12-24 03:10:43,558 [trainer.py] => model_name: asp
+2025-12-24 03:10:43,559 [trainer.py] => backbone_type: pretrained_vit_b16_224_vpt
+2025-12-24 03:10:43,559 [trainer.py] => device: [device(type='cuda', index=1)]
+2025-12-24 03:10:43,559 [trainer.py] => seed: 1993
+2025-12-24 03:10:43,559 [trainer.py] => dataset: cifar224
+2025-12-24 03:10:43,559 [trainer.py] => init_cls: 60
+2025-12-24 03:10:43,559 [trainer.py] => increment: 2
+2025-12-24 03:10:43,560 [trainer.py] => kshot: 5
+2025-12-24 03:10:43,560 [trainer.py] => vpt_type: Deep
+2025-12-24 03:10:43,560 [trainer.py] => prompt_token_num: 6
+2025-12-24 03:10:43,560 [trainer.py] => avg_alpha: 0.8
+2025-12-24 03:10:43,560 [trainer.py] => perturb_var: 1
+2025-12-24 03:10:43,560 [trainer.py] => EMA_beta: 0.99
+2025-12-24 03:10:43,560 [trainer.py] => anchor_lambda: 0.1
+2025-12-24 03:10:43,561 [trainer.py] => kl_weight: 0.001
+2025-12-24 03:10:43,561 [trainer.py] => TIP_init: zero
+2025-12-24 03:10:43,561 [trainer.py] => tuned_epoch: 20
+2025-12-24 03:10:43,561 [trainer.py] => fs_epoch: 0
+2025-12-24 03:10:43,561 [trainer.py] => init_lr: 0.01
+2025-12-24 03:10:43,561 [trainer.py] => fs_lr: 0.001
+2025-12-24 03:10:43,561 [trainer.py] => batch_size: 48
+2025-12-24 03:10:43,562 [trainer.py] => fs_batch_size: 16
+2025-12-24 03:10:43,562 [trainer.py] => weight_decay: 0.0005
+2025-12-24 03:10:43,562 [trainer.py] => min_lr: 0
+2025-12-24 03:10:43,562 [trainer.py] => optimizer: sgd
+2025-12-24 03:10:43,562 [trainer.py] => memory_size: 0
+2025-12-24 03:10:43,562 [trainer.py] => memory_per_class: 0
+2025-12-24 03:10:43,562 [trainer.py] => fixed_memory: False
+2025-12-24 03:10:43,563 [trainer.py] => shuffle: False
+2025-12-24 03:10:43,563 [trainer.py] => top_k: 5
+2025-12-24 03:10:43,563 [trainer.py] => base_model_path: saved_model/asp/cifar224/60_2/asp_20_1993_pretrained_vit_b16_224_vpt.pth
+2025-12-24 03:10:43,563 [trainer.py] => prefix: asp
+2025-12-24 03:10:43,563 [trainer.py] => model_prefix: asp
+2025-12-24 03:10:43,563 [trainer.py] => gpu_models: ['NVIDIA A800 80GB PCIe']
+Files already downloaded and verified
+Files already downloaded and verified
+2025-12-24 03:10:45,672 [data_manager.py] => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99]
+This is for the BaseNet initialization.
+modelname, pretrained_vit_b16_224_vpt basicmodelname vit_base_patch16_224
+Using VPT model
+Using Deep Prompt
+After BaseNet initialization.
+2025-12-24 03:11:12,858 [asp.py] => Learning on 0-60
+2025-12-24 03:11:12,886 [asp.py] => All params: 173672961
+2025-12-24 03:11:12,886 [asp.py] => backbone.TIP: 27648
+2025-12-24 03:11:12,887 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 03:11:12,887 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 03:11:12,887 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 03:11:12,887 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 03:11:12,888 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 03:11:12,888 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 03:11:12,888 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 03:11:12,888 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 03:11:12,888 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 03:11:13,731 [asp.py] => training set size: 30000, fc construct set size: 30000
+anchor samples found
+2025-12-24 04:27:19,196 [asp.py] => Task 0, Epoch 1 => Loss 3.501, Train_accy 34.33, Test_curr_accy 87.90, Test_accy 87.90
+anchor samples found
+2025-12-24 05:42:54,947 [asp.py] => Task 0, Epoch 2 => Loss 1.042, Train_accy 77.86, Test_curr_accy 91.18, Test_accy 91.18
+anchor samples found
+2025-12-24 06:58:25,863 [asp.py] => Task 0, Epoch 3 => Loss 0.881, Train_accy 80.06, Test_curr_accy 92.15, Test_accy 92.15
+anchor samples found
+2025-12-24 07:43:59,534 [asp.py] => Task 0, Epoch 4 => Loss 0.794, Train_accy 81.26, Test_curr_accy 92.63, Test_accy 92.63
+anchor samples found
+2025-12-24 08:11:56,931 [asp.py] => Task 0, Epoch 5 => Loss 0.784, Train_accy 81.32, Test_curr_accy 92.37, Test_accy 92.37
+anchor samples found
+2025-12-24 08:41:56,568 [asp.py] => Task 0, Epoch 6 => Loss 0.756, Train_accy 81.80, Test_curr_accy 92.65, Test_accy 92.65
+anchor samples found
+2025-12-24 09:24:25,947 [asp.py] => Task 0, Epoch 7 => Loss 0.751, Train_accy 81.91, Test_curr_accy 92.85, Test_accy 92.85
+anchor samples found
+2025-12-24 10:07:54,058 [asp.py] => Task 0, Epoch 8 => Loss 0.732, Train_accy 82.32, Test_curr_accy 92.92, Test_accy 92.92
+anchor samples found
+2025-12-24 10:40:13,688 [asp.py] => Task 0, Epoch 9 => Loss 0.702, Train_accy 83.14, Test_curr_accy 93.27, Test_accy 93.27
+anchor samples found
+2025-12-24 11:10:12,657 [asp.py] => Task 0, Epoch 10 => Loss 0.698, Train_accy 83.22, Test_curr_accy 92.92, Test_accy 92.92
+anchor samples found
+2025-12-24 11:28:19,349 [asp.py] => Task 0, Epoch 11 => Loss 0.687, Train_accy 83.23, Test_curr_accy 92.90, Test_accy 92.90
+anchor samples found
+2025-12-24 11:45:12,162 [asp.py] => Task 0, Epoch 12 => Loss 0.680, Train_accy 83.29, Test_curr_accy 92.97, Test_accy 92.97
+anchor samples found
+2025-12-24 12:02:21,194 [asp.py] => Task 0, Epoch 13 => Loss 0.682, Train_accy 83.11, Test_curr_accy 92.25, Test_accy 92.25
+anchor samples found
+2025-12-24 12:19:26,780 [asp.py] => Task 0, Epoch 14 => Loss 0.674, Train_accy 83.61, Test_curr_accy 92.78, Test_accy 92.78
+anchor samples found
+2025-12-24 12:35:47,944 [asp.py] => Task 0, Epoch 15 => Loss 0.666, Train_accy 83.68, Test_curr_accy 92.98, Test_accy 92.98
+anchor samples found
+2025-12-24 12:53:21,438 [asp.py] => Task 0, Epoch 16 => Loss 0.662, Train_accy 83.82, Test_curr_accy 93.08, Test_accy 93.08
+anchor samples found
+2025-12-24 13:10:55,323 [asp.py] => Task 0, Epoch 17 => Loss 0.651, Train_accy 84.07, Test_curr_accy 93.07, Test_accy 93.07
+anchor samples found
+2025-12-24 13:26:57,622 [asp.py] => Task 0, Epoch 18 => Loss 0.652, Train_accy 83.83, Test_curr_accy 93.17, Test_accy 93.17
+anchor samples found
+2025-12-24 13:40:33,504 [asp.py] => Task 0, Epoch 19 => Loss 0.646, Train_accy 84.06, Test_curr_accy 93.20, Test_accy 93.20
+anchor samples found
+2025-12-24 13:54:05,943 [asp.py] => Task 0, Epoch 20 => Loss 0.638, Train_accy 84.08, Test_curr_accy 93.15, Test_accy 93.15
+2025-12-24 13:58:34,042 [trainer.py] => Task 0 Trainable params: 2.00M, GPU: 9737.53MiB
+2025-12-24 13:59:11,256 [trainer.py] => CNN: {'total': 91.88, '00-59': 91.88, '60-61': 90.0, '62-63': 70.0, '64-65': 70.0, '66-67': 90.0, '68-69': 80.0, '70-71': 90.0, '72-73': 80.0, '74-75': 70.0, '76-77': 80.0, '78-79': 90.0, '80-81': 80.0, '82-83': 100.0, '84-85': 60.0, '86-87': 100.0, '88-89': 50.0, '90-91': 90.0, '92-93': 70.0, '94-95': 70.0, '96-97': 90.0, '98-99': 80.0, 'old': 0, 'new': 91.88}
+2025-12-24 13:59:11,257 [trainer.py] => Top1 curve: [91.88]
+2025-12-24 13:59:11,257 [trainer.py] => Average Accuracy (CNN): 91.88
+2025-12-24 13:59:11,572 [asp.py] => Learning on 60-62
+2025-12-24 13:59:11,573 [asp.py] => All params: 173719042
+2025-12-24 13:59:11,574 [asp.py] => backbone.TIP: 27648
+2025-12-24 13:59:11,574 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 13:59:11,574 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 13:59:11,574 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 13:59:11,575 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 13:59:11,575 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 13:59:11,575 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 13:59:11,575 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 13:59:11,575 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 13:59:11,575 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 13:59:11,607 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-24 13:59:11,995 [trainer.py] => Task 1 Trainable params: 2.00M, GPU: 769.03MiB
+2025-12-24 13:59:50,307 [trainer.py] => CNN: {'total': 91.26, '00-59': 91.73, '60-61': 77.0, '62-63': 60.0, '64-65': 60.0, '66-67': 90.0, '68-69': 70.0, '70-71': 100.0, '72-73': 60.0, '74-75': 80.0, '76-77': 90.0, '78-79': 90.0, '80-81': 90.0, '82-83': 80.0, '84-85': 70.0, '86-87': 90.0, '88-89': 60.0, '90-91': 80.0, '92-93': 50.0, '94-95': 80.0, '96-97': 80.0, '98-99': 100.0, 'old': 91.73, 'new': 77.0}
+2025-12-24 13:59:50,310 [trainer.py] => Top1 curve: [91.88, 91.26]
+2025-12-24 13:59:50,310 [trainer.py] => Average Accuracy (CNN): 91.57
+2025-12-24 13:59:50,313 [asp.py] => Learning on 62-64
+2025-12-24 13:59:50,314 [asp.py] => All params: 173720578
+2025-12-24 13:59:50,314 [asp.py] => backbone.TIP: 27648
+2025-12-24 13:59:50,315 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 13:59:50,315 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 13:59:50,315 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 13:59:50,315 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 13:59:50,315 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 13:59:50,316 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 13:59:50,316 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 13:59:50,316 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 13:59:50,316 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 13:59:50,347 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-24 13:59:50,729 [trainer.py] => Task 2 Trainable params: 2.00M, GPU: 769.03MiB
+2025-12-24 14:00:28,949 [trainer.py] => CNN: {'total': 90.92, '00-59': 91.6, '60-61': 77.0, '62-63': 84.5, '64-65': 70.0, '66-67': 90.0, '68-69': 70.0, '70-71': 90.0, '72-73': 70.0, '74-75': 60.0, '76-77': 100.0, '78-79': 100.0, '80-81': 30.0, '82-83': 100.0, '84-85': 80.0, '86-87': 80.0, '88-89': 80.0, '90-91': 80.0, '92-93': 70.0, '94-95': 100.0, '96-97': 90.0, '98-99': 70.0, 'old': 91.13, 'new': 84.5}
+2025-12-24 14:00:28,949 [trainer.py] => Top1 curve: [91.88, 91.26, 90.92]
+2025-12-24 14:00:28,949 [trainer.py] => Average Accuracy (CNN): 91.35
+2025-12-24 14:00:28,952 [asp.py] => Learning on 64-66
+2025-12-24 14:00:28,953 [asp.py] => All params: 173722114
+2025-12-24 14:00:28,953 [asp.py] => backbone.TIP: 27648
+2025-12-24 14:00:28,954 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 14:00:28,954 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 14:00:28,954 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 14:00:28,954 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 14:00:28,954 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 14:00:28,954 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 14:00:28,954 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 14:00:28,954 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 14:00:28,954 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 14:00:28,986 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-24 14:00:29,427 [trainer.py] => Task 3 Trainable params: 2.00M, GPU: 769.04MiB
+2025-12-24 14:01:09,103 [trainer.py] => CNN: {'total': 90.24, '00-59': 91.57, '60-61': 77.0, '62-63': 84.5, '64-65': 69.5, '66-67': 80.0, '68-69': 90.0, '70-71': 90.0, '72-73': 80.0, '74-75': 60.0, '76-77': 70.0, '78-79': 90.0, '80-81': 70.0, '82-83': 60.0, '84-85': 80.0, '86-87': 90.0, '88-89': 60.0, '90-91': 90.0, '92-93': 70.0, '94-95': 80.0, '96-97': 90.0, '98-99': 80.0, 'old': 90.89, 'new': 69.5}
+2025-12-24 14:01:09,104 [trainer.py] => Top1 curve: [91.88, 91.26, 90.92, 90.24]
+2025-12-24 14:01:09,104 [trainer.py] => Average Accuracy (CNN): 91.08
+2025-12-24 14:01:09,107 [asp.py] => Learning on 66-68
+2025-12-24 14:01:09,108 [asp.py] => All params: 173723650
+2025-12-24 14:01:09,108 [asp.py] => backbone.TIP: 27648
+2025-12-24 14:01:09,109 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 14:01:09,109 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 14:01:09,109 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 14:01:09,110 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 14:01:09,110 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 14:01:09,110 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 14:01:09,110 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 14:01:09,110 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 14:01:09,110 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 14:01:09,142 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-24 14:01:09,521 [trainer.py] => Task 4 Trainable params: 2.00M, GPU: 769.04MiB
+2025-12-24 14:01:50,724 [trainer.py] => CNN: {'total': 90.18, '00-59': 91.52, '60-61': 77.0, '62-63': 84.5, '64-65': 69.0, '66-67': 90.0, '68-69': 60.0, '70-71': 100.0, '72-73': 100.0, '74-75': 90.0, '76-77': 100.0, '78-79': 90.0, '80-81': 80.0, '82-83': 80.0, '84-85': 50.0, '86-87': 90.0, '88-89': 80.0, '90-91': 90.0, '92-93': 100.0, '94-95': 80.0, '96-97': 90.0, '98-99': 90.0, 'old': 90.18, 'new': 90.0}
+2025-12-24 14:01:50,724 [trainer.py] => Top1 curve: [91.88, 91.26, 90.92, 90.24, 90.18]
+2025-12-24 14:01:50,724 [trainer.py] => Average Accuracy (CNN): 90.90
+2025-12-24 14:01:50,727 [asp.py] => Learning on 68-70
+2025-12-24 14:01:50,728 [asp.py] => All params: 173725186
+2025-12-24 14:01:50,728 [asp.py] => backbone.TIP: 27648
+2025-12-24 14:01:50,729 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 14:01:50,729 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 14:01:50,729 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 14:01:50,729 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 14:01:50,729 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 14:01:50,729 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 14:01:50,729 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 14:01:50,729 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 14:01:50,730 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 14:01:50,761 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-24 14:01:51,120 [trainer.py] => Task 5 Trainable params: 2.00M, GPU: 769.05MiB
+2025-12-24 14:02:32,841 [trainer.py] => CNN: {'total': 89.96, '00-59': 91.48, '60-61': 75.0, '62-63': 84.5, '64-65': 69.0, '66-67': 90.0, '68-69': 85.5, '70-71': 80.0, '72-73': 70.0, '74-75': 60.0, '76-77': 90.0, '78-79': 100.0, '80-81': 60.0, '82-83': 90.0, '84-85': 80.0, '86-87': 80.0, '88-89': 70.0, '90-91': 90.0, '92-93': 100.0, '94-95': 90.0, '96-97': 90.0, '98-99': 80.0, 'old': 90.09, 'new': 85.5}
+2025-12-24 14:02:32,841 [trainer.py] => Top1 curve: [91.88, 91.26, 90.92, 90.24, 90.18, 89.96]
+2025-12-24 14:02:32,841 [trainer.py] => Average Accuracy (CNN): 90.74
+2025-12-24 14:02:33,551 [asp.py] => Learning on 70-72
+2025-12-24 14:02:33,555 [asp.py] => All params: 173726722
+2025-12-24 14:02:33,556 [asp.py] => backbone.TIP: 27648
+2025-12-24 14:02:33,559 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 14:02:33,559 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 14:02:33,559 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 14:02:33,559 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 14:02:33,560 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 14:02:33,560 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 14:02:33,560 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 14:02:33,560 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 14:02:33,560 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 14:02:33,635 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-24 14:02:34,109 [trainer.py] => Task 6 Trainable params: 2.00M, GPU: 769.06MiB
+2025-12-24 14:03:15,715 [trainer.py] => CNN: {'total': 89.56, '00-59': 91.33, '60-61': 74.0, '62-63': 81.0, '64-65': 69.0, '66-67': 90.0, '68-69': 84.5, '70-71': 85.5, '72-73': 60.0, '74-75': 90.0, '76-77': 80.0, '78-79': 90.0, '80-81': 90.0, '82-83': 100.0, '84-85': 60.0, '86-87': 80.0, '88-89': 70.0, '90-91': 100.0, '92-93': 90.0, '94-95': 100.0, '96-97': 90.0, '98-99': 70.0, 'old': 89.67, 'new': 85.5}
+2025-12-24 14:03:15,716 [trainer.py] => Top1 curve: [91.88, 91.26, 90.92, 90.24, 90.18, 89.96, 89.56]
+2025-12-24 14:03:15,716 [trainer.py] => Average Accuracy (CNN): 90.57
+2025-12-24 14:03:15,720 [asp.py] => Learning on 72-74
+2025-12-24 14:03:15,721 [asp.py] => All params: 173728258
+2025-12-24 14:03:15,721 [asp.py] => backbone.TIP: 27648
+2025-12-24 14:03:15,722 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 14:03:15,723 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 14:03:15,723 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 14:03:15,723 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 14:03:15,723 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 14:03:15,723 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 14:03:15,723 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 14:03:15,723 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 14:03:15,723 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 14:03:15,761 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-24 14:03:16,158 [trainer.py] => Task 7 Trainable params: 2.00M, GPU: 769.06MiB
+2025-12-24 14:03:59,308 [trainer.py] => CNN: {'total': 89.01, '00-59': 91.3, '60-61': 74.0, '62-63': 81.0, '64-65': 69.0, '66-67': 89.5, '68-69': 84.5, '70-71': 85.5, '72-73': 71.0, '74-75': 80.0, '76-77': 70.0, '78-79': 100.0, '80-81': 100.0, '82-83': 60.0, '84-85': 60.0, '86-87': 80.0, '88-89': 80.0, '90-91': 70.0, '92-93': 100.0, '94-95': 100.0, '96-97': 80.0, '98-99': 90.0, 'old': 89.51, 'new': 71.0}
+2025-12-24 14:03:59,308 [trainer.py] => Top1 curve: [91.88, 91.26, 90.92, 90.24, 90.18, 89.96, 89.56, 89.01]
+2025-12-24 14:03:59,308 [trainer.py] => Average Accuracy (CNN): 90.38
+2025-12-24 14:03:59,311 [asp.py] => Learning on 74-76
+2025-12-24 14:03:59,312 [asp.py] => All params: 173729794
+2025-12-24 14:03:59,313 [asp.py] => backbone.TIP: 27648
+2025-12-24 14:03:59,313 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 14:03:59,313 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 14:03:59,313 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 14:03:59,313 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 14:03:59,314 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 14:03:59,314 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 14:03:59,314 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 14:03:59,314 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 14:03:59,314 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 14:03:59,344 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-24 14:03:59,722 [trainer.py] => Task 8 Trainable params: 2.00M, GPU: 769.07MiB
+2025-12-24 14:04:44,773 [trainer.py] => CNN: {'total': 88.57, '00-59': 91.25, '60-61': 74.0, '62-63': 80.0, '64-65': 68.0, '66-67': 89.5, '68-69': 84.5, '70-71': 85.5, '72-73': 71.0, '74-75': 75.5, '76-77': 80.0, '78-79': 90.0, '80-81': 90.0, '82-83': 90.0, '84-85': 70.0, '86-87': 80.0, '88-89': 70.0, '90-91': 80.0, '92-93': 80.0, '94-95': 90.0, '96-97': 70.0, '98-99': 80.0, 'old': 88.92, 'new': 75.5}
+2025-12-24 14:04:44,776 [trainer.py] => Top1 curve: [91.88, 91.26, 90.92, 90.24, 90.18, 89.96, 89.56, 89.01, 88.57]
+2025-12-24 14:04:44,776 [trainer.py] => Average Accuracy (CNN): 90.18
+2025-12-24 14:04:44,779 [asp.py] => Learning on 76-78
+2025-12-24 14:04:44,781 [asp.py] => All params: 173731330
+2025-12-24 14:04:44,781 [asp.py] => backbone.TIP: 27648
+2025-12-24 14:04:44,782 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 14:04:44,782 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 14:04:44,782 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 14:04:44,782 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 14:04:44,782 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 14:04:44,782 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 14:04:44,782 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 14:04:44,782 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 14:04:44,782 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 14:04:44,813 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-24 14:04:45,201 [trainer.py] => Task 9 Trainable params: 2.00M, GPU: 769.07MiB
+2025-12-24 14:05:30,042 [trainer.py] => CNN: {'total': 88.55, '00-59': 91.2, '60-61': 73.5, '62-63': 80.0, '64-65': 68.0, '66-67': 89.5, '68-69': 84.5, '70-71': 85.5, '72-73': 71.0, '74-75': 75.5, '76-77': 90.0, '78-79': 90.0, '80-81': 90.0, '82-83': 70.0, '84-85': 70.0, '86-87': 100.0, '88-89': 70.0, '90-91': 80.0, '92-93': 80.0, '94-95': 80.0, '96-97': 90.0, '98-99': 80.0, 'old': 88.51, 'new': 90.0}
+2025-12-24 14:05:30,042 [trainer.py] => Top1 curve: [91.88, 91.26, 90.92, 90.24, 90.18, 89.96, 89.56, 89.01, 88.57, 88.55]
+2025-12-24 14:05:30,042 [trainer.py] => Average Accuracy (CNN): 90.01
+2025-12-24 14:05:30,045 [asp.py] => Learning on 78-80
+2025-12-24 14:05:30,046 [asp.py] => All params: 173732866
+2025-12-24 14:05:30,047 [asp.py] => backbone.TIP: 27648
+2025-12-24 14:05:30,047 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 14:05:30,048 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 14:05:30,048 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 14:05:30,048 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 14:05:30,048 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 14:05:30,048 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 14:05:30,048 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 14:05:30,048 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 14:05:30,048 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 14:05:30,078 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-24 14:05:30,462 [trainer.py] => Task 10 Trainable params: 2.00M, GPU: 769.08MiB
+2025-12-24 14:06:15,351 [trainer.py] => CNN: {'total': 88.71, '00-59': 91.18, '60-61': 73.5, '62-63': 80.0, '64-65': 68.0, '66-67': 89.5, '68-69': 84.5, '70-71': 85.5, '72-73': 71.0, '74-75': 75.5, '76-77': 89.5, '78-79': 96.0, '80-81': 60.0, '82-83': 100.0, '84-85': 80.0, '86-87': 90.0, '88-89': 90.0, '90-91': 80.0, '92-93': 70.0, '94-95': 70.0, '96-97': 70.0, '98-99': 70.0, 'old': 88.53, 'new': 96.0}
+2025-12-24 14:06:15,351 [trainer.py] => Top1 curve: [91.88, 91.26, 90.92, 90.24, 90.18, 89.96, 89.56, 89.01, 88.57, 88.55, 88.71]
+2025-12-24 14:06:15,351 [trainer.py] => Average Accuracy (CNN): 89.89
+2025-12-24 14:06:15,354 [asp.py] => Learning on 80-82
+2025-12-24 14:06:15,355 [asp.py] => All params: 173734402
+2025-12-24 14:06:15,355 [asp.py] => backbone.TIP: 27648
+2025-12-24 14:06:15,356 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 14:06:15,356 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 14:06:15,356 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 14:06:15,357 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 14:06:15,357 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 14:06:15,357 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 14:06:15,357 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 14:06:15,357 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 14:06:15,357 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 14:06:15,388 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-24 14:06:15,745 [trainer.py] => Task 11 Trainable params: 2.00M, GPU: 769.09MiB
+2025-12-24 14:07:02,510 [trainer.py] => CNN: {'total': 88.54, '00-59': 91.13, '60-61': 73.5, '62-63': 80.0, '64-65': 67.0, '66-67': 89.5, '68-69': 84.0, '70-71': 85.5, '72-73': 71.0, '74-75': 75.5, '76-77': 89.5, '78-79': 96.0, '80-81': 84.5, '82-83': 90.0, '84-85': 70.0, '86-87': 80.0, '88-89': 50.0, '90-91': 80.0, '92-93': 70.0, '94-95': 80.0, '96-97': 100.0, '98-99': 80.0, 'old': 88.64, 'new': 84.5}
+2025-12-24 14:07:02,510 [trainer.py] => Top1 curve: [91.88, 91.26, 90.92, 90.24, 90.18, 89.96, 89.56, 89.01, 88.57, 88.55, 88.71, 88.54]
+2025-12-24 14:07:02,510 [trainer.py] => Average Accuracy (CNN): 89.78
+2025-12-24 14:07:02,514 [asp.py] => Learning on 82-84
+2025-12-24 14:07:02,515 [asp.py] => All params: 173735938
+2025-12-24 14:07:02,515 [asp.py] => backbone.TIP: 27648
+2025-12-24 14:07:02,516 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 14:07:02,516 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 14:07:02,516 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 14:07:02,516 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 14:07:02,516 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 14:07:02,516 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 14:07:02,516 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 14:07:02,516 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 14:07:02,516 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 14:07:02,545 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-24 14:07:02,912 [trainer.py] => Task 12 Trainable params: 2.00M, GPU: 769.09MiB
+2025-12-24 14:07:49,642 [trainer.py] => CNN: {'total': 88.64, '00-59': 91.12, '60-61': 73.0, '62-63': 79.5, '64-65': 67.0, '66-67': 89.5, '68-69': 84.0, '70-71': 85.5, '72-73': 71.0, '74-75': 75.5, '76-77': 89.5, '78-79': 96.0, '80-81': 84.5, '82-83': 94.5, '84-85': 90.0, '86-87': 90.0, '88-89': 60.0, '90-91': 70.0, '92-93': 90.0, '94-95': 80.0, '96-97': 90.0, '98-99': 60.0, 'old': 88.5, 'new': 94.5}
+2025-12-24 14:07:49,642 [trainer.py] => Top1 curve: [91.88, 91.26, 90.92, 90.24, 90.18, 89.96, 89.56, 89.01, 88.57, 88.55, 88.71, 88.54, 88.64]
+2025-12-24 14:07:49,642 [trainer.py] => Average Accuracy (CNN): 89.69
+2025-12-24 14:07:50,015 [asp.py] => Learning on 84-86
+2025-12-24 14:07:50,018 [asp.py] => All params: 173737474
+2025-12-24 14:07:50,018 [asp.py] => backbone.TIP: 27648
+2025-12-24 14:07:50,019 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 14:07:50,020 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 14:07:50,020 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 14:07:50,020 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 14:07:50,020 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 14:07:50,020 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 14:07:50,020 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 14:07:50,020 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 14:07:50,020 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 14:07:50,068 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-24 14:07:50,516 [trainer.py] => Task 13 Trainable params: 2.00M, GPU: 769.10MiB
+2025-12-24 14:08:38,614 [trainer.py] => CNN: {'total': 88.4, '00-59': 91.1, '60-61': 73.0, '62-63': 79.5, '64-65': 67.0, '66-67': 89.5, '68-69': 83.5, '70-71': 85.5, '72-73': 71.0, '74-75': 75.5, '76-77': 89.5, '78-79': 96.0, '80-81': 84.5, '82-83': 94.5, '84-85': 79.0, '86-87': 80.0, '88-89': 70.0, '90-91': 70.0, '92-93': 90.0, '94-95': 70.0, '96-97': 100.0, '98-99': 70.0, 'old': 88.62, 'new': 79.0}
+2025-12-24 14:08:38,614 [trainer.py] => Top1 curve: [91.88, 91.26, 90.92, 90.24, 90.18, 89.96, 89.56, 89.01, 88.57, 88.55, 88.71, 88.54, 88.64, 88.4]
+2025-12-24 14:08:38,614 [trainer.py] => Average Accuracy (CNN): 89.60
+2025-12-24 14:08:38,617 [asp.py] => Learning on 86-88
+2025-12-24 14:08:38,618 [asp.py] => All params: 173739010
+2025-12-24 14:08:38,618 [asp.py] => backbone.TIP: 27648
+2025-12-24 14:08:38,619 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 14:08:38,619 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 14:08:38,619 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 14:08:38,619 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 14:08:38,619 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 14:08:38,619 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 14:08:38,619 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 14:08:38,619 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 14:08:38,619 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 14:08:38,649 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-24 14:08:39,008 [trainer.py] => Task 14 Trainable params: 2.00M, GPU: 769.10MiB
+2025-12-24 14:09:29,539 [trainer.py] => CNN: {'total': 88.38, '00-59': 91.05, '60-61': 73.0, '62-63': 79.5, '64-65': 67.0, '66-67': 89.5, '68-69': 83.5, '70-71': 85.0, '72-73': 71.0, '74-75': 75.5, '76-77': 89.5, '78-79': 96.0, '80-81': 84.5, '82-83': 94.5, '84-85': 79.0, '86-87': 89.5, '88-89': 70.0, '90-91': 70.0, '92-93': 80.0, '94-95': 100.0, '96-97': 70.0, '98-99': 90.0, 'old': 88.35, 'new': 89.5}
+2025-12-24 14:09:29,543 [trainer.py] => Top1 curve: [91.88, 91.26, 90.92, 90.24, 90.18, 89.96, 89.56, 89.01, 88.57, 88.55, 88.71, 88.54, 88.64, 88.4, 88.38]
+2025-12-24 14:09:29,543 [trainer.py] => Average Accuracy (CNN): 89.52
+2025-12-24 14:09:29,546 [asp.py] => Learning on 88-90
+2025-12-24 14:09:29,548 [asp.py] => All params: 173740546
+2025-12-24 14:09:29,548 [asp.py] => backbone.TIP: 27648
+2025-12-24 14:09:29,549 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 14:09:29,549 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 14:09:29,549 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 14:09:29,549 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 14:09:29,549 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 14:09:29,549 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 14:09:29,549 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 14:09:29,549 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 14:09:29,549 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 14:09:29,579 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-24 14:09:30,000 [trainer.py] => Task 15 Trainable params: 2.00M, GPU: 769.11MiB
+2025-12-24 14:10:20,434 [trainer.py] => CNN: {'total': 88.22, '00-59': 90.97, '60-61': 73.0, '62-63': 79.5, '64-65': 67.0, '66-67': 89.5, '68-69': 83.5, '70-71': 85.0, '72-73': 71.0, '74-75': 75.5, '76-77': 89.5, '78-79': 96.0, '80-81': 84.5, '82-83': 94.5, '84-85': 78.0, '86-87': 89.5, '88-89': 85.0, '90-91': 70.0, '92-93': 80.0, '94-95': 80.0, '96-97': 80.0, '98-99': 80.0, 'old': 88.3, 'new': 85.0}
+2025-12-24 14:10:20,434 [trainer.py] => Top1 curve: [91.88, 91.26, 90.92, 90.24, 90.18, 89.96, 89.56, 89.01, 88.57, 88.55, 88.71, 88.54, 88.64, 88.4, 88.38, 88.22]
+2025-12-24 14:10:20,434 [trainer.py] => Average Accuracy (CNN): 89.44
+2025-12-24 14:10:20,438 [asp.py] => Learning on 90-92
+2025-12-24 14:10:20,439 [asp.py] => All params: 173742082
+2025-12-24 14:10:20,440 [asp.py] => backbone.TIP: 27648
+2025-12-24 14:10:20,441 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 14:10:20,441 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 14:10:20,441 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 14:10:20,441 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 14:10:20,441 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 14:10:20,441 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 14:10:20,441 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 14:10:20,441 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 14:10:20,441 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 14:10:20,474 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-24 14:10:20,917 [trainer.py] => Task 16 Trainable params: 2.00M, GPU: 769.11MiB
+2025-12-24 14:11:12,314 [trainer.py] => CNN: {'total': 88.08, '00-59': 90.9, '60-61': 73.0, '62-63': 79.5, '64-65': 67.0, '66-67': 89.5, '68-69': 83.5, '70-71': 85.0, '72-73': 69.0, '74-75': 75.5, '76-77': 89.5, '78-79': 96.0, '80-81': 83.0, '82-83': 94.5, '84-85': 78.0, '86-87': 89.5, '88-89': 85.0, '90-91': 87.0, '92-93': 90.0, '94-95': 70.0, '96-97': 80.0, '98-99': 50.0, 'old': 88.1, 'new': 87.0}
+2025-12-24 14:11:12,314 [trainer.py] => Top1 curve: [91.88, 91.26, 90.92, 90.24, 90.18, 89.96, 89.56, 89.01, 88.57, 88.55, 88.71, 88.54, 88.64, 88.4, 88.38, 88.22, 88.08]
+2025-12-24 14:11:12,314 [trainer.py] => Average Accuracy (CNN): 89.36
+2025-12-24 14:11:12,320 [asp.py] => Learning on 92-94
+2025-12-24 14:11:12,322 [asp.py] => All params: 173743618
+2025-12-24 14:11:12,322 [asp.py] => backbone.TIP: 27648
+2025-12-24 14:11:12,323 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 14:11:12,323 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 14:11:12,323 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 14:11:12,323 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 14:11:12,323 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 14:11:12,323 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 14:11:12,323 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 14:11:12,323 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 14:11:12,323 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 14:11:12,353 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-24 14:11:12,746 [trainer.py] => Task 17 Trainable params: 2.00M, GPU: 769.12MiB
+2025-12-24 14:12:04,479 [trainer.py] => CNN: {'total': 87.83, '00-59': 90.88, '60-61': 73.0, '62-63': 79.0, '64-65': 67.0, '66-67': 89.0, '68-69': 83.5, '70-71': 84.0, '72-73': 68.5, '74-75': 75.5, '76-77': 89.5, '78-79': 96.0, '80-81': 82.5, '82-83': 94.5, '84-85': 77.5, '86-87': 89.5, '88-89': 85.0, '90-91': 87.0, '92-93': 80.5, '94-95': 50.0, '96-97': 90.0, '98-99': 90.0, 'old': 87.99, 'new': 80.5}
+2025-12-24 14:12:04,479 [trainer.py] => Top1 curve: [91.88, 91.26, 90.92, 90.24, 90.18, 89.96, 89.56, 89.01, 88.57, 88.55, 88.71, 88.54, 88.64, 88.4, 88.38, 88.22, 88.08, 87.83]
+2025-12-24 14:12:04,480 [trainer.py] => Average Accuracy (CNN): 89.27
+2025-12-24 14:12:05,209 [asp.py] => Learning on 94-96
+2025-12-24 14:12:05,213 [asp.py] => All params: 173745154
+2025-12-24 14:12:05,213 [asp.py] => backbone.TIP: 27648
+2025-12-24 14:12:05,217 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 14:12:05,217 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 14:12:05,217 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 14:12:05,217 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 14:12:05,217 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 14:12:05,218 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 14:12:05,218 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 14:12:05,218 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 14:12:05,218 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 14:12:05,282 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-24 14:12:05,750 [trainer.py] => Task 18 Trainable params: 2.00M, GPU: 769.13MiB
+2025-12-24 14:12:58,466 [trainer.py] => CNN: {'total': 87.57, '00-59': 90.78, '60-61': 73.0, '62-63': 79.0, '64-65': 67.0, '66-67': 89.0, '68-69': 83.5, '70-71': 84.0, '72-73': 68.0, '74-75': 75.5, '76-77': 89.5, '78-79': 96.0, '80-81': 82.5, '82-83': 94.5, '84-85': 75.5, '86-87': 88.5, '88-89': 85.0, '90-91': 87.0, '92-93': 80.5, '94-95': 82.0, '96-97': 90.0, '98-99': 80.0, 'old': 87.69, 'new': 82.0}
+2025-12-24 14:12:58,467 [trainer.py] => Top1 curve: [91.88, 91.26, 90.92, 90.24, 90.18, 89.96, 89.56, 89.01, 88.57, 88.55, 88.71, 88.54, 88.64, 88.4, 88.38, 88.22, 88.08, 87.83, 87.57]
+2025-12-24 14:12:58,467 [trainer.py] => Average Accuracy (CNN): 89.18
+2025-12-24 14:12:58,470 [asp.py] => Learning on 96-98
+2025-12-24 14:12:58,471 [asp.py] => All params: 173746690
+2025-12-24 14:12:58,471 [asp.py] => backbone.TIP: 27648
+2025-12-24 14:12:58,472 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 14:12:58,472 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 14:12:58,472 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 14:12:58,472 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 14:12:58,472 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 14:12:58,472 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 14:12:58,472 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 14:12:58,472 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 14:12:58,472 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 14:12:58,502 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-24 14:12:58,864 [trainer.py] => Task 19 Trainable params: 2.00M, GPU: 769.13MiB
+2025-12-24 14:13:53,517 [trainer.py] => CNN: {'total': 87.14, '00-59': 90.67, '60-61': 73.0, '62-63': 79.0, '64-65': 67.0, '66-67': 89.0, '68-69': 83.5, '70-71': 84.0, '72-73': 68.0, '74-75': 75.5, '76-77': 89.5, '78-79': 96.0, '80-81': 82.5, '82-83': 94.5, '84-85': 75.5, '86-87': 88.5, '88-89': 85.0, '90-91': 87.0, '92-93': 80.5, '94-95': 82.0, '96-97': 70.0, '98-99': 80.0, 'old': 87.5, 'new': 70.0}
+2025-12-24 14:13:53,521 [trainer.py] => Top1 curve: [91.88, 91.26, 90.92, 90.24, 90.18, 89.96, 89.56, 89.01, 88.57, 88.55, 88.71, 88.54, 88.64, 88.4, 88.38, 88.22, 88.08, 87.83, 87.57, 87.14]
+2025-12-24 14:13:53,521 [trainer.py] => Average Accuracy (CNN): 89.08
+2025-12-24 14:13:53,905 [asp.py] => Learning on 98-100
+2025-12-24 14:13:53,909 [asp.py] => All params: 173748226
+2025-12-24 14:13:53,909 [asp.py] => backbone.TIP: 27648
+2025-12-24 14:13:53,912 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 14:13:53,912 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 14:13:53,913 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 14:13:53,913 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 14:13:53,913 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 14:13:53,913 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 14:13:53,913 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 14:13:53,914 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 14:13:53,914 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 14:13:53,976 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-24 14:13:54,427 [trainer.py] => Task 20 Trainable params: 2.00M, GPU: 769.14MiB
+2025-12-24 14:14:48,629 [trainer.py] => CNN: {'total': 86.7, '00-59': 90.55, '60-61': 73.0, '62-63': 79.0, '64-65': 67.0, '66-67': 89.0, '68-69': 83.5, '70-71': 84.0, '72-73': 67.5, '74-75': 75.5, '76-77': 89.5, '78-79': 93.0, '80-81': 82.5, '82-83': 94.5, '84-85': 75.5, '86-87': 88.5, '88-89': 85.0, '90-91': 87.0, '92-93': 80.5, '94-95': 82.0, '96-97': 70.0, '98-99': 72.0, 'old': 87.0, 'new': 72.0}
+2025-12-24 14:14:48,629 [trainer.py] => Top1 curve: [91.88, 91.26, 90.92, 90.24, 90.18, 89.96, 89.56, 89.01, 88.57, 88.55, 88.71, 88.54, 88.64, 88.4, 88.38, 88.22, 88.08, 87.83, 87.57, 87.14, 86.7]
+2025-12-24 14:14:48,629 [trainer.py] => Average Accuracy (CNN): 88.97
+
+================================================================================
+Finished cifar224_init60_inc2: pretrained_vit_b16_224_vpt  
+Base Accuracy: 91.88
+Last Accuracy: 86.7
+Average Accuracy (Top1): 88.97
+PD: 5.18
+Backward Transfer (BWT): -1.57
+Traceback (most recent call last):
+  File "/public/home/hanlida/Dr.1/Code/Research/Awesome-FSCIL/FSCIL-ASP-main/main.py", line 25, in <module>
+    main()
+  File "/public/home/hanlida/Dr.1/Code/Research/Awesome-FSCIL/FSCIL-ASP-main/main.py", line 11, in main
+    train(args)
+  File "/public/home/hanlida/Dr.1/Code/Research/Awesome-FSCIL/FSCIL-ASP-main/trainer.py", line 32, in train
+    _train(args)
+  File "/public/home/hanlida/Dr.1/Code/Research/Awesome-FSCIL/FSCIL-ASP-main/trainer.py", line 207, in _train
+    print("Forward Transfer (FWT):", forward_transfer(args["dataset"], np.array(cnn_matrix)))
+  File "/public/home/hanlida/Dr.1/Code/Research/Awesome-FSCIL/FSCIL-ASP-main/trainer.py", line 317, in forward_transfer
+    fwt_diffs = fwt_accs - rand_init_acc_for_fwt
+ValueError: operands could not be broadcast together with shapes (20,) (8,) 
+2025-12-24 14:15:10,830 [trainer.py] => config: ./configs/asp_inr_B100_Inc5.json
+2025-12-24 14:15:10,830 [trainer.py] => model_name: asp
+2025-12-24 14:15:10,830 [trainer.py] => backbone_type: pretrained_vit_b16_224_vpt
+2025-12-24 14:15:10,830 [trainer.py] => device: [device(type='cuda', index=1)]
+2025-12-24 14:15:10,830 [trainer.py] => seed: 1993
+2025-12-24 14:15:10,831 [trainer.py] => dataset: imagenetr
+2025-12-24 14:15:10,831 [trainer.py] => init_cls: 100
+2025-12-24 14:15:10,831 [trainer.py] => increment: 5
+2025-12-24 14:15:10,831 [trainer.py] => kshot: 5
+2025-12-24 14:15:10,831 [trainer.py] => vpt_type: Deep
+2025-12-24 14:15:10,831 [trainer.py] => prompt_token_num: 20
+2025-12-24 14:15:10,831 [trainer.py] => avg_alpha: 0.8
+2025-12-24 14:15:10,831 [trainer.py] => perturb_var: 1
+2025-12-24 14:15:10,831 [trainer.py] => EMA_beta: 0.99
+2025-12-24 14:15:10,831 [trainer.py] => anchor_lambda: 0.1
+2025-12-24 14:15:10,831 [trainer.py] => kl_weight: 0.001
+2025-12-24 14:15:10,831 [trainer.py] => TIP_init: zero
+2025-12-24 14:15:10,831 [trainer.py] => tuned_epoch: 20
+2025-12-24 14:15:10,831 [trainer.py] => fs_epoch: 0
+2025-12-24 14:15:10,831 [trainer.py] => init_lr: 0.01
+2025-12-24 14:15:10,831 [trainer.py] => fs_lr: 0.001
+2025-12-24 14:15:10,831 [trainer.py] => batch_size: 24
+2025-12-24 14:15:10,831 [trainer.py] => fs_batch_size: 16
+2025-12-24 14:15:10,831 [trainer.py] => weight_decay: 0.005
+2025-12-24 14:15:10,832 [trainer.py] => min_lr: 0
+2025-12-24 14:15:10,832 [trainer.py] => optimizer: sgd
+2025-12-24 14:15:10,832 [trainer.py] => memory_size: 0
+2025-12-24 14:15:10,832 [trainer.py] => memory_per_class: 0
+2025-12-24 14:15:10,832 [trainer.py] => fixed_memory: False
+2025-12-24 14:15:10,832 [trainer.py] => shuffle: False
+2025-12-24 14:15:10,832 [trainer.py] => top_k: 5
+2025-12-24 14:15:10,832 [trainer.py] => base_model_path: saved_model/asp/imagenetr/100_5/asp_20_1993_pretrained_vit_b16_224_vpt.pth
+2025-12-24 14:15:10,832 [trainer.py] => prefix: asp
+2025-12-24 14:15:10,832 [trainer.py] => model_prefix: asp
+2025-12-24 14:15:10,832 [trainer.py] => gpu_models: ['NVIDIA A800 80GB PCIe']
+2025-12-24 14:15:11,623 [data_manager.py] => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199]
+This is for the BaseNet initialization.
+modelname, pretrained_vit_b16_224_vpt basicmodelname vit_base_patch16_224
+Using VPT model
+Using Deep Prompt
+After BaseNet initialization.
+2025-12-24 14:15:33,148 [asp.py] => Learning on 0-100
+2025-12-24 14:15:33,149 [asp.py] => All params: 176577537
+2025-12-24 14:15:33,149 [asp.py] => backbone.TIP: 92160
+2025-12-24 14:15:33,150 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 14:15:33,150 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 14:15:33,150 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 1966080
+2025-12-24 14:15:33,150 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 7680
+2025-12-24 14:15:33,150 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 14:15:33,150 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 14:15:33,150 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 1966080
+2025-12-24 14:15:33,150 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 7680
+2025-12-24 14:15:33,150 [asp.py] => Trainable params (without fc): 4826624
+2025-12-24 14:15:33,351 [asp.py] => training set size: 12425, fc construct set size: 12425
+anchor samples found
+2025-12-24 14:22:44,281 [asp.py] => Task 0, Epoch 1 => Loss 6.754, Train_accy 3.28, Test_curr_accy 7.47, Test_accy 7.47
+anchor samples found
+2025-12-24 14:29:40,617 [asp.py] => Task 0, Epoch 2 => Loss 3.071, Train_accy 50.82, Test_curr_accy 76.14, Test_accy 76.14
+anchor samples found
+2025-12-24 14:36:47,056 [asp.py] => Task 0, Epoch 3 => Loss 1.968, Train_accy 68.59, Test_curr_accy 80.26, Test_accy 80.26
+anchor samples found
+2025-12-24 14:44:09,023 [asp.py] => Task 0, Epoch 4 => Loss 1.821, Train_accy 70.50, Test_curr_accy 81.74, Test_accy 81.74
+anchor samples found
+2025-12-24 14:51:40,379 [asp.py] => Task 0, Epoch 5 => Loss 1.738, Train_accy 71.40, Test_curr_accy 81.93, Test_accy 81.93
+anchor samples found
+2025-12-24 14:59:36,004 [asp.py] => Task 0, Epoch 6 => Loss 1.688, Train_accy 71.92, Test_curr_accy 82.30, Test_accy 82.30
+anchor samples found
+2025-12-24 15:07:34,075 [asp.py] => Task 0, Epoch 7 => Loss 1.677, Train_accy 71.66, Test_curr_accy 82.30, Test_accy 82.30
+anchor samples found
+2025-12-24 15:15:18,354 [asp.py] => Task 0, Epoch 8 => Loss 1.656, Train_accy 72.39, Test_curr_accy 82.07, Test_accy 82.07
+anchor samples found
+2025-12-24 15:22:20,850 [asp.py] => Task 0, Epoch 9 => Loss 1.622, Train_accy 72.56, Test_curr_accy 81.61, Test_accy 81.61
+anchor samples found
+2025-12-24 15:29:22,788 [asp.py] => Task 0, Epoch 10 => Loss 1.585, Train_accy 73.56, Test_curr_accy 81.44, Test_accy 81.44
+anchor samples found
+2025-12-24 15:36:24,714 [asp.py] => Task 0, Epoch 11 => Loss 1.576, Train_accy 73.13, Test_curr_accy 82.33, Test_accy 82.33
+anchor samples found
+2025-12-24 15:43:26,977 [asp.py] => Task 0, Epoch 12 => Loss 1.571, Train_accy 73.52, Test_curr_accy 82.79, Test_accy 82.79
+anchor samples found
+2025-12-24 15:50:13,675 [asp.py] => Task 0, Epoch 13 => Loss 1.545, Train_accy 74.09, Test_curr_accy 83.32, Test_accy 83.32
+anchor samples found
+2025-12-24 15:57:00,386 [asp.py] => Task 0, Epoch 14 => Loss 1.516, Train_accy 74.35, Test_curr_accy 83.15, Test_accy 83.15
+anchor samples found
+2025-12-24 16:03:46,050 [asp.py] => Task 0, Epoch 15 => Loss 1.477, Train_accy 74.97, Test_curr_accy 83.61, Test_accy 83.61
+anchor samples found
+2025-12-24 16:10:33,291 [asp.py] => Task 0, Epoch 16 => Loss 1.461, Train_accy 75.69, Test_curr_accy 84.14, Test_accy 84.14
+anchor samples found
+2025-12-24 16:17:30,838 [asp.py] => Task 0, Epoch 17 => Loss 1.470, Train_accy 74.52, Test_curr_accy 83.81, Test_accy 83.81
+anchor samples found
+2025-12-24 16:24:55,417 [asp.py] => Task 0, Epoch 18 => Loss 1.417, Train_accy 76.13, Test_curr_accy 83.68, Test_accy 83.68
+anchor samples found
+2025-12-24 16:32:17,337 [asp.py] => Task 0, Epoch 19 => Loss 1.416, Train_accy 75.61, Test_curr_accy 84.11, Test_accy 84.11
+anchor samples found
+2025-12-24 16:39:05,964 [asp.py] => Task 0, Epoch 20 => Loss 1.415, Train_accy 76.20, Test_curr_accy 83.97, Test_accy 83.97
+2025-12-24 16:41:57,138 [trainer.py] => Task 0 Trainable params: 4.83M, GPU: 5691.97MiB
+2025-12-24 16:42:31,562 [trainer.py] => CNN: {'total': 81.97, '00-99': 81.97, '100-104': 72.0, '105-109': 52.0, '110-114': 76.0, '115-119': 56.0, '120-124': 56.0, '125-129': 64.0, '130-134': 80.0, '135-139': 68.0, '140-144': 56.0, '145-149': 76.0, '150-154': 44.0, '155-159': 68.0, '160-164': 60.0, '165-169': 68.0, '170-174': 68.0, '175-179': 76.0, '180-184': 84.0, '185-189': 56.0, '190-194': 72.0, '195-199': 68.0, 'old': 0, 'new': 81.97}
+2025-12-24 16:42:31,563 [trainer.py] => Top1 curve: [81.97]
+2025-12-24 16:42:31,563 [trainer.py] => Average Accuracy (CNN): 81.97
+2025-12-24 16:42:32,831 [asp.py] => Learning on 100-105
+2025-12-24 16:42:32,833 [asp.py] => All params: 176654338
+2025-12-24 16:42:32,833 [asp.py] => backbone.TIP: 92160
+2025-12-24 16:42:32,834 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 16:42:32,835 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 16:42:32,835 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 1966080
+2025-12-24 16:42:32,835 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 7680
+2025-12-24 16:42:32,835 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 16:42:32,835 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 16:42:32,835 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 1966080
+2025-12-24 16:42:32,835 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 7680
+2025-12-24 16:42:32,835 [asp.py] => Trainable params (without fc): 4826624
+2025-12-24 16:42:32,860 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 16:42:34,012 [trainer.py] => Task 1 Trainable params: 4.83M, GPU: 932.04MiB
+2025-12-24 16:43:07,088 [trainer.py] => CNN: {'total': 80.57, '00-99': 81.8, '100-104': 58.72, '105-109': 64.0, '110-114': 84.0, '115-119': 60.0, '120-124': 60.0, '125-129': 52.0, '130-134': 76.0, '135-139': 76.0, '140-144': 64.0, '145-149': 72.0, '150-154': 60.0, '155-159': 68.0, '160-164': 76.0, '165-169': 72.0, '170-174': 76.0, '175-179': 68.0, '180-184': 80.0, '185-189': 76.0, '190-194': 80.0, '195-199': 64.0, 'old': 81.8, 'new': 58.72}
+2025-12-24 16:43:07,088 [trainer.py] => Top1 curve: [81.97, 80.57]
+2025-12-24 16:43:07,088 [trainer.py] => Average Accuracy (CNN): 81.27
+2025-12-24 16:43:07,100 [asp.py] => Learning on 105-110
+2025-12-24 16:43:07,101 [asp.py] => All params: 176658178
+2025-12-24 16:43:07,101 [asp.py] => backbone.TIP: 92160
+2025-12-24 16:43:07,102 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 16:43:07,102 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 16:43:07,102 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 1966080
+2025-12-24 16:43:07,102 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 7680
+2025-12-24 16:43:07,102 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 16:43:07,102 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 16:43:07,102 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 1966080
+2025-12-24 16:43:07,102 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 7680
+2025-12-24 16:43:07,102 [asp.py] => Trainable params (without fc): 4826624
+2025-12-24 16:43:07,118 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 16:43:08,911 [trainer.py] => Task 2 Trainable params: 4.83M, GPU: 932.05MiB
+2025-12-24 16:43:41,722 [trainer.py] => CNN: {'total': 78.93, '00-99': 81.77, '100-104': 52.91, '105-109': 50.34, '110-114': 84.0, '115-119': 52.0, '120-124': 56.0, '125-129': 56.0, '130-134': 72.0, '135-139': 64.0, '140-144': 64.0, '145-149': 80.0, '150-154': 56.0, '155-159': 64.0, '160-164': 68.0, '165-169': 72.0, '170-174': 72.0, '175-179': 84.0, '180-184': 84.0, '185-189': 64.0, '190-194': 80.0, '195-199': 76.0, 'old': 80.22, 'new': 50.34}
+2025-12-24 16:43:41,723 [trainer.py] => Top1 curve: [81.97, 80.57, 78.93]
+2025-12-24 16:43:41,723 [trainer.py] => Average Accuracy (CNN): 80.49
+2025-12-24 16:43:41,725 [asp.py] => Learning on 110-115
+2025-12-24 16:43:41,726 [asp.py] => All params: 176662018
+2025-12-24 16:43:41,726 [asp.py] => backbone.TIP: 92160
+2025-12-24 16:43:41,727 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 16:43:41,727 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 16:43:41,727 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 1966080
+2025-12-24 16:43:41,727 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 7680
+2025-12-24 16:43:41,727 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 16:43:41,727 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 16:43:41,727 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 1966080
+2025-12-24 16:43:41,727 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 7680
+2025-12-24 16:43:41,728 [asp.py] => Trainable params (without fc): 4826624
+2025-12-24 16:43:41,741 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 16:43:42,846 [trainer.py] => Task 3 Trainable params: 4.83M, GPU: 932.07MiB
+2025-12-24 16:44:15,715 [trainer.py] => CNN: {'total': 78.7, '00-99': 81.74, '100-104': 52.91, '105-109': 50.34, '110-114': 73.76, '115-119': 64.0, '120-124': 64.0, '125-129': 76.0, '130-134': 64.0, '135-139': 72.0, '140-144': 72.0, '145-149': 80.0, '150-154': 44.0, '155-159': 72.0, '160-164': 60.0, '165-169': 60.0, '170-174': 64.0, '175-179': 52.0, '180-184': 72.0, '185-189': 60.0, '190-194': 84.0, '195-199': 72.0, 'old': 78.9, 'new': 73.76}
+2025-12-24 16:44:15,715 [trainer.py] => Top1 curve: [81.97, 80.57, 78.93, 78.7]
+2025-12-24 16:44:15,715 [trainer.py] => Average Accuracy (CNN): 80.04
+2025-12-24 16:44:16,348 [asp.py] => Learning on 115-120
+2025-12-24 16:44:16,349 [asp.py] => All params: 176665858
+2025-12-24 16:44:16,349 [asp.py] => backbone.TIP: 92160
+2025-12-24 16:44:16,350 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 16:44:16,350 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 16:44:16,350 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 1966080
+2025-12-24 16:44:16,350 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 7680
+2025-12-24 16:44:16,350 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 16:44:16,350 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 16:44:16,351 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 1966080
+2025-12-24 16:44:16,351 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 7680
+2025-12-24 16:44:16,351 [asp.py] => Trainable params (without fc): 4826624
+2025-12-24 16:44:16,367 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 16:44:17,375 [trainer.py] => Task 4 Trainable params: 4.83M, GPU: 932.08MiB
+2025-12-24 16:44:48,796 [trainer.py] => CNN: {'total': 78.18, '00-99': 81.67, '100-104': 52.91, '105-109': 50.34, '110-114': 73.76, '115-119': 64.71, '120-124': 52.0, '125-129': 56.0, '130-134': 64.0, '135-139': 64.0, '140-144': 68.0, '145-149': 76.0, '150-154': 52.0, '155-159': 52.0, '160-164': 80.0, '165-169': 64.0, '170-174': 68.0, '175-179': 92.0, '180-184': 68.0, '185-189': 68.0, '190-194': 72.0, '195-199': 60.0, 'old': 78.64, 'new': 64.71}
+2025-12-24 16:44:48,796 [trainer.py] => Top1 curve: [81.97, 80.57, 78.93, 78.7, 78.18]
+2025-12-24 16:44:48,796 [trainer.py] => Average Accuracy (CNN): 79.67
+2025-12-24 16:44:48,806 [asp.py] => Learning on 120-125
+2025-12-24 16:44:48,807 [asp.py] => All params: 176669698
+2025-12-24 16:44:48,807 [asp.py] => backbone.TIP: 92160
+2025-12-24 16:44:48,808 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 16:44:48,808 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 16:44:48,808 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 1966080
+2025-12-24 16:44:48,808 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 7680
+2025-12-24 16:44:48,808 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 16:44:48,809 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 16:44:48,809 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 1966080
+2025-12-24 16:44:48,809 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 7680
+2025-12-24 16:44:48,809 [asp.py] => Trainable params (without fc): 4826624
+2025-12-24 16:44:48,823 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 16:44:49,644 [trainer.py] => Task 5 Trainable params: 4.83M, GPU: 932.10MiB
+2025-12-24 16:45:22,461 [trainer.py] => CNN: {'total': 77.37, '00-99': 81.64, '100-104': 52.91, '105-109': 50.34, '110-114': 72.34, '115-119': 64.71, '120-124': 59.73, '125-129': 76.0, '130-134': 72.0, '135-139': 72.0, '140-144': 48.0, '145-149': 80.0, '150-154': 40.0, '155-159': 72.0, '160-164': 64.0, '165-169': 68.0, '170-174': 68.0, '175-179': 64.0, '180-184': 76.0, '185-189': 72.0, '190-194': 80.0, '195-199': 64.0, 'old': 78.1, 'new': 59.73}
+2025-12-24 16:45:22,461 [trainer.py] => Top1 curve: [81.97, 80.57, 78.93, 78.7, 78.18, 77.37]
+2025-12-24 16:45:22,461 [trainer.py] => Average Accuracy (CNN): 79.29
+2025-12-24 16:45:22,463 [asp.py] => Learning on 125-130
+2025-12-24 16:45:22,464 [asp.py] => All params: 176673538
+2025-12-24 16:45:22,464 [asp.py] => backbone.TIP: 92160
+2025-12-24 16:45:22,465 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 16:45:22,465 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 16:45:22,465 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 1966080
+2025-12-24 16:45:22,465 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 7680
+2025-12-24 16:45:22,465 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 16:45:22,465 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 16:45:22,465 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 1966080
+2025-12-24 16:45:22,465 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 7680
+2025-12-24 16:45:22,465 [asp.py] => Trainable params (without fc): 4826624
+2025-12-24 16:45:22,478 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 16:45:23,395 [trainer.py] => Task 6 Trainable params: 4.83M, GPU: 932.11MiB
+2025-12-24 16:45:56,828 [trainer.py] => CNN: {'total': 75.61, '00-99': 81.64, '100-104': 52.91, '105-109': 49.66, '110-114': 72.34, '115-119': 63.87, '120-124': 57.05, '125-129': 37.74, '130-134': 80.0, '135-139': 68.0, '140-144': 68.0, '145-149': 68.0, '150-154': 68.0, '155-159': 72.0, '160-164': 80.0, '165-169': 76.0, '170-174': 64.0, '175-179': 76.0, '180-184': 72.0, '185-189': 60.0, '190-194': 72.0, '195-199': 68.0, 'old': 77.21, 'new': 37.74}
+2025-12-24 16:45:56,828 [trainer.py] => Top1 curve: [81.97, 80.57, 78.93, 78.7, 78.18, 77.37, 75.61]
+2025-12-24 16:45:56,828 [trainer.py] => Average Accuracy (CNN): 78.76
+2025-12-24 16:45:57,329 [asp.py] => Learning on 130-135
+2025-12-24 16:45:57,333 [asp.py] => All params: 176677378
+2025-12-24 16:45:57,333 [asp.py] => backbone.TIP: 92160
+2025-12-24 16:45:57,337 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 16:45:57,337 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 16:45:57,337 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 1966080
+2025-12-24 16:45:57,337 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 7680
+2025-12-24 16:45:57,337 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 16:45:57,338 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 16:45:57,338 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 1966080
+2025-12-24 16:45:57,338 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 7680
+2025-12-24 16:45:57,338 [asp.py] => Trainable params (without fc): 4826624
+2025-12-24 16:45:57,379 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 16:45:58,356 [trainer.py] => Task 7 Trainable params: 4.83M, GPU: 932.12MiB
+2025-12-24 16:46:32,738 [trainer.py] => CNN: {'total': 74.72, '00-99': 81.64, '100-104': 52.91, '105-109': 49.66, '110-114': 72.34, '115-119': 63.03, '120-124': 52.35, '125-129': 37.74, '130-134': 56.67, '135-139': 68.0, '140-144': 72.0, '145-149': 72.0, '150-154': 56.0, '155-159': 64.0, '160-164': 76.0, '165-169': 60.0, '170-174': 64.0, '175-179': 84.0, '180-184': 80.0, '185-189': 64.0, '190-194': 72.0, '195-199': 64.0, 'old': 75.41, 'new': 56.67}
+2025-12-24 16:46:32,738 [trainer.py] => Top1 curve: [81.97, 80.57, 78.93, 78.7, 78.18, 77.37, 75.61, 74.72]
+2025-12-24 16:46:32,738 [trainer.py] => Average Accuracy (CNN): 78.26
+2025-12-24 16:46:32,851 [asp.py] => Learning on 135-140
+2025-12-24 16:46:32,853 [asp.py] => All params: 176681218
+2025-12-24 16:46:32,853 [asp.py] => backbone.TIP: 92160
+2025-12-24 16:46:32,854 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 16:46:32,854 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 16:46:32,854 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 1966080
+2025-12-24 16:46:32,854 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 7680
+2025-12-24 16:46:32,854 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 16:46:32,854 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 16:46:32,855 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 1966080
+2025-12-24 16:46:32,855 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 7680
+2025-12-24 16:46:32,855 [asp.py] => Trainable params (without fc): 4826624
+2025-12-24 16:46:32,870 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 16:46:33,760 [trainer.py] => Task 8 Trainable params: 4.83M, GPU: 932.14MiB
+2025-12-24 16:47:08,170 [trainer.py] => CNN: {'total': 74.15, '00-99': 81.64, '100-104': 52.91, '105-109': 49.66, '110-114': 69.5, '115-119': 62.18, '120-124': 52.35, '125-129': 37.74, '130-134': 56.0, '135-139': 62.33, '140-144': 72.0, '145-149': 84.0, '150-154': 56.0, '155-159': 64.0, '160-164': 72.0, '165-169': 76.0, '170-174': 68.0, '175-179': 68.0, '180-184': 76.0, '185-189': 72.0, '190-194': 80.0, '195-199': 56.0, 'old': 74.57, 'new': 62.33}
+2025-12-24 16:47:08,170 [trainer.py] => Top1 curve: [81.97, 80.57, 78.93, 78.7, 78.18, 77.37, 75.61, 74.72, 74.15]
+2025-12-24 16:47:08,170 [trainer.py] => Average Accuracy (CNN): 77.80
+2025-12-24 16:47:09,087 [asp.py] => Learning on 140-145
+2025-12-24 16:47:09,091 [asp.py] => All params: 176685058
+2025-12-24 16:47:09,091 [asp.py] => backbone.TIP: 92160
+2025-12-24 16:47:09,094 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 16:47:09,094 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 16:47:09,094 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 1966080
+2025-12-24 16:47:09,095 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 7680
+2025-12-24 16:47:09,095 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 16:47:09,095 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 16:47:09,095 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 1966080
+2025-12-24 16:47:09,095 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 7680
+2025-12-24 16:47:09,096 [asp.py] => Trainable params (without fc): 4826624
+2025-12-24 16:47:09,134 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 16:47:10,109 [trainer.py] => Task 9 Trainable params: 4.83M, GPU: 932.15MiB
+2025-12-24 16:47:45,762 [trainer.py] => CNN: {'total': 73.12, '00-99': 81.64, '100-104': 52.91, '105-109': 49.66, '110-114': 69.5, '115-119': 62.18, '120-124': 51.68, '125-129': 36.48, '130-134': 56.0, '135-139': 61.64, '140-144': 38.6, '145-149': 68.0, '150-154': 52.0, '155-159': 48.0, '160-164': 76.0, '165-169': 76.0, '170-174': 76.0, '175-179': 52.0, '180-184': 72.0, '185-189': 76.0, '190-194': 68.0, '195-199': 80.0, 'old': 74.05, 'new': 38.6}
+2025-12-24 16:47:45,763 [trainer.py] => Top1 curve: [81.97, 80.57, 78.93, 78.7, 78.18, 77.37, 75.61, 74.72, 74.15, 73.12]
+2025-12-24 16:47:45,763 [trainer.py] => Average Accuracy (CNN): 77.33
+2025-12-24 16:47:45,765 [asp.py] => Learning on 145-150
+2025-12-24 16:47:45,766 [asp.py] => All params: 176688898
+2025-12-24 16:47:45,766 [asp.py] => backbone.TIP: 92160
+2025-12-24 16:47:45,767 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 16:47:45,767 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 16:47:45,767 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 1966080
+2025-12-24 16:47:45,767 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 7680
+2025-12-24 16:47:45,767 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 16:47:45,767 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 16:47:45,767 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 1966080
+2025-12-24 16:47:45,768 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 7680
+2025-12-24 16:47:45,768 [asp.py] => Trainable params (without fc): 4826624
+2025-12-24 16:47:45,780 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 16:47:46,712 [trainer.py] => Task 10 Trainable params: 4.83M, GPU: 932.17MiB
+2025-12-24 16:48:22,496 [trainer.py] => CNN: {'total': 72.76, '00-99': 81.61, '100-104': 52.91, '105-109': 49.66, '110-114': 69.5, '115-119': 57.14, '120-124': 51.68, '125-129': 36.48, '130-134': 55.33, '135-139': 61.64, '140-144': 38.6, '145-149': 65.0, '150-154': 52.0, '155-159': 56.0, '160-164': 68.0, '165-169': 76.0, '170-174': 72.0, '175-179': 64.0, '180-184': 72.0, '185-189': 68.0, '190-194': 60.0, '195-199': 60.0, 'old': 72.93, 'new': 65.0}
+2025-12-24 16:48:22,496 [trainer.py] => Top1 curve: [81.97, 80.57, 78.93, 78.7, 78.18, 77.37, 75.61, 74.72, 74.15, 73.12, 72.76]
+2025-12-24 16:48:22,496 [trainer.py] => Average Accuracy (CNN): 76.92
+2025-12-24 16:48:22,503 [asp.py] => Learning on 150-155
+2025-12-24 16:48:22,505 [asp.py] => All params: 176692738
+2025-12-24 16:48:22,505 [asp.py] => backbone.TIP: 92160
+2025-12-24 16:48:22,506 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 16:48:22,506 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 16:48:22,506 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 1966080
+2025-12-24 16:48:22,506 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 7680
+2025-12-24 16:48:22,506 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 16:48:22,506 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 16:48:22,506 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 1966080
+2025-12-24 16:48:22,506 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 7680
+2025-12-24 16:48:22,506 [asp.py] => Trainable params (without fc): 4826624
+2025-12-24 16:48:22,518 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 16:48:24,235 [trainer.py] => Task 11 Trainable params: 4.83M, GPU: 932.18MiB
+2025-12-24 16:49:01,195 [trainer.py] => CNN: {'total': 72.0, '00-99': 81.61, '100-104': 52.91, '105-109': 49.66, '110-114': 69.5, '115-119': 57.14, '120-124': 51.01, '125-129': 35.22, '130-134': 55.33, '135-139': 60.96, '140-144': 37.72, '145-149': 64.0, '150-154': 46.79, '155-159': 52.0, '160-164': 52.0, '165-169': 80.0, '170-174': 64.0, '175-179': 76.0, '180-184': 60.0, '185-189': 64.0, '190-194': 68.0, '195-199': 56.0, 'old': 72.62, 'new': 46.79}
+2025-12-24 16:49:01,196 [trainer.py] => Top1 curve: [81.97, 80.57, 78.93, 78.7, 78.18, 77.37, 75.61, 74.72, 74.15, 73.12, 72.76, 72.0]
+2025-12-24 16:49:01,196 [trainer.py] => Average Accuracy (CNN): 76.51
+2025-12-24 16:49:01,198 [asp.py] => Learning on 155-160
+2025-12-24 16:49:01,199 [asp.py] => All params: 176696578
+2025-12-24 16:49:01,199 [asp.py] => backbone.TIP: 92160
+2025-12-24 16:49:01,200 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 16:49:01,200 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 16:49:01,200 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 1966080
+2025-12-24 16:49:01,200 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 7680
+2025-12-24 16:49:01,200 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 16:49:01,200 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 16:49:01,200 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 1966080
+2025-12-24 16:49:01,200 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 7680
+2025-12-24 16:49:01,200 [asp.py] => Trainable params (without fc): 4826624
+2025-12-24 16:49:01,213 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 16:49:02,884 [trainer.py] => Task 12 Trainable params: 4.83M, GPU: 932.20MiB
+2025-12-24 16:49:38,897 [trainer.py] => CNN: {'total': 71.14, '00-99': 81.54, '100-104': 52.91, '105-109': 49.66, '110-114': 69.5, '115-119': 57.14, '120-124': 51.01, '125-129': 34.59, '130-134': 54.0, '135-139': 60.96, '140-144': 37.72, '145-149': 64.0, '150-154': 46.79, '155-159': 48.68, '160-164': 72.0, '165-169': 72.0, '170-174': 76.0, '175-179': 80.0, '180-184': 80.0, '185-189': 68.0, '190-194': 72.0, '195-199': 52.0, 'old': 71.89, 'new': 48.68}
+2025-12-24 16:49:38,897 [trainer.py] => Top1 curve: [81.97, 80.57, 78.93, 78.7, 78.18, 77.37, 75.61, 74.72, 74.15, 73.12, 72.76, 72.0, 71.14]
+2025-12-24 16:49:38,897 [trainer.py] => Average Accuracy (CNN): 76.09
+2025-12-24 16:49:38,899 [asp.py] => Learning on 160-165
+2025-12-24 16:49:38,900 [asp.py] => All params: 176700418
+2025-12-24 16:49:38,901 [asp.py] => backbone.TIP: 92160
+2025-12-24 16:49:38,901 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 16:49:38,901 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 16:49:38,901 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 1966080
+2025-12-24 16:49:38,901 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 7680
+2025-12-24 16:49:38,901 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 16:49:38,902 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 16:49:38,902 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 1966080
+2025-12-24 16:49:38,902 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 7680
+2025-12-24 16:49:38,902 [asp.py] => Trainable params (without fc): 4826624
+2025-12-24 16:49:38,912 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 16:49:39,740 [trainer.py] => Task 13 Trainable params: 4.83M, GPU: 932.21MiB
+2025-12-24 16:50:17,285 [trainer.py] => CNN: {'total': 70.92, '00-99': 81.51, '100-104': 52.91, '105-109': 49.66, '110-114': 69.5, '115-119': 57.14, '120-124': 51.01, '125-129': 34.59, '130-134': 54.0, '135-139': 60.27, '140-144': 37.72, '145-149': 64.0, '150-154': 45.87, '155-159': 44.08, '160-164': 70.62, '165-169': 84.0, '170-174': 60.0, '175-179': 60.0, '180-184': 68.0, '185-189': 60.0, '190-194': 64.0, '195-199': 60.0, 'old': 70.93, 'new': 70.62}
+2025-12-24 16:50:17,285 [trainer.py] => Top1 curve: [81.97, 80.57, 78.93, 78.7, 78.18, 77.37, 75.61, 74.72, 74.15, 73.12, 72.76, 72.0, 71.14, 70.92]
+2025-12-24 16:50:17,286 [trainer.py] => Average Accuracy (CNN): 75.72
+2025-12-24 16:50:18,168 [asp.py] => Learning on 165-170
+2025-12-24 16:50:18,172 [asp.py] => All params: 176704258
+2025-12-24 16:50:18,172 [asp.py] => backbone.TIP: 92160
+2025-12-24 16:50:18,175 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 16:50:18,175 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 16:50:18,175 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 1966080
+2025-12-24 16:50:18,175 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 7680
+2025-12-24 16:50:18,175 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 16:50:18,176 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 16:50:18,176 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 1966080
+2025-12-24 16:50:18,176 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 7680
+2025-12-24 16:50:18,176 [asp.py] => Trainable params (without fc): 4826624
+2025-12-24 16:50:18,207 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 16:50:19,718 [trainer.py] => Task 14 Trainable params: 4.83M, GPU: 932.23MiB
+2025-12-24 16:50:58,011 [trainer.py] => CNN: {'total': 70.23, '00-99': 81.51, '100-104': 52.91, '105-109': 49.66, '110-114': 69.5, '115-119': 57.14, '120-124': 48.32, '125-129': 33.96, '130-134': 52.67, '135-139': 59.59, '140-144': 37.72, '145-149': 64.0, '150-154': 45.87, '155-159': 43.42, '160-164': 69.38, '165-169': 58.64, '170-174': 72.0, '175-179': 72.0, '180-184': 76.0, '185-189': 64.0, '190-194': 64.0, '195-199': 76.0, 'old': 70.69, 'new': 58.64}
+2025-12-24 16:50:58,011 [trainer.py] => Top1 curve: [81.97, 80.57, 78.93, 78.7, 78.18, 77.37, 75.61, 74.72, 74.15, 73.12, 72.76, 72.0, 71.14, 70.92, 70.23]
+2025-12-24 16:50:58,011 [trainer.py] => Average Accuracy (CNN): 75.36
+2025-12-24 16:50:58,013 [asp.py] => Learning on 170-175
+2025-12-24 16:50:58,014 [asp.py] => All params: 176708098
+2025-12-24 16:50:58,014 [asp.py] => backbone.TIP: 92160
+2025-12-24 16:50:58,015 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 16:50:58,015 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 16:50:58,015 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 1966080
+2025-12-24 16:50:58,015 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 7680
+2025-12-24 16:50:58,015 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 16:50:58,015 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 16:50:58,015 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 1966080
+2025-12-24 16:50:58,015 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 7680
+2025-12-24 16:50:58,015 [asp.py] => Trainable params (without fc): 4826624
+2025-12-24 16:50:58,025 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 16:50:58,820 [trainer.py] => Task 15 Trainable params: 4.83M, GPU: 932.24MiB
+2025-12-24 16:51:37,295 [trainer.py] => CNN: {'total': 69.96, '00-99': 81.51, '100-104': 52.91, '105-109': 49.66, '110-114': 69.5, '115-119': 57.14, '120-124': 48.32, '125-129': 33.96, '130-134': 52.67, '135-139': 56.16, '140-144': 38.6, '145-149': 63.0, '150-154': 44.95, '155-159': 41.45, '160-164': 69.38, '165-169': 57.59, '170-174': 68.09, '175-179': 76.0, '180-184': 76.0, '185-189': 72.0, '190-194': 64.0, '195-199': 68.0, 'old': 70.02, 'new': 68.09}
+2025-12-24 16:51:37,295 [trainer.py] => Top1 curve: [81.97, 80.57, 78.93, 78.7, 78.18, 77.37, 75.61, 74.72, 74.15, 73.12, 72.76, 72.0, 71.14, 70.92, 70.23, 69.96]
+2025-12-24 16:51:37,295 [trainer.py] => Average Accuracy (CNN): 75.02
+2025-12-24 16:51:37,297 [asp.py] => Learning on 175-180
+2025-12-24 16:51:37,298 [asp.py] => All params: 176711938
+2025-12-24 16:51:37,299 [asp.py] => backbone.TIP: 92160
+2025-12-24 16:51:37,299 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 16:51:37,299 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 16:51:37,299 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 1966080
+2025-12-24 16:51:37,299 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 7680
+2025-12-24 16:51:37,300 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 16:51:37,300 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 16:51:37,300 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 1966080
+2025-12-24 16:51:37,300 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 7680
+2025-12-24 16:51:37,300 [asp.py] => Trainable params (without fc): 4826624
+2025-12-24 16:51:37,309 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 16:51:38,339 [trainer.py] => Task 16 Trainable params: 4.83M, GPU: 932.26MiB
+2025-12-24 16:52:17,865 [trainer.py] => CNN: {'total': 69.43, '00-99': 81.51, '100-104': 52.91, '105-109': 49.66, '110-114': 68.79, '115-119': 56.3, '120-124': 46.31, '125-129': 33.33, '130-134': 52.67, '135-139': 56.16, '140-144': 37.72, '145-149': 63.0, '150-154': 43.12, '155-159': 40.13, '160-164': 68.12, '165-169': 57.07, '170-174': 68.09, '175-179': 59.56, '180-184': 76.0, '185-189': 68.0, '190-194': 76.0, '195-199': 56.0, 'old': 69.69, 'new': 59.56}
+2025-12-24 16:52:17,866 [trainer.py] => Top1 curve: [81.97, 80.57, 78.93, 78.7, 78.18, 77.37, 75.61, 74.72, 74.15, 73.12, 72.76, 72.0, 71.14, 70.92, 70.23, 69.96, 69.43]
+2025-12-24 16:52:17,866 [trainer.py] => Average Accuracy (CNN): 74.69
+2025-12-24 16:52:18,571 [asp.py] => Learning on 180-185
+2025-12-24 16:52:18,573 [asp.py] => All params: 176715778
+2025-12-24 16:52:18,573 [asp.py] => backbone.TIP: 92160
+2025-12-24 16:52:18,574 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 16:52:18,574 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 16:52:18,574 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 1966080
+2025-12-24 16:52:18,574 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 7680
+2025-12-24 16:52:18,575 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 16:52:18,575 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 16:52:18,575 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 1966080
+2025-12-24 16:52:18,575 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 7680
+2025-12-24 16:52:18,575 [asp.py] => Trainable params (without fc): 4826624
+2025-12-24 16:52:18,586 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 16:52:19,529 [trainer.py] => Task 17 Trainable params: 4.83M, GPU: 932.27MiB
+2025-12-24 16:52:59,094 [trainer.py] => CNN: {'total': 68.96, '00-99': 81.51, '100-104': 52.91, '105-109': 49.66, '110-114': 68.79, '115-119': 56.3, '120-124': 46.31, '125-129': 33.33, '130-134': 52.67, '135-139': 56.16, '140-144': 37.72, '145-149': 63.0, '150-154': 43.12, '155-159': 39.47, '160-164': 68.12, '165-169': 57.07, '170-174': 68.09, '175-179': 59.56, '180-184': 52.38, '185-189': 68.0, '190-194': 72.0, '195-199': 68.0, 'old': 69.42, 'new': 52.38}
+2025-12-24 16:52:59,095 [trainer.py] => Top1 curve: [81.97, 80.57, 78.93, 78.7, 78.18, 77.37, 75.61, 74.72, 74.15, 73.12, 72.76, 72.0, 71.14, 70.92, 70.23, 69.96, 69.43, 68.96]
+2025-12-24 16:52:59,095 [trainer.py] => Average Accuracy (CNN): 74.37
+2025-12-24 16:52:59,097 [asp.py] => Learning on 185-190
+2025-12-24 16:52:59,098 [asp.py] => All params: 176719618
+2025-12-24 16:52:59,098 [asp.py] => backbone.TIP: 92160
+2025-12-24 16:52:59,099 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 16:52:59,099 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 16:52:59,099 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 1966080
+2025-12-24 16:52:59,099 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 7680
+2025-12-24 16:52:59,099 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 16:52:59,099 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 16:52:59,099 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 1966080
+2025-12-24 16:52:59,099 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 7680
+2025-12-24 16:52:59,099 [asp.py] => Trainable params (without fc): 4826624
+2025-12-24 16:52:59,108 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 16:52:59,949 [trainer.py] => Task 18 Trainable params: 4.83M, GPU: 932.29MiB
+2025-12-24 16:53:41,255 [trainer.py] => CNN: {'total': 68.5, '00-99': 81.51, '100-104': 52.91, '105-109': 49.66, '110-114': 68.79, '115-119': 56.3, '120-124': 46.31, '125-129': 32.7, '130-134': 52.67, '135-139': 56.16, '140-144': 37.72, '145-149': 63.0, '150-154': 43.12, '155-159': 39.47, '160-164': 68.12, '165-169': 57.07, '170-174': 68.09, '175-179': 59.56, '180-184': 51.7, '185-189': 57.67, '190-194': 64.0, '195-199': 80.0, 'old': 68.92, 'new': 57.67}
+2025-12-24 16:53:41,255 [trainer.py] => Top1 curve: [81.97, 80.57, 78.93, 78.7, 78.18, 77.37, 75.61, 74.72, 74.15, 73.12, 72.76, 72.0, 71.14, 70.92, 70.23, 69.96, 69.43, 68.96, 68.5]
+2025-12-24 16:53:41,255 [trainer.py] => Average Accuracy (CNN): 74.06
+2025-12-24 16:53:41,259 [asp.py] => Learning on 190-195
+2025-12-24 16:53:41,261 [asp.py] => All params: 176723458
+2025-12-24 16:53:41,261 [asp.py] => backbone.TIP: 92160
+2025-12-24 16:53:41,261 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 16:53:41,261 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 16:53:41,262 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 1966080
+2025-12-24 16:53:41,262 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 7680
+2025-12-24 16:53:41,262 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 16:53:41,262 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 16:53:41,262 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 1966080
+2025-12-24 16:53:41,262 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 7680
+2025-12-24 16:53:41,262 [asp.py] => Trainable params (without fc): 4826624
+2025-12-24 16:53:41,270 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 16:53:42,108 [trainer.py] => Task 19 Trainable params: 4.83M, GPU: 932.30MiB
+2025-12-24 16:54:26,010 [trainer.py] => CNN: {'total': 68.17, '00-99': 81.44, '100-104': 52.91, '105-109': 49.66, '110-114': 68.79, '115-119': 56.3, '120-124': 46.31, '125-129': 32.7, '130-134': 52.67, '135-139': 56.16, '140-144': 37.72, '145-149': 63.0, '150-154': 42.2, '155-159': 39.47, '160-164': 67.5, '165-169': 56.54, '170-174': 68.09, '175-179': 59.56, '180-184': 51.7, '185-189': 56.28, '190-194': 61.44, '195-199': 56.0, 'old': 68.36, 'new': 61.44}
+2025-12-24 16:54:26,010 [trainer.py] => Top1 curve: [81.97, 80.57, 78.93, 78.7, 78.18, 77.37, 75.61, 74.72, 74.15, 73.12, 72.76, 72.0, 71.14, 70.92, 70.23, 69.96, 69.43, 68.96, 68.5, 68.17]
+2025-12-24 16:54:26,010 [trainer.py] => Average Accuracy (CNN): 73.77
+2025-12-24 16:54:26,012 [asp.py] => Learning on 195-200
+2025-12-24 16:54:26,013 [asp.py] => All params: 176727298
+2025-12-24 16:54:26,013 [asp.py] => backbone.TIP: 92160
+2025-12-24 16:54:26,014 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 16:54:26,014 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 16:54:26,014 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 1966080
+2025-12-24 16:54:26,014 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 7680
+2025-12-24 16:54:26,014 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 16:54:26,014 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 16:54:26,014 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 1966080
+2025-12-24 16:54:26,014 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 7680
+2025-12-24 16:54:26,014 [asp.py] => Trainable params (without fc): 4826624
+2025-12-24 16:54:26,022 [asp.py] => training set size: 25, fc construct set size: 25
+2025-12-24 16:54:27,040 [trainer.py] => Task 20 Trainable params: 4.83M, GPU: 932.32MiB
+2025-12-24 16:55:14,310 [trainer.py] => CNN: {'total': 67.6, '00-99': 81.44, '100-104': 52.91, '105-109': 49.66, '110-114': 68.79, '115-119': 55.46, '120-124': 46.31, '125-129': 32.08, '130-134': 52.67, '135-139': 54.79, '140-144': 37.72, '145-149': 63.0, '150-154': 41.28, '155-159': 38.82, '160-164': 67.5, '165-169': 56.02, '170-174': 67.38, '175-179': 59.56, '180-184': 51.7, '185-189': 55.81, '190-194': 61.44, '195-199': 52.47, 'old': 68.02, 'new': 52.47}
+2025-12-24 16:55:14,311 [trainer.py] => Top1 curve: [81.97, 80.57, 78.93, 78.7, 78.18, 77.37, 75.61, 74.72, 74.15, 73.12, 72.76, 72.0, 71.14, 70.92, 70.23, 69.96, 69.43, 68.96, 68.5, 68.17, 67.6]
+2025-12-24 16:55:14,311 [trainer.py] => Average Accuracy (CNN): 73.48
+
+================================================================================
+Finished imagenetr_init100_inc5: pretrained_vit_b16_224_vpt  
+Base Accuracy: 81.97
+Last Accuracy: 67.6
+Average Accuracy (Top1): 73.48
+PD: 14.37
+Backward Transfer (BWT): -3.96
+Traceback (most recent call last):
+  File "/public/home/hanlida/Dr.1/Code/Research/Awesome-FSCIL/FSCIL-ASP-main/main.py", line 25, in <module>
+    main()
+  File "/public/home/hanlida/Dr.1/Code/Research/Awesome-FSCIL/FSCIL-ASP-main/main.py", line 11, in main
+    train(args)
+  File "/public/home/hanlida/Dr.1/Code/Research/Awesome-FSCIL/FSCIL-ASP-main/trainer.py", line 32, in train
+    _train(args)
+  File "/public/home/hanlida/Dr.1/Code/Research/Awesome-FSCIL/FSCIL-ASP-main/trainer.py", line 207, in _train
+    print("Forward Transfer (FWT):", forward_transfer(args["dataset"], np.array(cnn_matrix)))
+  File "/public/home/hanlida/Dr.1/Code/Research/Awesome-FSCIL/FSCIL-ASP-main/trainer.py", line 317, in forward_transfer
+    fwt_diffs = fwt_accs - rand_init_acc_for_fwt
+ValueError: operands could not be broadcast together with shapes (20,) (10,) 
+2025-12-24 19:26:59,687 [trainer.py] => config: ./configs/asp_mini_B60_Inc2.json
+2025-12-24 19:26:59,703 [trainer.py] => model_name: asp
+2025-12-24 19:26:59,703 [trainer.py] => backbone_type: pretrained_vit_b16_224_vpt
+2025-12-24 19:26:59,703 [trainer.py] => device: [device(type='cuda', index=1)]
+2025-12-24 19:26:59,704 [trainer.py] => seed: 1993
+2025-12-24 19:26:59,704 [trainer.py] => dataset: mini_imagenet
+2025-12-24 19:26:59,704 [trainer.py] => init_cls: 60
+2025-12-24 19:26:59,704 [trainer.py] => increment: 2
+2025-12-24 19:26:59,704 [trainer.py] => kshot: 5
+2025-12-24 19:26:59,704 [trainer.py] => vpt_type: Deep
+2025-12-24 19:26:59,704 [trainer.py] => prompt_token_num: 6
+2025-12-24 19:26:59,705 [trainer.py] => avg_alpha: 0.8
+2025-12-24 19:26:59,705 [trainer.py] => perturb_var: 1
+2025-12-24 19:26:59,705 [trainer.py] => EMA_beta: 0.99
+2025-12-24 19:26:59,705 [trainer.py] => anchor_lambda: 0.1
+2025-12-24 19:26:59,705 [trainer.py] => kl_weight: 0.001
+2025-12-24 19:26:59,705 [trainer.py] => TIP_init: zero
+2025-12-24 19:26:59,705 [trainer.py] => tuned_epoch: 20
+2025-12-24 19:26:59,706 [trainer.py] => fs_epoch: 0
+2025-12-24 19:26:59,706 [trainer.py] => init_lr: 0.01
+2025-12-24 19:26:59,706 [trainer.py] => fs_lr: 0.001
+2025-12-24 19:26:59,706 [trainer.py] => batch_size: 48
+2025-12-24 19:26:59,706 [trainer.py] => fs_batch_size: 16
+2025-12-24 19:26:59,706 [trainer.py] => weight_decay: 0.0005
+2025-12-24 19:26:59,706 [trainer.py] => min_lr: 0
+2025-12-24 19:26:59,706 [trainer.py] => optimizer: sgd
+2025-12-24 19:26:59,707 [trainer.py] => memory_size: 0
+2025-12-24 19:26:59,707 [trainer.py] => memory_per_class: 0
+2025-12-24 19:26:59,707 [trainer.py] => fixed_memory: False
+2025-12-24 19:26:59,707 [trainer.py] => shuffle: False
+2025-12-24 19:26:59,707 [trainer.py] => top_k: 5
+2025-12-24 19:26:59,707 [trainer.py] => base_model_path: saved_model/asp/mini_imagenet/60_2/asp_20_1993_pretrained_vit_b16_224_vpt.pth
+2025-12-24 19:26:59,707 [trainer.py] => prefix: asp
+2025-12-24 19:26:59,708 [trainer.py] => model_prefix: asp
+2025-12-24 19:26:59,708 [trainer.py] => gpu_models: ['NVIDIA A800 80GB PCIe']
+2025-12-24 19:27:00,056 [data_manager.py] => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99]
+This is for the BaseNet initialization.
+modelname, pretrained_vit_b16_224_vpt basicmodelname vit_base_patch16_224
+Using VPT model
+Using Deep Prompt
+After BaseNet initialization.
+2025-12-24 19:27:21,971 [asp.py] => Learning on 0-60
+2025-12-24 19:27:21,972 [asp.py] => All params: 173672961
+2025-12-24 19:27:21,972 [asp.py] => backbone.TIP: 27648
+2025-12-24 19:27:21,973 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-24 19:27:21,973 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-24 19:27:21,973 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-24 19:27:21,973 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-24 19:27:21,973 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-24 19:27:21,973 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-24 19:27:21,973 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-24 19:27:21,973 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-24 19:27:21,973 [asp.py] => Trainable params (without fc): 1998848
+2025-12-24 19:27:22,267 [asp.py] => training set size: 30000, fc construct set size: 30000
+anchor samples found
+2025-12-24 19:57:16,152 [asp.py] => Task 0, Epoch 1 => Loss 3.589, Train_accy 40.46, Test_curr_accy 95.68, Test_accy 95.68
+anchor samples found
+2025-12-24 20:27:18,948 [asp.py] => Task 0, Epoch 2 => Loss 0.770, Train_accy 87.26, Test_curr_accy 96.73, Test_accy 96.73
+anchor samples found
+2025-12-24 20:46:57,897 [asp.py] => Task 0, Epoch 3 => Loss 0.623, Train_accy 88.82, Test_curr_accy 97.08, Test_accy 97.08
+anchor samples found
+2025-12-24 21:04:42,998 [asp.py] => Task 0, Epoch 4 => Loss 0.569, Train_accy 89.26, Test_curr_accy 97.00, Test_accy 97.00
+anchor samples found
+2025-12-24 21:21:40,487 [asp.py] => Task 0, Epoch 5 => Loss 0.552, Train_accy 89.63, Test_curr_accy 97.25, Test_accy 97.25
+anchor samples found
+2025-12-24 21:56:49,322 [asp.py] => Task 0, Epoch 6 => Loss 0.518, Train_accy 89.90, Test_curr_accy 97.50, Test_accy 97.50
+anchor samples found
+2025-12-24 22:31:27,316 [asp.py] => Task 0, Epoch 7 => Loss 0.506, Train_accy 90.23, Test_curr_accy 97.47, Test_accy 97.47
+anchor samples found
+2025-12-24 23:04:46,317 [asp.py] => Task 0, Epoch 8 => Loss 0.478, Train_accy 90.83, Test_curr_accy 97.47, Test_accy 97.47
+anchor samples found
+2025-12-24 23:37:31,557 [asp.py] => Task 0, Epoch 9 => Loss 0.484, Train_accy 90.67, Test_curr_accy 97.30, Test_accy 97.30
+anchor samples found
+2025-12-25 00:10:35,483 [asp.py] => Task 0, Epoch 10 => Loss 0.486, Train_accy 90.66, Test_curr_accy 97.52, Test_accy 97.52
+anchor samples found
+2025-12-25 00:43:00,866 [asp.py] => Task 0, Epoch 11 => Loss 0.466, Train_accy 90.85, Test_curr_accy 97.58, Test_accy 97.58
+anchor samples found
+2025-12-25 01:12:05,146 [asp.py] => Task 0, Epoch 12 => Loss 0.459, Train_accy 91.05, Test_curr_accy 97.50, Test_accy 97.50
+anchor samples found
+2025-12-25 01:40:43,914 [asp.py] => Task 0, Epoch 13 => Loss 0.448, Train_accy 91.22, Test_curr_accy 97.57, Test_accy 97.57
+anchor samples found
+2025-12-25 02:09:29,449 [asp.py] => Task 0, Epoch 14 => Loss 0.446, Train_accy 91.41, Test_curr_accy 97.57, Test_accy 97.57
+anchor samples found
+2025-12-25 02:38:39,602 [asp.py] => Task 0, Epoch 15 => Loss 0.451, Train_accy 91.22, Test_curr_accy 97.47, Test_accy 97.47
+anchor samples found
+2025-12-25 03:10:48,770 [asp.py] => Task 0, Epoch 16 => Loss 0.449, Train_accy 91.20, Test_curr_accy 97.53, Test_accy 97.53
+anchor samples found
+2025-12-25 03:28:45,064 [asp.py] => Task 0, Epoch 17 => Loss 0.444, Train_accy 91.12, Test_curr_accy 97.58, Test_accy 97.58
+anchor samples found
+2025-12-25 03:41:52,281 [asp.py] => Task 0, Epoch 18 => Loss 0.440, Train_accy 91.41, Test_curr_accy 97.58, Test_accy 97.58
+anchor samples found
+2025-12-25 03:55:42,540 [asp.py] => Task 0, Epoch 19 => Loss 0.431, Train_accy 91.75, Test_curr_accy 97.58, Test_accy 97.58
+anchor samples found
+2025-12-25 04:08:45,003 [asp.py] => Task 0, Epoch 20 => Loss 0.438, Train_accy 91.43, Test_curr_accy 97.55, Test_accy 97.55
+2025-12-25 04:13:55,706 [trainer.py] => Task 0 Trainable params: 2.00M, GPU: 9737.53MiB
+2025-12-25 04:15:09,921 [trainer.py] => CNN: {'total': 97.02, '00-59': 97.02, '60-61': 80.0, '62-63': 80.0, '64-65': 60.0, '66-67': 90.0, '68-69': 60.0, '70-71': 90.0, '72-73': 70.0, '74-75': 90.0, '76-77': 80.0, '78-79': 90.0, '80-81': 80.0, '82-83': 90.0, '84-85': 90.0, '86-87': 80.0, '88-89': 60.0, '90-91': 70.0, '92-93': 100.0, '94-95': 90.0, '96-97': 100.0, '98-99': 100.0, 'old': 0, 'new': 97.02}
+2025-12-25 04:15:09,925 [trainer.py] => Top1 curve: [97.02]
+2025-12-25 04:15:09,925 [trainer.py] => Average Accuracy (CNN): 97.02
+2025-12-25 04:15:10,880 [asp.py] => Learning on 60-62
+2025-12-25 04:15:10,882 [asp.py] => All params: 173719042
+2025-12-25 04:15:10,882 [asp.py] => backbone.TIP: 27648
+2025-12-25 04:15:10,883 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-25 04:15:10,883 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-25 04:15:10,883 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-25 04:15:10,884 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-25 04:15:10,884 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-25 04:15:10,884 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-25 04:15:10,884 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-25 04:15:10,884 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-25 04:15:10,884 [asp.py] => Trainable params (without fc): 1998848
+2025-12-25 04:15:10,911 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-25 04:15:11,567 [trainer.py] => Task 1 Trainable params: 2.00M, GPU: 769.03MiB
+2025-12-25 04:15:49,190 [trainer.py] => CNN: {'total': 96.97, '00-59': 97.0, '60-61': 96.0, '62-63': 90.0, '64-65': 90.0, '66-67': 90.0, '68-69': 40.0, '70-71': 90.0, '72-73': 90.0, '74-75': 90.0, '76-77': 70.0, '78-79': 100.0, '80-81': 80.0, '82-83': 100.0, '84-85': 90.0, '86-87': 90.0, '88-89': 80.0, '90-91': 100.0, '92-93': 100.0, '94-95': 100.0, '96-97': 90.0, '98-99': 90.0, 'old': 97.0, 'new': 96.0}
+2025-12-25 04:15:49,190 [trainer.py] => Top1 curve: [97.02, 96.97]
+2025-12-25 04:15:49,190 [trainer.py] => Average Accuracy (CNN): 97.00
+2025-12-25 04:15:49,193 [asp.py] => Learning on 62-64
+2025-12-25 04:15:49,194 [asp.py] => All params: 173720578
+2025-12-25 04:15:49,194 [asp.py] => backbone.TIP: 27648
+2025-12-25 04:15:49,195 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-25 04:15:49,195 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-25 04:15:49,195 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-25 04:15:49,195 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-25 04:15:49,195 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-25 04:15:49,195 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-25 04:15:49,195 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-25 04:15:49,195 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-25 04:15:49,196 [asp.py] => Trainable params (without fc): 1998848
+2025-12-25 04:15:49,213 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-25 04:15:49,583 [trainer.py] => Task 2 Trainable params: 2.00M, GPU: 769.03MiB
+2025-12-25 04:16:27,374 [trainer.py] => CNN: {'total': 96.84, '00-59': 96.93, '60-61': 96.0, '62-63': 95.0, '64-65': 80.0, '66-67': 100.0, '68-69': 40.0, '70-71': 90.0, '72-73': 80.0, '74-75': 100.0, '76-77': 90.0, '78-79': 100.0, '80-81': 80.0, '82-83': 100.0, '84-85': 90.0, '86-87': 90.0, '88-89': 70.0, '90-91': 90.0, '92-93': 90.0, '94-95': 100.0, '96-97': 90.0, '98-99': 90.0, 'old': 96.9, 'new': 95.0}
+2025-12-25 04:16:27,374 [trainer.py] => Top1 curve: [97.02, 96.97, 96.84]
+2025-12-25 04:16:27,375 [trainer.py] => Average Accuracy (CNN): 96.94
+2025-12-25 04:16:27,378 [asp.py] => Learning on 64-66
+2025-12-25 04:16:27,379 [asp.py] => All params: 173722114
+2025-12-25 04:16:27,379 [asp.py] => backbone.TIP: 27648
+2025-12-25 04:16:27,380 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-25 04:16:27,380 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-25 04:16:27,380 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-25 04:16:27,380 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-25 04:16:27,380 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-25 04:16:27,380 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-25 04:16:27,381 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-25 04:16:27,381 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-25 04:16:27,381 [asp.py] => Trainable params (without fc): 1998848
+2025-12-25 04:16:27,400 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-25 04:16:27,760 [trainer.py] => Task 3 Trainable params: 2.00M, GPU: 769.04MiB
+2025-12-25 04:17:07,127 [trainer.py] => CNN: {'total': 96.7, '00-59': 96.92, '60-61': 96.0, '62-63': 95.0, '64-65': 92.5, '66-67': 90.0, '68-69': 60.0, '70-71': 100.0, '72-73': 100.0, '74-75': 100.0, '76-77': 60.0, '78-79': 100.0, '80-81': 80.0, '82-83': 90.0, '84-85': 100.0, '86-87': 100.0, '88-89': 90.0, '90-91': 80.0, '92-93': 90.0, '94-95': 100.0, '96-97': 80.0, '98-99': 100.0, 'old': 96.83, 'new': 92.5}
+2025-12-25 04:17:07,127 [trainer.py] => Top1 curve: [97.02, 96.97, 96.84, 96.7]
+2025-12-25 04:17:07,127 [trainer.py] => Average Accuracy (CNN): 96.88
+2025-12-25 04:17:07,139 [asp.py] => Learning on 66-68
+2025-12-25 04:17:07,140 [asp.py] => All params: 173723650
+2025-12-25 04:17:07,140 [asp.py] => backbone.TIP: 27648
+2025-12-25 04:17:07,141 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-25 04:17:07,141 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-25 04:17:07,141 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-25 04:17:07,141 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-25 04:17:07,141 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-25 04:17:07,141 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-25 04:17:07,141 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-25 04:17:07,141 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-25 04:17:07,142 [asp.py] => Trainable params (without fc): 1998848
+2025-12-25 04:17:07,158 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-25 04:17:07,502 [trainer.py] => Task 4 Trainable params: 2.00M, GPU: 769.04MiB
+2025-12-25 04:17:47,405 [trainer.py] => CNN: {'total': 96.69, '00-59': 96.88, '60-61': 96.0, '62-63': 95.0, '64-65': 92.5, '66-67': 97.5, '68-69': 60.0, '70-71': 90.0, '72-73': 80.0, '74-75': 90.0, '76-77': 90.0, '78-79': 90.0, '80-81': 90.0, '82-83': 80.0, '84-85': 100.0, '86-87': 100.0, '88-89': 80.0, '90-91': 80.0, '92-93': 100.0, '94-95': 90.0, '96-97': 80.0, '98-99': 100.0, 'old': 96.67, 'new': 97.5}
+2025-12-25 04:17:47,405 [trainer.py] => Top1 curve: [97.02, 96.97, 96.84, 96.7, 96.69]
+2025-12-25 04:17:47,405 [trainer.py] => Average Accuracy (CNN): 96.84
+2025-12-25 04:17:47,413 [asp.py] => Learning on 68-70
+2025-12-25 04:17:47,415 [asp.py] => All params: 173725186
+2025-12-25 04:17:47,415 [asp.py] => backbone.TIP: 27648
+2025-12-25 04:17:47,416 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-25 04:17:47,416 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-25 04:17:47,416 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-25 04:17:47,416 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-25 04:17:47,416 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-25 04:17:47,416 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-25 04:17:47,416 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-25 04:17:47,417 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-25 04:17:47,417 [asp.py] => Trainable params (without fc): 1998848
+2025-12-25 04:17:47,437 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-25 04:17:47,786 [trainer.py] => Task 5 Trainable params: 2.00M, GPU: 769.05MiB
+2025-12-25 04:18:28,677 [trainer.py] => CNN: {'total': 95.66, '00-59': 96.82, '60-61': 96.0, '62-63': 95.0, '64-65': 92.0, '66-67': 97.5, '68-69': 63.0, '70-71': 90.0, '72-73': 90.0, '74-75': 100.0, '76-77': 90.0, '78-79': 100.0, '80-81': 90.0, '82-83': 90.0, '84-85': 90.0, '86-87': 90.0, '88-89': 70.0, '90-91': 100.0, '92-93': 100.0, '94-95': 80.0, '96-97': 80.0, '98-99': 90.0, 'old': 96.62, 'new': 63.0}
+2025-12-25 04:18:28,678 [trainer.py] => Top1 curve: [97.02, 96.97, 96.84, 96.7, 96.69, 95.66]
+2025-12-25 04:18:28,678 [trainer.py] => Average Accuracy (CNN): 96.65
+2025-12-25 04:18:28,681 [asp.py] => Learning on 70-72
+2025-12-25 04:18:28,682 [asp.py] => All params: 173726722
+2025-12-25 04:18:28,682 [asp.py] => backbone.TIP: 27648
+2025-12-25 04:18:28,683 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-25 04:18:28,683 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-25 04:18:28,683 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-25 04:18:28,683 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-25 04:18:28,683 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-25 04:18:28,683 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-25 04:18:28,683 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-25 04:18:28,683 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-25 04:18:28,683 [asp.py] => Trainable params (without fc): 1998848
+2025-12-25 04:18:28,698 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-25 04:18:29,102 [trainer.py] => Task 6 Trainable params: 2.00M, GPU: 769.06MiB
+2025-12-25 04:19:10,586 [trainer.py] => CNN: {'total': 95.65, '00-59': 96.8, '60-61': 96.0, '62-63': 94.5, '64-65': 92.0, '66-67': 97.5, '68-69': 63.0, '70-71': 96.5, '72-73': 90.0, '74-75': 100.0, '76-77': 90.0, '78-79': 80.0, '80-81': 90.0, '82-83': 100.0, '84-85': 100.0, '86-87': 80.0, '88-89': 80.0, '90-91': 90.0, '92-93': 100.0, '94-95': 100.0, '96-97': 100.0, '98-99': 80.0, 'old': 95.63, 'new': 96.5}
+2025-12-25 04:19:10,586 [trainer.py] => Top1 curve: [97.02, 96.97, 96.84, 96.7, 96.69, 95.66, 95.65]
+2025-12-25 04:19:10,586 [trainer.py] => Average Accuracy (CNN): 96.50
+2025-12-25 04:19:10,589 [asp.py] => Learning on 72-74
+2025-12-25 04:19:10,590 [asp.py] => All params: 173728258
+2025-12-25 04:19:10,590 [asp.py] => backbone.TIP: 27648
+2025-12-25 04:19:10,591 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-25 04:19:10,591 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-25 04:19:10,591 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-25 04:19:10,591 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-25 04:19:10,591 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-25 04:19:10,591 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-25 04:19:10,591 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-25 04:19:10,591 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-25 04:19:10,591 [asp.py] => Trainable params (without fc): 1998848
+2025-12-25 04:19:10,606 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-25 04:19:11,307 [trainer.py] => Task 7 Trainable params: 2.00M, GPU: 769.06MiB
+2025-12-25 04:19:54,652 [trainer.py] => CNN: {'total': 95.59, '00-59': 96.8, '60-61': 96.0, '62-63': 94.5, '64-65': 92.0, '66-67': 97.5, '68-69': 63.0, '70-71': 96.5, '72-73': 93.5, '74-75': 100.0, '76-77': 90.0, '78-79': 90.0, '80-81': 90.0, '82-83': 80.0, '84-85': 100.0, '86-87': 80.0, '88-89': 80.0, '90-91': 100.0, '92-93': 100.0, '94-95': 90.0, '96-97': 90.0, '98-99': 90.0, 'old': 95.65, 'new': 93.5}
+2025-12-25 04:19:54,652 [trainer.py] => Top1 curve: [97.02, 96.97, 96.84, 96.7, 96.69, 95.66, 95.65, 95.59]
+2025-12-25 04:19:54,652 [trainer.py] => Average Accuracy (CNN): 96.39
+2025-12-25 04:19:54,655 [asp.py] => Learning on 74-76
+2025-12-25 04:19:54,656 [asp.py] => All params: 173729794
+2025-12-25 04:19:54,656 [asp.py] => backbone.TIP: 27648
+2025-12-25 04:19:54,657 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-25 04:19:54,657 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-25 04:19:54,657 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-25 04:19:54,657 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-25 04:19:54,657 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-25 04:19:54,657 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-25 04:19:54,657 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-25 04:19:54,657 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-25 04:19:54,657 [asp.py] => Trainable params (without fc): 1998848
+2025-12-25 04:19:54,671 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-25 04:19:55,646 [trainer.py] => Task 8 Trainable params: 2.00M, GPU: 769.07MiB
+2025-12-25 04:20:40,070 [trainer.py] => CNN: {'total': 95.67, '00-59': 96.8, '60-61': 96.0, '62-63': 94.0, '64-65': 92.0, '66-67': 97.5, '68-69': 63.0, '70-71': 96.5, '72-73': 93.5, '74-75': 99.0, '76-77': 90.0, '78-79': 100.0, '80-81': 90.0, '82-83': 90.0, '84-85': 80.0, '86-87': 90.0, '88-89': 70.0, '90-91': 90.0, '92-93': 100.0, '94-95': 80.0, '96-97': 100.0, '98-99': 100.0, 'old': 95.58, 'new': 99.0}
+2025-12-25 04:20:40,071 [trainer.py] => Top1 curve: [97.02, 96.97, 96.84, 96.7, 96.69, 95.66, 95.65, 95.59, 95.67]
+2025-12-25 04:20:40,071 [trainer.py] => Average Accuracy (CNN): 96.31
+2025-12-25 04:20:40,073 [asp.py] => Learning on 76-78
+2025-12-25 04:20:40,074 [asp.py] => All params: 173731330
+2025-12-25 04:20:40,075 [asp.py] => backbone.TIP: 27648
+2025-12-25 04:20:40,075 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-25 04:20:40,075 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-25 04:20:40,075 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-25 04:20:40,075 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-25 04:20:40,076 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-25 04:20:40,076 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-25 04:20:40,076 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-25 04:20:40,076 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-25 04:20:40,076 [asp.py] => Trainable params (without fc): 1998848
+2025-12-25 04:20:40,089 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-25 04:20:40,654 [trainer.py] => Task 9 Trainable params: 2.00M, GPU: 769.07MiB
+2025-12-25 04:21:26,142 [trainer.py] => CNN: {'total': 95.54, '00-59': 96.78, '60-61': 96.0, '62-63': 94.0, '64-65': 92.0, '66-67': 97.5, '68-69': 63.0, '70-71': 96.5, '72-73': 93.5, '74-75': 99.0, '76-77': 91.0, '78-79': 100.0, '80-81': 90.0, '82-83': 80.0, '84-85': 90.0, '86-87': 100.0, '88-89': 90.0, '90-91': 100.0, '92-93': 100.0, '94-95': 90.0, '96-97': 90.0, '98-99': 90.0, 'old': 95.66, 'new': 91.0}
+2025-12-25 04:21:26,143 [trainer.py] => Top1 curve: [97.02, 96.97, 96.84, 96.7, 96.69, 95.66, 95.65, 95.59, 95.67, 95.54]
+2025-12-25 04:21:26,143 [trainer.py] => Average Accuracy (CNN): 96.23
+2025-12-25 04:21:26,589 [asp.py] => Learning on 78-80
+2025-12-25 04:21:26,591 [asp.py] => All params: 173732866
+2025-12-25 04:21:26,591 [asp.py] => backbone.TIP: 27648
+2025-12-25 04:21:26,592 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-25 04:21:26,593 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-25 04:21:26,593 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-25 04:21:26,593 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-25 04:21:26,593 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-25 04:21:26,593 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-25 04:21:26,593 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-25 04:21:26,593 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-25 04:21:26,593 [asp.py] => Trainable params (without fc): 1998848
+2025-12-25 04:21:26,610 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-25 04:21:27,111 [trainer.py] => Task 10 Trainable params: 2.00M, GPU: 769.08MiB
+2025-12-25 04:22:13,567 [trainer.py] => CNN: {'total': 95.55, '00-59': 96.77, '60-61': 96.0, '62-63': 94.0, '64-65': 92.0, '66-67': 97.5, '68-69': 63.0, '70-71': 96.5, '72-73': 93.5, '74-75': 99.0, '76-77': 91.0, '78-79': 96.5, '80-81': 90.0, '82-83': 100.0, '84-85': 100.0, '86-87': 100.0, '88-89': 80.0, '90-91': 100.0, '92-93': 90.0, '94-95': 90.0, '96-97': 100.0, '98-99': 100.0, 'old': 95.53, 'new': 96.5}
+2025-12-25 04:22:13,567 [trainer.py] => Top1 curve: [97.02, 96.97, 96.84, 96.7, 96.69, 95.66, 95.65, 95.59, 95.67, 95.54, 95.55]
+2025-12-25 04:22:13,567 [trainer.py] => Average Accuracy (CNN): 96.17
+2025-12-25 04:22:13,604 [asp.py] => Learning on 80-82
+2025-12-25 04:22:13,605 [asp.py] => All params: 173734402
+2025-12-25 04:22:13,605 [asp.py] => backbone.TIP: 27648
+2025-12-25 04:22:13,606 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-25 04:22:13,606 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-25 04:22:13,606 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-25 04:22:13,606 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-25 04:22:13,606 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-25 04:22:13,606 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-25 04:22:13,606 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-25 04:22:13,606 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-25 04:22:13,607 [asp.py] => Trainable params (without fc): 1998848
+2025-12-25 04:22:13,621 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-25 04:22:13,998 [trainer.py] => Task 11 Trainable params: 2.00M, GPU: 769.09MiB
+2025-12-25 04:23:00,774 [trainer.py] => CNN: {'total': 95.32, '00-59': 96.63, '60-61': 96.0, '62-63': 93.5, '64-65': 91.5, '66-67': 97.0, '68-69': 63.0, '70-71': 96.5, '72-73': 93.0, '74-75': 99.0, '76-77': 91.0, '78-79': 96.5, '80-81': 92.0, '82-83': 90.0, '84-85': 90.0, '86-87': 90.0, '88-89': 80.0, '90-91': 100.0, '92-93': 100.0, '94-95': 90.0, '96-97': 100.0, '98-99': 90.0, 'old': 95.4, 'new': 92.0}
+2025-12-25 04:23:00,774 [trainer.py] => Top1 curve: [97.02, 96.97, 96.84, 96.7, 96.69, 95.66, 95.65, 95.59, 95.67, 95.54, 95.55, 95.32]
+2025-12-25 04:23:00,774 [trainer.py] => Average Accuracy (CNN): 96.10
+2025-12-25 04:23:00,780 [asp.py] => Learning on 82-84
+2025-12-25 04:23:00,781 [asp.py] => All params: 173735938
+2025-12-25 04:23:00,781 [asp.py] => backbone.TIP: 27648
+2025-12-25 04:23:00,782 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-25 04:23:00,782 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-25 04:23:00,782 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-25 04:23:00,782 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-25 04:23:00,782 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-25 04:23:00,782 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-25 04:23:00,783 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-25 04:23:00,783 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-25 04:23:00,783 [asp.py] => Trainable params (without fc): 1998848
+2025-12-25 04:23:00,795 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-25 04:23:01,139 [trainer.py] => Task 12 Trainable params: 2.00M, GPU: 769.09MiB
+2025-12-25 04:23:48,667 [trainer.py] => CNN: {'total': 95.23, '00-59': 96.63, '60-61': 96.0, '62-63': 93.5, '64-65': 91.5, '66-67': 97.0, '68-69': 63.0, '70-71': 96.5, '72-73': 93.0, '74-75': 99.0, '76-77': 91.0, '78-79': 95.5, '80-81': 90.5, '82-83': 94.0, '84-85': 100.0, '86-87': 100.0, '88-89': 80.0, '90-91': 90.0, '92-93': 100.0, '94-95': 100.0, '96-97': 100.0, '98-99': 90.0, 'old': 95.26, 'new': 94.0}
+2025-12-25 04:23:48,667 [trainer.py] => Top1 curve: [97.02, 96.97, 96.84, 96.7, 96.69, 95.66, 95.65, 95.59, 95.67, 95.54, 95.55, 95.32, 95.23]
+2025-12-25 04:23:48,667 [trainer.py] => Average Accuracy (CNN): 96.03
+2025-12-25 04:23:48,670 [asp.py] => Learning on 84-86
+2025-12-25 04:23:48,671 [asp.py] => All params: 173737474
+2025-12-25 04:23:48,672 [asp.py] => backbone.TIP: 27648
+2025-12-25 04:23:48,672 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-25 04:23:48,672 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-25 04:23:48,673 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-25 04:23:48,673 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-25 04:23:48,673 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-25 04:23:48,673 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-25 04:23:48,673 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-25 04:23:48,673 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-25 04:23:48,673 [asp.py] => Trainable params (without fc): 1998848
+2025-12-25 04:23:48,684 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-25 04:23:49,041 [trainer.py] => Task 13 Trainable params: 2.00M, GPU: 769.10MiB
+2025-12-25 04:24:37,713 [trainer.py] => CNN: {'total': 94.84, '00-59': 96.57, '60-61': 96.0, '62-63': 93.0, '64-65': 91.5, '66-67': 97.0, '68-69': 63.0, '70-71': 96.5, '72-73': 93.0, '74-75': 99.0, '76-77': 90.5, '78-79': 95.5, '80-81': 90.5, '82-83': 94.0, '84-85': 81.5, '86-87': 80.0, '88-89': 40.0, '90-91': 90.0, '92-93': 90.0, '94-95': 90.0, '96-97': 100.0, '98-99': 100.0, 'old': 95.15, 'new': 81.5}
+2025-12-25 04:24:37,713 [trainer.py] => Top1 curve: [97.02, 96.97, 96.84, 96.7, 96.69, 95.66, 95.65, 95.59, 95.67, 95.54, 95.55, 95.32, 95.23, 94.84]
+2025-12-25 04:24:37,713 [trainer.py] => Average Accuracy (CNN): 95.95
+2025-12-25 04:24:38,126 [asp.py] => Learning on 86-88
+2025-12-25 04:24:38,130 [asp.py] => All params: 173739010
+2025-12-25 04:24:38,130 [asp.py] => backbone.TIP: 27648
+2025-12-25 04:24:38,133 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-25 04:24:38,134 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-25 04:24:38,134 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-25 04:24:38,134 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-25 04:24:38,134 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-25 04:24:38,134 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-25 04:24:38,135 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-25 04:24:38,135 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-25 04:24:38,135 [asp.py] => Trainable params (without fc): 1998848
+2025-12-25 04:24:38,169 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-25 04:24:38,788 [trainer.py] => Task 14 Trainable params: 2.00M, GPU: 769.10MiB
+2025-12-25 04:25:29,291 [trainer.py] => CNN: {'total': 94.69, '00-59': 96.52, '60-61': 96.0, '62-63': 93.0, '64-65': 90.5, '66-67': 96.5, '68-69': 63.0, '70-71': 96.5, '72-73': 93.0, '74-75': 99.0, '76-77': 90.5, '78-79': 95.5, '80-81': 90.5, '82-83': 94.0, '84-85': 81.5, '86-87': 91.5, '88-89': 80.0, '90-91': 100.0, '92-93': 100.0, '94-95': 80.0, '96-97': 100.0, '98-99': 90.0, 'old': 94.77, 'new': 91.5}
+2025-12-25 04:25:29,291 [trainer.py] => Top1 curve: [97.02, 96.97, 96.84, 96.7, 96.69, 95.66, 95.65, 95.59, 95.67, 95.54, 95.55, 95.32, 95.23, 94.84, 94.69]
+2025-12-25 04:25:29,291 [trainer.py] => Average Accuracy (CNN): 95.86
+2025-12-25 04:25:29,294 [asp.py] => Learning on 88-90
+2025-12-25 04:25:29,295 [asp.py] => All params: 173740546
+2025-12-25 04:25:29,295 [asp.py] => backbone.TIP: 27648
+2025-12-25 04:25:29,296 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-25 04:25:29,296 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-25 04:25:29,296 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-25 04:25:29,296 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-25 04:25:29,296 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-25 04:25:29,296 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-25 04:25:29,296 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-25 04:25:29,297 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-25 04:25:29,297 [asp.py] => Trainable params (without fc): 1998848
+2025-12-25 04:25:29,307 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-25 04:25:29,733 [trainer.py] => Task 15 Trainable params: 2.00M, GPU: 769.11MiB
+2025-12-25 04:26:20,705 [trainer.py] => CNN: {'total': 94.18, '00-59': 96.37, '60-61': 96.0, '62-63': 93.0, '64-65': 89.5, '66-67': 96.5, '68-69': 63.0, '70-71': 96.5, '72-73': 92.5, '74-75': 99.0, '76-77': 90.5, '78-79': 94.5, '80-81': 90.5, '82-83': 94.0, '84-85': 81.5, '86-87': 91.5, '88-89': 78.5, '90-91': 100.0, '92-93': 100.0, '94-95': 90.0, '96-97': 90.0, '98-99': 90.0, 'old': 94.53, 'new': 78.5}
+2025-12-25 04:26:20,705 [trainer.py] => Top1 curve: [97.02, 96.97, 96.84, 96.7, 96.69, 95.66, 95.65, 95.59, 95.67, 95.54, 95.55, 95.32, 95.23, 94.84, 94.69, 94.18]
+2025-12-25 04:26:20,705 [trainer.py] => Average Accuracy (CNN): 95.76
+2025-12-25 04:26:21,331 [asp.py] => Learning on 90-92
+2025-12-25 04:26:21,335 [asp.py] => All params: 173742082
+2025-12-25 04:26:21,336 [asp.py] => backbone.TIP: 27648
+2025-12-25 04:26:21,339 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-25 04:26:21,339 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-25 04:26:21,339 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-25 04:26:21,339 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-25 04:26:21,340 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-25 04:26:21,340 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-25 04:26:21,340 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-25 04:26:21,340 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-25 04:26:21,340 [asp.py] => Trainable params (without fc): 1998848
+2025-12-25 04:26:21,371 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-25 04:26:22,038 [trainer.py] => Task 16 Trainable params: 2.00M, GPU: 769.11MiB
+2025-12-25 04:27:14,000 [trainer.py] => CNN: {'total': 94.17, '00-59': 96.28, '60-61': 96.0, '62-63': 93.0, '64-65': 89.5, '66-67': 96.5, '68-69': 63.0, '70-71': 96.5, '72-73': 92.5, '74-75': 99.0, '76-77': 90.5, '78-79': 94.5, '80-81': 90.5, '82-83': 94.0, '84-85': 80.5, '86-87': 91.5, '88-89': 78.5, '90-91': 97.5, '92-93': 100.0, '94-95': 100.0, '96-97': 100.0, '98-99': 90.0, 'old': 94.1, 'new': 97.5}
+2025-12-25 04:27:14,000 [trainer.py] => Top1 curve: [97.02, 96.97, 96.84, 96.7, 96.69, 95.66, 95.65, 95.59, 95.67, 95.54, 95.55, 95.32, 95.23, 94.84, 94.69, 94.18, 94.17]
+2025-12-25 04:27:14,000 [trainer.py] => Average Accuracy (CNN): 95.67
+2025-12-25 04:27:14,430 [asp.py] => Learning on 92-94
+2025-12-25 04:27:14,434 [asp.py] => All params: 173743618
+2025-12-25 04:27:14,434 [asp.py] => backbone.TIP: 27648
+2025-12-25 04:27:14,437 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-25 04:27:14,437 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-25 04:27:14,438 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-25 04:27:14,438 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-25 04:27:14,438 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-25 04:27:14,438 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-25 04:27:14,438 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-25 04:27:14,439 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-25 04:27:14,439 [asp.py] => Trainable params (without fc): 1998848
+2025-12-25 04:27:14,468 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-25 04:27:15,114 [trainer.py] => Task 17 Trainable params: 2.00M, GPU: 769.12MiB
+2025-12-25 04:28:07,196 [trainer.py] => CNN: {'total': 94.19, '00-59': 96.27, '60-61': 96.0, '62-63': 93.0, '64-65': 89.0, '66-67': 96.5, '68-69': 63.0, '70-71': 96.5, '72-73': 92.5, '74-75': 99.0, '76-77': 90.5, '78-79': 94.5, '80-81': 90.5, '82-83': 94.0, '84-85': 80.5, '86-87': 91.5, '88-89': 77.0, '90-91': 97.5, '92-93': 97.5, '94-95': 90.0, '96-97': 90.0, '98-99': 80.0, 'old': 94.12, 'new': 97.5}
+2025-12-25 04:28:07,197 [trainer.py] => Top1 curve: [97.02, 96.97, 96.84, 96.7, 96.69, 95.66, 95.65, 95.59, 95.67, 95.54, 95.55, 95.32, 95.23, 94.84, 94.69, 94.18, 94.17, 94.19]
+2025-12-25 04:28:07,197 [trainer.py] => Average Accuracy (CNN): 95.58
+2025-12-25 04:28:07,669 [asp.py] => Learning on 94-96
+2025-12-25 04:28:07,672 [asp.py] => All params: 173745154
+2025-12-25 04:28:07,673 [asp.py] => backbone.TIP: 27648
+2025-12-25 04:28:07,676 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-25 04:28:07,676 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-25 04:28:07,676 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-25 04:28:07,676 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-25 04:28:07,677 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-25 04:28:07,677 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-25 04:28:07,677 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-25 04:28:07,677 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-25 04:28:07,677 [asp.py] => Trainable params (without fc): 1998848
+2025-12-25 04:28:07,703 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-25 04:28:08,185 [trainer.py] => Task 18 Trainable params: 2.00M, GPU: 769.13MiB
+2025-12-25 04:29:01,432 [trainer.py] => CNN: {'total': 94.28, '00-59': 96.28, '60-61': 96.0, '62-63': 93.0, '64-65': 89.0, '66-67': 96.5, '68-69': 63.0, '70-71': 96.5, '72-73': 92.5, '74-75': 99.0, '76-77': 90.5, '78-79': 94.5, '80-81': 90.5, '82-83': 94.0, '84-85': 80.5, '86-87': 91.5, '88-89': 77.0, '90-91': 97.5, '92-93': 97.5, '94-95': 98.0, '96-97': 90.0, '98-99': 100.0, 'old': 94.2, 'new': 98.0}
+2025-12-25 04:29:01,433 [trainer.py] => Top1 curve: [97.02, 96.97, 96.84, 96.7, 96.69, 95.66, 95.65, 95.59, 95.67, 95.54, 95.55, 95.32, 95.23, 94.84, 94.69, 94.18, 94.17, 94.19, 94.28]
+2025-12-25 04:29:01,433 [trainer.py] => Average Accuracy (CNN): 95.51
+2025-12-25 04:29:01,437 [asp.py] => Learning on 96-98
+2025-12-25 04:29:01,438 [asp.py] => All params: 173746690
+2025-12-25 04:29:01,438 [asp.py] => backbone.TIP: 27648
+2025-12-25 04:29:01,440 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-25 04:29:01,440 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-25 04:29:01,440 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-25 04:29:01,440 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-25 04:29:01,440 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-25 04:29:01,440 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-25 04:29:01,440 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-25 04:29:01,440 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-25 04:29:01,440 [asp.py] => Trainable params (without fc): 1998848
+2025-12-25 04:29:01,452 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-25 04:29:01,978 [trainer.py] => Task 19 Trainable params: 2.00M, GPU: 769.13MiB
+2025-12-25 04:29:56,249 [trainer.py] => CNN: {'total': 94.21, '00-59': 96.17, '60-61': 96.0, '62-63': 93.0, '64-65': 89.0, '66-67': 96.5, '68-69': 63.0, '70-71': 96.5, '72-73': 92.5, '74-75': 99.0, '76-77': 89.0, '78-79': 94.5, '80-81': 90.5, '82-83': 94.0, '84-85': 80.0, '86-87': 91.5, '88-89': 76.5, '90-91': 97.5, '92-93': 97.5, '94-95': 98.0, '96-97': 97.0, '98-99': 90.0, 'old': 94.16, 'new': 97.0}
+2025-12-25 04:29:56,249 [trainer.py] => Top1 curve: [97.02, 96.97, 96.84, 96.7, 96.69, 95.66, 95.65, 95.59, 95.67, 95.54, 95.55, 95.32, 95.23, 94.84, 94.69, 94.18, 94.17, 94.19, 94.28, 94.21]
+2025-12-25 04:29:56,249 [trainer.py] => Average Accuracy (CNN): 95.45
+2025-12-25 04:29:56,255 [asp.py] => Learning on 98-100
+2025-12-25 04:29:56,257 [asp.py] => All params: 173748226
+2025-12-25 04:29:56,257 [asp.py] => backbone.TIP: 27648
+2025-12-25 04:29:56,259 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.weight: 393216
+2025-12-25 04:29:56,259 [asp.py] => backbone.Prompt_Encoder.fc_mu.0.bias: 256
+2025-12-25 04:29:56,259 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.weight: 589824
+2025-12-25 04:29:56,259 [asp.py] => backbone.Prompt_Encoder.fc_mu.1.bias: 2304
+2025-12-25 04:29:56,259 [asp.py] => backbone.Prompt_Encoder.fc_std.0.weight: 393216
+2025-12-25 04:29:56,259 [asp.py] => backbone.Prompt_Encoder.fc_std.0.bias: 256
+2025-12-25 04:29:56,259 [asp.py] => backbone.Prompt_Encoder.fc_std.1.weight: 589824
+2025-12-25 04:29:56,260 [asp.py] => backbone.Prompt_Encoder.fc_std.1.bias: 2304
+2025-12-25 04:29:56,260 [asp.py] => Trainable params (without fc): 1998848
+2025-12-25 04:29:56,272 [asp.py] => training set size: 10, fc construct set size: 10
+2025-12-25 04:29:57,155 [trainer.py] => Task 20 Trainable params: 2.00M, GPU: 769.14MiB
+2025-12-25 04:30:52,243 [trainer.py] => CNN: {'total': 94.27, '00-59': 96.17, '60-61': 96.0, '62-63': 93.0, '64-65': 89.0, '66-67': 96.5, '68-69': 63.0, '70-71': 96.5, '72-73': 92.5, '74-75': 99.0, '76-77': 89.0, '78-79': 94.5, '80-81': 90.5, '82-83': 94.0, '84-85': 80.0, '86-87': 91.5, '88-89': 76.5, '90-91': 97.5, '92-93': 97.5, '94-95': 97.5, '96-97': 97.0, '98-99': 97.5, 'old': 94.2, 'new': 97.5}
+2025-12-25 04:30:52,243 [trainer.py] => Top1 curve: [97.02, 96.97, 96.84, 96.7, 96.69, 95.66, 95.65, 95.59, 95.67, 95.54, 95.55, 95.32, 95.23, 94.84, 94.69, 94.18, 94.17, 94.19, 94.28, 94.21, 94.27]
+2025-12-25 04:30:52,243 [trainer.py] => Average Accuracy (CNN): 95.39
+
+================================================================================
+Finished mini_imagenet_init60_inc2: pretrained_vit_b16_224_vpt  
+Base Accuracy: 97.02
+Last Accuracy: 94.27
+Average Accuracy (Top1): 95.39
+PD: 2.75
+Backward Transfer (BWT): -0.89
+Traceback (most recent call last):
+  File "/public/home/hanlida/Dr.1/Code/Research/Awesome-FSCIL/FSCIL-ASP-main/main.py", line 25, in <module>
+    main()
+  File "/public/home/hanlida/Dr.1/Code/Research/Awesome-FSCIL/FSCIL-ASP-main/main.py", line 11, in main
+    train(args)
+  File "/public/home/hanlida/Dr.1/Code/Research/Awesome-FSCIL/FSCIL-ASP-main/trainer.py", line 32, in train
+    _train(args)
+  File "/public/home/hanlida/Dr.1/Code/Research/Awesome-FSCIL/FSCIL-ASP-main/trainer.py", line 207, in _train
+    print("Forward Transfer (FWT):", forward_transfer(args["dataset"], np.array(cnn_matrix)))
+  File "/public/home/hanlida/Dr.1/Code/Research/Awesome-FSCIL/FSCIL-ASP-main/trainer.py", line 317, in forward_transfer
+    fwt_diffs = fwt_accs - rand_init_acc_for_fwt
+ValueError: operands could not be broadcast together with shapes (20,) (8,) 
+./train.sh: line 9: ython: command not found

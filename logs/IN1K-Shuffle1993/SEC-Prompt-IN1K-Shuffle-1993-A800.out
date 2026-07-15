@@ -1,0 +1,1417 @@
+nohup: ignoring input
+2026-04-17 16:46:46,384 [trainer.py] => config: ./configs/SEC-Prompt_cub_B100_Inc10.json
+2026-04-17 16:46:46,398 [trainer.py] => lamda: 0.5
+2026-04-17 16:46:46,398 [trainer.py] => aug: 2
+2026-04-17 16:46:46,398 [trainer.py] => prompt_token_num: 6
+2026-04-17 16:46:46,398 [trainer.py] => prompt_pool_num: 0.5
+2026-04-17 16:46:46,398 [trainer.py] => model_name: sec
+2026-04-17 16:46:46,398 [trainer.py] => backbone_type: pretrained_vit_b16_224_vpt
+2026-04-17 16:46:46,398 [trainer.py] => device: [device(type='cuda', index=1)]
+2026-04-17 16:46:46,398 [trainer.py] => seed: 1993
+2026-04-17 16:46:46,398 [trainer.py] => dataset: cub
+2026-04-17 16:46:46,398 [trainer.py] => init_cls: 100
+2026-04-17 16:46:46,398 [trainer.py] => increment: 10
+2026-04-17 16:46:46,398 [trainer.py] => kshot: 5
+2026-04-17 16:46:46,398 [trainer.py] => vpt_type: Deep
+2026-04-17 16:46:46,398 [trainer.py] => kl_weight: 0.001
+2026-04-17 16:46:46,398 [trainer.py] => tuned_epoch: 30
+2026-04-17 16:46:46,398 [trainer.py] => fs_epoch: 10
+2026-04-17 16:46:46,398 [trainer.py] => init_lr: 0.01
+2026-04-17 16:46:46,398 [trainer.py] => fs_lr: 0.001
+2026-04-17 16:46:46,399 [trainer.py] => batch_size: 32
+2026-04-17 16:46:46,399 [trainer.py] => fs_batch_size: 16
+2026-04-17 16:46:46,399 [trainer.py] => weight_decay: 0.005
+2026-04-17 16:46:46,399 [trainer.py] => min_lr: 0
+2026-04-17 16:46:46,399 [trainer.py] => optimizer: sgd
+2026-04-17 16:46:46,399 [trainer.py] => shuffle: True
+2026-04-17 16:46:46,399 [trainer.py] => top_k: 5
+2026-04-17 16:46:46,399 [trainer.py] => base_model_path: saved_model/sec_tr/cub/30_0.01/6_0.5/sec_30_1993_32.pth
+2026-04-17 16:46:46,399 [trainer.py] => prefix: sec
+2026-04-17 16:46:46,399 [trainer.py] => model_prefix: sec
+2026-04-17 16:46:46,399 [trainer.py] => beta: 0.5
+2026-04-17 16:46:46,399 [trainer.py] => memory_size: 0
+2026-04-17 16:46:46,399 [trainer.py] => memory_per_class: 0
+2026-04-17 16:46:46,399 [trainer.py] => fixed_memory: False
+2026-04-17 16:46:47,812 [data_manager.py] => [168, 136, 51, 9, 183, 101, 171, 99, 42, 159, 191, 70, 16, 188, 27, 10, 175, 26, 68, 187, 98, 6, 85, 35, 112, 43, 100, 0, 103, 181, 88, 59, 4, 2, 116, 174, 94, 80, 106, 1, 147, 17, 141, 131, 72, 23, 173, 54, 197, 118, 87, 32, 79, 104, 91, 19, 135, 107, 178, 36, 11, 199, 142, 8, 122, 3, 28, 57, 153, 172, 190, 56, 49, 44, 97, 62, 151, 169, 194, 55, 192, 12, 189, 78, 66, 180, 15, 137, 109, 134, 92, 119, 126, 52, 170, 40, 148, 65, 144, 64, 138, 45, 77, 89, 154, 90, 71, 193, 74, 30, 113, 143, 96, 84, 67, 50, 186, 156, 69, 21, 18, 111, 108, 58, 125, 157, 150, 110, 182, 129, 166, 83, 81, 60, 13, 165, 14, 176, 63, 117, 5, 22, 145, 121, 38, 41, 82, 127, 114, 20, 31, 53, 37, 163, 196, 130, 152, 162, 86, 76, 24, 34, 184, 149, 33, 128, 198, 155, 146, 167, 139, 120, 140, 102, 47, 25, 158, 123, 46, 164, 61, 7, 115, 75, 133, 160, 105, 132, 179, 124, 48, 73, 93, 39, 95, 195, 29, 177, 185, 161]
+This is for the BaseNet initialization.
+modelname, pretrained_vit_b16_224_vpt basicmodelname vit_base_patch16_224
+Using VPT model
+Using Deep Prompt
+After BaseNet initialization.
+2026-04-17 16:47:13,820 [sec.py] => Learning on 0-100
+2026-04-17 16:47:13,883 [sec.py] => All params: 88102656
+2026-04-17 16:47:13,883 [sec.py] => Actual trainable params (excluding detached): 1536000
+2026-04-17 16:47:13,883 [sec.py] => TSP active prompts: 50 (total: 50)
+2026-04-17 16:47:13,883 [sec.py] => RSP active prompts: 50 (total: 50)
+2026-04-17 16:47:13,883 [sec.py] => Excluded params: head, detached prompts
+2026-04-17 16:47:13,883 [sec.py] => backbone.TSP.e_p_1: 115200
+2026-04-17 16:47:13,883 [sec.py] => backbone.TSP.e_k_1: 38400
+2026-04-17 16:47:13,883 [sec.py] => backbone.TSP.e_a_1: 38400
+2026-04-17 16:47:13,883 [sec.py] => backbone.TSP.e_p_2: 115200
+2026-04-17 16:47:13,883 [sec.py] => backbone.TSP.e_k_2: 38400
+2026-04-17 16:47:13,883 [sec.py] => backbone.TSP.e_a_2: 38400
+2026-04-17 16:47:13,883 [sec.py] => backbone.TSP.e_p_3: 115200
+2026-04-17 16:47:13,883 [sec.py] => backbone.TSP.e_k_3: 38400
+2026-04-17 16:47:13,883 [sec.py] => backbone.TSP.e_a_3: 38400
+2026-04-17 16:47:13,883 [sec.py] => backbone.TSP.e_p_4: 115200
+2026-04-17 16:47:13,883 [sec.py] => backbone.TSP.e_k_4: 38400
+2026-04-17 16:47:13,883 [sec.py] => backbone.TSP.e_a_4: 38400
+2026-04-17 16:47:13,883 [sec.py] => backbone.RSP.e_p_1: 115200
+2026-04-17 16:47:13,884 [sec.py] => backbone.RSP.e_k_1: 38400
+2026-04-17 16:47:13,884 [sec.py] => backbone.RSP.e_a_1: 38400
+2026-04-17 16:47:13,884 [sec.py] => backbone.RSP.e_p_2: 115200
+2026-04-17 16:47:13,884 [sec.py] => backbone.RSP.e_k_2: 38400
+2026-04-17 16:47:13,884 [sec.py] => backbone.RSP.e_a_2: 38400
+2026-04-17 16:47:13,884 [sec.py] => backbone.RSP.e_p_3: 115200
+2026-04-17 16:47:13,884 [sec.py] => backbone.RSP.e_k_3: 38400
+2026-04-17 16:47:13,884 [sec.py] => backbone.RSP.e_a_3: 38400
+2026-04-17 16:47:13,884 [sec.py] => backbone.RSP.e_p_4: 115200
+2026-04-17 16:47:13,884 [sec.py] => backbone.RSP.e_k_4: 38400
+2026-04-17 16:47:13,884 [sec.py] => backbone.RSP.e_a_4: 38400
+2026-04-17 16:47:13,898 [sec.py] => training set size: 4694, fc construct set size: 4694
+/public/home/hanlida/Dr.1/Code/Research/Awesome-FSCIL/SEC-Prompt-main/backbone/zoo.py:214: UserWarning: Implicit dimension choice for softmax has been deprecated. Change the call to include dim=X as an argument.
+  aq_k = torch.nn.functional.softmax(aq_k)
+2026-04-17 17:09:06,332 [trainer.py] => Task 0 metrics => trainable 1.61M, inference added 2.38M, train GPU 3217.50MiB, infer GPU 637.08MiB
+2026-04-17 17:09:06,345 [trainer.py] => CNN: {'total': 92.09, '00-99': 92.09, '100-109': 86.96, '110-119': 68.14, '120-129': 70.09, '130-139': 77.97, '140-149': 71.43, '150-159': 80.65, '160-169': 76.87, '170-179': 84.47, '180-189': 73.48, '190-199': 75.51, 'old': 0, 'new': 92.09}
+2026-04-17 17:09:06,345 [trainer.py] => Top1 curve: [92.09]
+2026-04-17 17:09:06,345 [trainer.py] => Average Accuracy (CNN): 92.09
+2026-04-17 17:09:06,346 [sec.py] => Learning on 100-110
+2026-04-17 17:09:06,353 [sec.py] => All params: 88102656
+2026-04-17 17:09:06,353 [sec.py] => Actual trainable params (excluding detached): 76800
+2026-04-17 17:09:06,353 [sec.py] => TSP active prompts: 5 (total: 55)
+2026-04-17 17:09:06,353 [sec.py] => RSP active prompts: 0 (total: 50)
+2026-04-17 17:09:06,353 [sec.py] => Excluded params: head, detached prompts
+2026-04-17 17:09:06,353 [sec.py] => backbone.TSP.e_p_1: 11520
+2026-04-17 17:09:06,353 [sec.py] => backbone.TSP.e_k_1: 3840
+2026-04-17 17:09:06,353 [sec.py] => backbone.TSP.e_a_1: 3840
+2026-04-17 17:09:06,353 [sec.py] => backbone.TSP.e_p_2: 11520
+2026-04-17 17:09:06,353 [sec.py] => backbone.TSP.e_k_2: 3840
+2026-04-17 17:09:06,353 [sec.py] => backbone.TSP.e_a_2: 3840
+2026-04-17 17:09:06,353 [sec.py] => backbone.TSP.e_p_3: 11520
+2026-04-17 17:09:06,353 [sec.py] => backbone.TSP.e_k_3: 3840
+2026-04-17 17:09:06,353 [sec.py] => backbone.TSP.e_a_3: 3840
+2026-04-17 17:09:06,353 [sec.py] => backbone.TSP.e_p_4: 11520
+2026-04-17 17:09:06,354 [sec.py] => backbone.TSP.e_k_4: 3840
+2026-04-17 17:09:06,354 [sec.py] => backbone.TSP.e_a_4: 3840
+2026-04-17 17:09:06,362 [sec.py] => training set size: 50, fc construct set size: 50
+2026-04-17 17:09:41,455 [trainer.py] => Task 1 metrics => trainable 0.08M, inference added 2.39M, train GPU 4560.39MiB, infer GPU 634.21MiB
+2026-04-17 17:09:41,455 [trainer.py] => CNN: {'total': 91.4, '00-99': 91.84, '100-109': 86.96, '110-119': 68.14, '120-129': 70.09, '130-139': 77.97, '140-149': 72.22, '150-159': 81.45, '160-169': 77.61, '170-179': 84.47, '180-189': 73.48, '190-199': 75.51, 'old': 91.84, 'new': 86.96}
+2026-04-17 17:09:41,455 [trainer.py] => Top1 curve: [92.09, 91.4]
+2026-04-17 17:09:41,455 [trainer.py] => Average Accuracy (CNN): 91.75
+2026-04-17 17:09:41,456 [sec.py] => Learning on 110-120
+2026-04-17 17:09:41,462 [sec.py] => All params: 88102656
+2026-04-17 17:09:41,462 [sec.py] => Actual trainable params (excluding detached): 76800
+2026-04-17 17:09:41,462 [sec.py] => TSP active prompts: 5 (total: 60)
+2026-04-17 17:09:41,462 [sec.py] => RSP active prompts: 0 (total: 50)
+2026-04-17 17:09:41,462 [sec.py] => Excluded params: head, detached prompts
+2026-04-17 17:09:41,462 [sec.py] => backbone.TSP.e_p_1: 11520
+2026-04-17 17:09:41,462 [sec.py] => backbone.TSP.e_k_1: 3840
+2026-04-17 17:09:41,462 [sec.py] => backbone.TSP.e_a_1: 3840
+2026-04-17 17:09:41,462 [sec.py] => backbone.TSP.e_p_2: 11520
+2026-04-17 17:09:41,462 [sec.py] => backbone.TSP.e_k_2: 3840
+2026-04-17 17:09:41,462 [sec.py] => backbone.TSP.e_a_2: 3840
+2026-04-17 17:09:41,462 [sec.py] => backbone.TSP.e_p_3: 11520
+2026-04-17 17:09:41,462 [sec.py] => backbone.TSP.e_k_3: 3840
+2026-04-17 17:09:41,462 [sec.py] => backbone.TSP.e_a_3: 3840
+2026-04-17 17:09:41,462 [sec.py] => backbone.TSP.e_p_4: 11520
+2026-04-17 17:09:41,462 [sec.py] => backbone.TSP.e_k_4: 3840
+2026-04-17 17:09:41,462 [sec.py] => backbone.TSP.e_a_4: 3840
+2026-04-17 17:09:41,470 [sec.py] => training set size: 50, fc construct set size: 50
+2026-04-17 17:10:10,046 [trainer.py] => Task 2 metrics => trainable 0.08M, inference added 2.40M, train GPU 4565.51MiB, infer GPU 634.27MiB
+2026-04-17 17:10:10,046 [trainer.py] => CNN: {'total': 89.05, '00-99': 91.08, '100-109': 86.96, '110-119': 69.91, '120-129': 70.09, '130-139': 78.81, '140-149': 73.02, '150-159': 81.45, '160-169': 77.61, '170-179': 84.47, '180-189': 74.24, '190-199': 75.51, 'old': 90.71, 'new': 69.91}
+2026-04-17 17:10:10,046 [trainer.py] => Top1 curve: [92.09, 91.4, 89.05]
+2026-04-17 17:10:10,046 [trainer.py] => Average Accuracy (CNN): 90.85
+2026-04-17 17:10:10,047 [sec.py] => Learning on 120-130
+2026-04-17 17:10:10,053 [sec.py] => All params: 88102656
+2026-04-17 17:10:10,053 [sec.py] => Actual trainable params (excluding detached): 76800
+2026-04-17 17:10:10,053 [sec.py] => TSP active prompts: 5 (total: 65)
+2026-04-17 17:10:10,053 [sec.py] => RSP active prompts: 0 (total: 50)
+2026-04-17 17:10:10,053 [sec.py] => Excluded params: head, detached prompts
+2026-04-17 17:10:10,053 [sec.py] => backbone.TSP.e_p_1: 11520
+2026-04-17 17:10:10,053 [sec.py] => backbone.TSP.e_k_1: 3840
+2026-04-17 17:10:10,053 [sec.py] => backbone.TSP.e_a_1: 3840
+2026-04-17 17:10:10,053 [sec.py] => backbone.TSP.e_p_2: 11520
+2026-04-17 17:10:10,053 [sec.py] => backbone.TSP.e_k_2: 3840
+2026-04-17 17:10:10,053 [sec.py] => backbone.TSP.e_a_2: 3840
+2026-04-17 17:10:10,053 [sec.py] => backbone.TSP.e_p_3: 11520
+2026-04-17 17:10:10,053 [sec.py] => backbone.TSP.e_k_3: 3840
+2026-04-17 17:10:10,053 [sec.py] => backbone.TSP.e_a_3: 3840
+2026-04-17 17:10:10,053 [sec.py] => backbone.TSP.e_p_4: 11520
+2026-04-17 17:10:10,053 [sec.py] => backbone.TSP.e_k_4: 3840
+2026-04-17 17:10:10,053 [sec.py] => backbone.TSP.e_a_4: 3840
+2026-04-17 17:10:10,060 [sec.py] => training set size: 50, fc construct set size: 50
+2026-04-17 17:10:43,994 [trainer.py] => Task 3 metrics => trainable 0.08M, inference added 2.40M, train GPU 4571.26MiB, infer GPU 634.33MiB
+2026-04-17 17:10:43,994 [trainer.py] => CNN: {'total': 87.85, '00-99': 90.74, '100-109': 86.96, '110-119': 70.8, '120-129': 74.77, '130-139': 78.81, '140-149': 73.02, '150-159': 82.26, '160-169': 77.61, '170-179': 84.47, '180-189': 75.0, '190-199': 75.51, 'old': 88.84, 'new': 74.77}
+2026-04-17 17:10:43,994 [trainer.py] => Top1 curve: [92.09, 91.4, 89.05, 87.85]
+2026-04-17 17:10:43,995 [trainer.py] => Average Accuracy (CNN): 90.10
+2026-04-17 17:10:43,996 [sec.py] => Learning on 130-140
+2026-04-17 17:10:44,000 [sec.py] => All params: 88102656
+2026-04-17 17:10:44,001 [sec.py] => Actual trainable params (excluding detached): 76800
+2026-04-17 17:10:44,001 [sec.py] => TSP active prompts: 5 (total: 70)
+2026-04-17 17:10:44,001 [sec.py] => RSP active prompts: 0 (total: 50)
+2026-04-17 17:10:44,001 [sec.py] => Excluded params: head, detached prompts
+2026-04-17 17:10:44,001 [sec.py] => backbone.TSP.e_p_1: 11520
+2026-04-17 17:10:44,001 [sec.py] => backbone.TSP.e_k_1: 3840
+2026-04-17 17:10:44,001 [sec.py] => backbone.TSP.e_a_1: 3840
+2026-04-17 17:10:44,001 [sec.py] => backbone.TSP.e_p_2: 11520
+2026-04-17 17:10:44,001 [sec.py] => backbone.TSP.e_k_2: 3840
+2026-04-17 17:10:44,001 [sec.py] => backbone.TSP.e_a_2: 3840
+2026-04-17 17:10:44,001 [sec.py] => backbone.TSP.e_p_3: 11520
+2026-04-17 17:10:44,001 [sec.py] => backbone.TSP.e_k_3: 3840
+2026-04-17 17:10:44,001 [sec.py] => backbone.TSP.e_a_3: 3840
+2026-04-17 17:10:44,001 [sec.py] => backbone.TSP.e_p_4: 11520
+2026-04-17 17:10:44,001 [sec.py] => backbone.TSP.e_k_4: 3840
+2026-04-17 17:10:44,001 [sec.py] => backbone.TSP.e_a_4: 3840
+2026-04-17 17:10:44,010 [sec.py] => training set size: 50, fc construct set size: 50
+2026-04-17 17:11:16,693 [trainer.py] => Task 4 metrics => trainable 0.08M, inference added 2.41M, train GPU 4576.26MiB, infer GPU 634.39MiB
+2026-04-17 17:11:16,693 [trainer.py] => CNN: {'total': 86.96, '00-99': 90.66, '100-109': 86.96, '110-119': 70.8, '120-129': 71.03, '130-139': 79.66, '140-149': 73.81, '150-159': 82.26, '160-169': 76.87, '170-179': 85.44, '180-189': 76.52, '190-199': 75.51, 'old': 87.52, 'new': 79.66}
+2026-04-17 17:11:16,693 [trainer.py] => Top1 curve: [92.09, 91.4, 89.05, 87.85, 86.96]
+2026-04-17 17:11:16,693 [trainer.py] => Average Accuracy (CNN): 89.47
+2026-04-17 17:11:16,695 [sec.py] => Learning on 140-150
+2026-04-17 17:11:16,699 [sec.py] => All params: 88102656
+2026-04-17 17:11:16,700 [sec.py] => Actual trainable params (excluding detached): 76800
+2026-04-17 17:11:16,700 [sec.py] => TSP active prompts: 5 (total: 75)
+2026-04-17 17:11:16,700 [sec.py] => RSP active prompts: 0 (total: 50)
+2026-04-17 17:11:16,700 [sec.py] => Excluded params: head, detached prompts
+2026-04-17 17:11:16,700 [sec.py] => backbone.TSP.e_p_1: 11520
+2026-04-17 17:11:16,700 [sec.py] => backbone.TSP.e_k_1: 3840
+2026-04-17 17:11:16,700 [sec.py] => backbone.TSP.e_a_1: 3840
+2026-04-17 17:11:16,700 [sec.py] => backbone.TSP.e_p_2: 11520
+2026-04-17 17:11:16,700 [sec.py] => backbone.TSP.e_k_2: 3840
+2026-04-17 17:11:16,700 [sec.py] => backbone.TSP.e_a_2: 3840
+2026-04-17 17:11:16,700 [sec.py] => backbone.TSP.e_p_3: 11520
+2026-04-17 17:11:16,700 [sec.py] => backbone.TSP.e_k_3: 3840
+2026-04-17 17:11:16,700 [sec.py] => backbone.TSP.e_a_3: 3840
+2026-04-17 17:11:16,700 [sec.py] => backbone.TSP.e_p_4: 11520
+2026-04-17 17:11:16,700 [sec.py] => backbone.TSP.e_k_4: 3840
+2026-04-17 17:11:16,700 [sec.py] => backbone.TSP.e_a_4: 3840
+2026-04-17 17:11:16,707 [sec.py] => training set size: 50, fc construct set size: 50
+2026-04-17 17:11:49,227 [trainer.py] => Task 5 metrics => trainable 0.08M, inference added 2.42M, train GPU 4582.35MiB, infer GPU 634.45MiB
+2026-04-17 17:11:49,227 [trainer.py] => CNN: {'total': 86.08, '00-99': 90.49, '100-109': 86.96, '110-119': 69.91, '120-129': 71.03, '130-139': 79.66, '140-149': 76.98, '150-159': 83.06, '160-169': 79.1, '170-179': 85.44, '180-189': 76.52, '190-199': 75.51, 'old': 86.78, 'new': 76.98}
+2026-04-17 17:11:49,227 [trainer.py] => Top1 curve: [92.09, 91.4, 89.05, 87.85, 86.96, 86.08]
+2026-04-17 17:11:49,227 [trainer.py] => Average Accuracy (CNN): 88.90
+2026-04-17 17:11:49,228 [sec.py] => Learning on 150-160
+2026-04-17 17:11:49,234 [sec.py] => All params: 88102656
+2026-04-17 17:11:49,234 [sec.py] => Actual trainable params (excluding detached): 76800
+2026-04-17 17:11:49,234 [sec.py] => TSP active prompts: 5 (total: 80)
+2026-04-17 17:11:49,234 [sec.py] => RSP active prompts: 0 (total: 50)
+2026-04-17 17:11:49,234 [sec.py] => Excluded params: head, detached prompts
+2026-04-17 17:11:49,234 [sec.py] => backbone.TSP.e_p_1: 11520
+2026-04-17 17:11:49,234 [sec.py] => backbone.TSP.e_k_1: 3840
+2026-04-17 17:11:49,234 [sec.py] => backbone.TSP.e_a_1: 3840
+2026-04-17 17:11:49,234 [sec.py] => backbone.TSP.e_p_2: 11520
+2026-04-17 17:11:49,234 [sec.py] => backbone.TSP.e_k_2: 3840
+2026-04-17 17:11:49,234 [sec.py] => backbone.TSP.e_a_2: 3840
+2026-04-17 17:11:49,234 [sec.py] => backbone.TSP.e_p_3: 11520
+2026-04-17 17:11:49,234 [sec.py] => backbone.TSP.e_k_3: 3840
+2026-04-17 17:11:49,234 [sec.py] => backbone.TSP.e_a_3: 3840
+2026-04-17 17:11:49,234 [sec.py] => backbone.TSP.e_p_4: 11520
+2026-04-17 17:11:49,234 [sec.py] => backbone.TSP.e_k_4: 3840
+2026-04-17 17:11:49,234 [sec.py] => backbone.TSP.e_a_4: 3840
+2026-04-17 17:11:49,240 [sec.py] => training set size: 50, fc construct set size: 50
+2026-04-17 17:12:21,056 [trainer.py] => Task 6 metrics => trainable 0.08M, inference added 2.43M, train GPU 4585.53MiB, infer GPU 634.51MiB
+2026-04-17 17:12:21,056 [trainer.py] => CNN: {'total': 85.62, '00-99': 90.15, '100-109': 86.09, '110-119': 69.91, '120-129': 71.03, '130-139': 79.66, '140-149': 76.19, '150-159': 83.87, '160-169': 80.6, '170-179': 85.44, '180-189': 77.27, '190-199': 74.49, 'old': 85.74, 'new': 83.87}
+2026-04-17 17:12:21,056 [trainer.py] => Top1 curve: [92.09, 91.4, 89.05, 87.85, 86.96, 86.08, 85.62]
+2026-04-17 17:12:21,056 [trainer.py] => Average Accuracy (CNN): 88.44
+2026-04-17 17:12:21,057 [sec.py] => Learning on 160-170
+2026-04-17 17:12:21,063 [sec.py] => All params: 88102656
+2026-04-17 17:12:21,063 [sec.py] => Actual trainable params (excluding detached): 76800
+2026-04-17 17:12:21,063 [sec.py] => TSP active prompts: 5 (total: 85)
+2026-04-17 17:12:21,064 [sec.py] => RSP active prompts: 0 (total: 50)
+2026-04-17 17:12:21,064 [sec.py] => Excluded params: head, detached prompts
+2026-04-17 17:12:21,064 [sec.py] => backbone.TSP.e_p_1: 11520
+2026-04-17 17:12:21,064 [sec.py] => backbone.TSP.e_k_1: 3840
+2026-04-17 17:12:21,064 [sec.py] => backbone.TSP.e_a_1: 3840
+2026-04-17 17:12:21,064 [sec.py] => backbone.TSP.e_p_2: 11520
+2026-04-17 17:12:21,064 [sec.py] => backbone.TSP.e_k_2: 3840
+2026-04-17 17:12:21,064 [sec.py] => backbone.TSP.e_a_2: 3840
+2026-04-17 17:12:21,064 [sec.py] => backbone.TSP.e_p_3: 11520
+2026-04-17 17:12:21,064 [sec.py] => backbone.TSP.e_k_3: 3840
+2026-04-17 17:12:21,064 [sec.py] => backbone.TSP.e_a_3: 3840
+2026-04-17 17:12:21,064 [sec.py] => backbone.TSP.e_p_4: 11520
+2026-04-17 17:12:21,064 [sec.py] => backbone.TSP.e_k_4: 3840
+2026-04-17 17:12:21,064 [sec.py] => backbone.TSP.e_a_4: 3840
+2026-04-17 17:12:21,070 [sec.py] => training set size: 50, fc construct set size: 50
+2026-04-17 17:12:54,212 [trainer.py] => Task 7 metrics => trainable 0.08M, inference added 2.43M, train GPU 4590.79MiB, infer GPU 634.56MiB
+2026-04-17 17:12:54,212 [trainer.py] => CNN: {'total': 85.28, '00-99': 89.73, '100-109': 86.96, '110-119': 68.14, '120-129': 71.03, '130-139': 78.81, '140-149': 77.78, '150-159': 85.48, '160-169': 82.84, '170-179': 85.44, '180-189': 77.27, '190-199': 76.53, 'old': 85.46, 'new': 82.84}
+2026-04-17 17:12:54,212 [trainer.py] => Top1 curve: [92.09, 91.4, 89.05, 87.85, 86.96, 86.08, 85.62, 85.28]
+2026-04-17 17:12:54,213 [trainer.py] => Average Accuracy (CNN): 88.04
+2026-04-17 17:12:54,214 [sec.py] => Learning on 170-180
+2026-04-17 17:12:54,220 [sec.py] => All params: 88102656
+2026-04-17 17:12:54,220 [sec.py] => Actual trainable params (excluding detached): 76800
+2026-04-17 17:12:54,220 [sec.py] => TSP active prompts: 5 (total: 90)
+2026-04-17 17:12:54,220 [sec.py] => RSP active prompts: 0 (total: 50)
+2026-04-17 17:12:54,220 [sec.py] => Excluded params: head, detached prompts
+2026-04-17 17:12:54,220 [sec.py] => backbone.TSP.e_p_1: 11520
+2026-04-17 17:12:54,220 [sec.py] => backbone.TSP.e_k_1: 3840
+2026-04-17 17:12:54,220 [sec.py] => backbone.TSP.e_a_1: 3840
+2026-04-17 17:12:54,220 [sec.py] => backbone.TSP.e_p_2: 11520
+2026-04-17 17:12:54,220 [sec.py] => backbone.TSP.e_k_2: 3840
+2026-04-17 17:12:54,221 [sec.py] => backbone.TSP.e_a_2: 3840
+2026-04-17 17:12:54,221 [sec.py] => backbone.TSP.e_p_3: 11520
+2026-04-17 17:12:54,221 [sec.py] => backbone.TSP.e_k_3: 3840
+2026-04-17 17:12:54,221 [sec.py] => backbone.TSP.e_a_3: 3840
+2026-04-17 17:12:54,221 [sec.py] => backbone.TSP.e_p_4: 11520
+2026-04-17 17:12:54,221 [sec.py] => backbone.TSP.e_k_4: 3840
+2026-04-17 17:12:54,221 [sec.py] => backbone.TSP.e_a_4: 3840
+2026-04-17 17:12:54,228 [sec.py] => training set size: 50, fc construct set size: 50
+2026-04-17 17:13:25,413 [trainer.py] => Task 8 metrics => trainable 0.08M, inference added 2.44M, train GPU 4595.73MiB, infer GPU 634.62MiB
+2026-04-17 17:13:25,413 [trainer.py] => CNN: {'total': 85.2, '00-99': 89.39, '100-109': 86.09, '110-119': 69.03, '120-129': 69.16, '130-139': 80.51, '140-149': 78.57, '150-159': 86.29, '160-169': 82.84, '170-179': 85.44, '180-189': 78.03, '190-199': 76.53, 'old': 85.19, 'new': 85.44}
+2026-04-17 17:13:25,413 [trainer.py] => Top1 curve: [92.09, 91.4, 89.05, 87.85, 86.96, 86.08, 85.62, 85.28, 85.2]
+2026-04-17 17:13:25,413 [trainer.py] => Average Accuracy (CNN): 87.73
+2026-04-17 17:13:25,414 [sec.py] => Learning on 180-190
+2026-04-17 17:13:25,420 [sec.py] => All params: 88102656
+2026-04-17 17:13:25,420 [sec.py] => Actual trainable params (excluding detached): 76800
+2026-04-17 17:13:25,420 [sec.py] => TSP active prompts: 5 (total: 95)
+2026-04-17 17:13:25,420 [sec.py] => RSP active prompts: 0 (total: 50)
+2026-04-17 17:13:25,420 [sec.py] => Excluded params: head, detached prompts
+2026-04-17 17:13:25,420 [sec.py] => backbone.TSP.e_p_1: 11520
+2026-04-17 17:13:25,420 [sec.py] => backbone.TSP.e_k_1: 3840
+2026-04-17 17:13:25,420 [sec.py] => backbone.TSP.e_a_1: 3840
+2026-04-17 17:13:25,420 [sec.py] => backbone.TSP.e_p_2: 11520
+2026-04-17 17:13:25,420 [sec.py] => backbone.TSP.e_k_2: 3840
+2026-04-17 17:13:25,420 [sec.py] => backbone.TSP.e_a_2: 3840
+2026-04-17 17:13:25,420 [sec.py] => backbone.TSP.e_p_3: 11520
+2026-04-17 17:13:25,420 [sec.py] => backbone.TSP.e_k_3: 3840
+2026-04-17 17:13:25,420 [sec.py] => backbone.TSP.e_a_3: 3840
+2026-04-17 17:13:25,420 [sec.py] => backbone.TSP.e_p_4: 11520
+2026-04-17 17:13:25,420 [sec.py] => backbone.TSP.e_k_4: 3840
+2026-04-17 17:13:25,420 [sec.py] => backbone.TSP.e_a_4: 3840
+2026-04-17 17:13:25,425 [sec.py] => training set size: 50, fc construct set size: 50
+2026-04-17 17:13:56,699 [trainer.py] => Task 9 metrics => trainable 0.08M, inference added 2.45M, train GPU 4600.23MiB, infer GPU 634.68MiB
+2026-04-17 17:13:56,700 [trainer.py] => CNN: {'total': 84.34, '00-99': 88.8, '100-109': 85.22, '110-119': 69.03, '120-129': 70.09, '130-139': 78.81, '140-149': 76.98, '150-159': 86.29, '160-169': 82.84, '170-179': 85.44, '180-189': 78.79, '190-199': 76.53, 'old': 84.68, 'new': 78.79}
+2026-04-17 17:13:56,700 [trainer.py] => Top1 curve: [92.09, 91.4, 89.05, 87.85, 86.96, 86.08, 85.62, 85.28, 85.2, 84.34]
+2026-04-17 17:13:56,700 [trainer.py] => Average Accuracy (CNN): 87.39
+2026-04-17 17:13:56,701 [sec.py] => Learning on 190-200
+2026-04-17 17:13:56,707 [sec.py] => All params: 88102656
+2026-04-17 17:13:56,707 [sec.py] => Actual trainable params (excluding detached): 76800
+2026-04-17 17:13:56,708 [sec.py] => TSP active prompts: 5 (total: 100)
+2026-04-17 17:13:56,708 [sec.py] => RSP active prompts: 0 (total: 50)
+2026-04-17 17:13:56,708 [sec.py] => Excluded params: head, detached prompts
+2026-04-17 17:13:56,708 [sec.py] => backbone.TSP.e_p_1: 11520
+2026-04-17 17:13:56,708 [sec.py] => backbone.TSP.e_k_1: 3840
+2026-04-17 17:13:56,708 [sec.py] => backbone.TSP.e_a_1: 3840
+2026-04-17 17:13:56,708 [sec.py] => backbone.TSP.e_p_2: 11520
+2026-04-17 17:13:56,708 [sec.py] => backbone.TSP.e_k_2: 3840
+2026-04-17 17:13:56,708 [sec.py] => backbone.TSP.e_a_2: 3840
+2026-04-17 17:13:56,708 [sec.py] => backbone.TSP.e_p_3: 11520
+2026-04-17 17:13:56,708 [sec.py] => backbone.TSP.e_k_3: 3840
+2026-04-17 17:13:56,708 [sec.py] => backbone.TSP.e_a_3: 3840
+2026-04-17 17:13:56,708 [sec.py] => backbone.TSP.e_p_4: 11520
+2026-04-17 17:13:56,708 [sec.py] => backbone.TSP.e_k_4: 3840
+2026-04-17 17:13:56,708 [sec.py] => backbone.TSP.e_a_4: 3840
+2026-04-17 17:13:56,713 [sec.py] => training set size: 50, fc construct set size: 50
+2026-04-17 17:14:30,942 [trainer.py] => Task 10 metrics => trainable 0.08M, inference added 2.46M, train GPU 4606.13MiB, infer GPU 634.74MiB
+2026-04-17 17:14:30,942 [trainer.py] => CNN: {'total': 83.8, '00-99': 88.55, '100-109': 85.22, '110-119': 69.03, '120-129': 69.16, '130-139': 78.81, '140-149': 76.98, '150-159': 87.1, '160-169': 81.34, '170-179': 85.44, '180-189': 78.03, '190-199': 77.55, 'old': 84.07, 'new': 77.55}
+2026-04-17 17:14:30,942 [trainer.py] => Top1 curve: [92.09, 91.4, 89.05, 87.85, 86.96, 86.08, 85.62, 85.28, 85.2, 84.34, 83.8]
+2026-04-17 17:14:30,942 [trainer.py] => Average Accuracy (CNN): 87.06
+
+================================================================================
+Finished cub_init100_inc10: pretrained_vit_b16_224_vpt  
+Base Accuracy: 92.09
+Last Accuracy: 83.8
+Average Accuracy (Top1): 87.06
+PD: 8.29
+Backward Transfer (BWT): -1.17
+Forward Transfer (FWT): 6.62
+Total Train Time: 1457.61 s
+Total Inference Time: 179.315 s
+Total Prompt Time: 2.2232 s
+Accuracy Matrix (CNN):
+[[92.09 86.96 68.14 70.09 77.97 71.43 80.65 76.87 84.47 73.48 75.51]
+ [91.84 86.96 68.14 70.09 77.97 72.22 81.45 77.61 84.47 73.48 75.51]
+ [91.08 86.96 69.91 70.09 78.81 73.02 81.45 77.61 84.47 74.24 75.51]
+ [90.74 86.96 70.8  74.77 78.81 73.02 82.26 77.61 84.47 75.   75.51]
+ [90.66 86.96 70.8  71.03 79.66 73.81 82.26 76.87 85.44 76.52 75.51]
+ [90.49 86.96 69.91 71.03 79.66 76.98 83.06 79.1  85.44 76.52 75.51]
+ [90.15 86.09 69.91 71.03 79.66 76.19 83.87 80.6  85.44 77.27 74.49]
+ [89.73 86.96 68.14 71.03 78.81 77.78 85.48 82.84 85.44 77.27 76.53]
+ [89.39 86.09 69.03 69.16 80.51 78.57 86.29 82.84 85.44 78.03 76.53]
+ [88.8  85.22 69.03 70.09 78.81 76.98 86.29 82.84 85.44 78.79 76.53]
+ [88.55 85.22 69.03 69.16 78.81 76.98 87.1  81.34 85.44 78.03 77.55]]
+================================================================================
+
+
+==========================================================================================
+Training Task Metrics
+------------------------------------------------------------------------------------
+Task    Trainable(M)    GPU(MiB)    Time/Task(s)   Epochs  Time/Epoch(s)  
+------------------------------------------------------------------------------------
+S0      1.61            3217.50     1290.98        30      43.03          
+S1      0.08            4560.39     17.59          10      1.76           
+S2      0.08            4565.51     11.19          10      1.12           
+S3      0.08            4571.26     16.56          10      1.66           
+S4      0.08            4576.26     16.62          10      1.66           
+S5      0.08            4582.35     16.62          10      1.66           
+S6      0.08            4585.53     16.72          10      1.67           
+S7      0.08            4590.79     17.82          10      1.78           
+S8      0.08            4595.73     16.73          10      1.67           
+S9      0.08            4600.23     17.55          10      1.76           
+S10     0.08            4606.13     19.23          10      1.92           
+------------------------------------------------------------------------------------
+Base S0 1.61            3217.50     1290.98        30      43.03          
+Inc Avg 0.08            4583.42     16.66          10.00   1.67           
+All Avg 0.22            4459.24     132.51         11.82   5.43           
+Max GPU                 4606.13                                           
+Total                                           1457.61        
+Final   2.46                                                              
+------------------------------------------------------------------------------------------
+Inference Task Metrics
+------------------------------------------------------------------------------------------
+Task    Added(M)    GPU(MiB)    Time/Task(s)   Latency(ms/img)   Samples   Prompt(s)   
+------------------------------------------------------------------------------------------
+S0      2.38        637.08      21.5257        9.1288            2358      0.0881      
+S1      2.39        634.21      17.5139        7.4274            2358      0.1593      
+S2      2.40        634.27      17.3789        7.3702            2358      0.1333      
+S3      2.40        634.33      17.3758        7.3689            2358      0.1384      
+S4      2.41        634.39      16.0427        6.8035            2358      0.1581      
+S5      2.42        634.45      15.9034        6.7445            2358      0.1730      
+S6      2.43        634.51      15.0918        6.4002            2358      0.1936      
+S7      2.43        634.56      15.3312        6.5018            2358      0.2010      
+S8      2.44        634.62      14.4450        6.1260            2358      0.2183      
+S9      2.45        634.68      13.7204        5.8187            2358      0.1986      
+S10     2.46        634.74      14.9863        6.1019            2456      0.5614      
+------------------------------------------------------------------------------------------
+Base S0 2.38        637.08      21.5257        9.1288            2358      0.0881      
+Inc Avg 2.42        634.48      15.7789        6.6663            2367.80   0.2135      
+All Avg 2.42        634.71      16.3014        6.8902            2366.91   0.2021      
+Max GPU             637.08                                                             
+Total                           179.3150                                   2.2232      
+==========================================================================================
+
+2026-04-17 17:14:35,715 [trainer.py] => config: ./configs/SEC-Prompt_cifar_B60_Inc5.json
+2026-04-17 17:14:35,723 [trainer.py] => lamda: 0.5
+2026-04-17 17:14:35,723 [trainer.py] => aug: 2
+2026-04-17 17:14:35,723 [trainer.py] => prompt_token_num: 6
+2026-04-17 17:14:35,723 [trainer.py] => prompt_pool_num: 0.5
+2026-04-17 17:14:35,723 [trainer.py] => model_name: sec
+2026-04-17 17:14:35,723 [trainer.py] => backbone_type: pretrained_vit_b16_224_vpt
+2026-04-17 17:14:35,723 [trainer.py] => device: [device(type='cuda', index=1)]
+2026-04-17 17:14:35,723 [trainer.py] => seed: 1993
+2026-04-17 17:14:35,723 [trainer.py] => dataset: cifar224
+2026-04-17 17:14:35,723 [trainer.py] => init_cls: 60
+2026-04-17 17:14:35,723 [trainer.py] => increment: 5
+2026-04-17 17:14:35,723 [trainer.py] => kshot: 5
+2026-04-17 17:14:35,723 [trainer.py] => vpt_type: Deep
+2026-04-17 17:14:35,723 [trainer.py] => kl_weight: 0.001
+2026-04-17 17:14:35,723 [trainer.py] => tuned_epoch: 30
+2026-04-17 17:14:35,724 [trainer.py] => fs_epoch: 10
+2026-04-17 17:14:35,724 [trainer.py] => init_lr: 0.01
+2026-04-17 17:14:35,724 [trainer.py] => fs_lr: 0.001
+2026-04-17 17:14:35,724 [trainer.py] => batch_size: 32
+2026-04-17 17:14:35,724 [trainer.py] => fs_batch_size: 16
+2026-04-17 17:14:35,724 [trainer.py] => weight_decay: 0.005
+2026-04-17 17:14:35,724 [trainer.py] => min_lr: 0
+2026-04-17 17:14:35,724 [trainer.py] => optimizer: sgd
+2026-04-17 17:14:35,724 [trainer.py] => shuffle: True
+2026-04-17 17:14:35,724 [trainer.py] => top_k: 5
+2026-04-17 17:14:35,724 [trainer.py] => base_model_path: saved_model/sec_tr/cifar224/30_0.01/6_0.5/sec_30_1993_32.pth
+2026-04-17 17:14:35,724 [trainer.py] => prefix: sec
+2026-04-17 17:14:35,724 [trainer.py] => model_prefix: sec
+2026-04-17 17:14:35,724 [trainer.py] => beta: 0.5
+2026-04-17 17:14:35,724 [trainer.py] => memory_size: 0
+2026-04-17 17:14:35,724 [trainer.py] => memory_per_class: 0
+2026-04-17 17:14:35,724 [trainer.py] => fixed_memory: False
+2026-04-17 17:14:36,756 [data_manager.py] => [68, 56, 78, 8, 23, 84, 90, 65, 74, 76, 40, 89, 3, 92, 55, 9, 26, 80, 43, 38, 58, 70, 77, 1, 85, 19, 17, 50, 28, 53, 13, 81, 45, 82, 6, 59, 83, 16, 15, 44, 91, 41, 72, 60, 79, 52, 20, 10, 31, 54, 37, 95, 14, 71, 96, 98, 97, 2, 64, 66, 42, 22, 35, 86, 24, 34, 87, 21, 99, 0, 88, 27, 18, 94, 11, 12, 47, 25, 30, 46, 62, 69, 36, 61, 7, 63, 75, 5, 32, 4, 51, 48, 73, 93, 39, 67, 29, 49, 57, 33]
+This is for the BaseNet initialization.
+modelname, pretrained_vit_b16_224_vpt basicmodelname vit_base_patch16_224
+Using VPT model
+Using Deep Prompt
+After BaseNet initialization.
+2026-04-17 17:14:49,463 [sec.py] => Learning on 0-60
+2026-04-17 17:14:49,464 [sec.py] => All params: 86966016
+2026-04-17 17:14:49,464 [sec.py] => Actual trainable params (excluding detached): 921600
+2026-04-17 17:14:49,464 [sec.py] => TSP active prompts: 30 (total: 30)
+2026-04-17 17:14:49,464 [sec.py] => RSP active prompts: 30 (total: 30)
+2026-04-17 17:14:49,465 [sec.py] => Excluded params: head, detached prompts
+2026-04-17 17:14:49,465 [sec.py] => backbone.TSP.e_p_1: 69120
+2026-04-17 17:14:49,465 [sec.py] => backbone.TSP.e_k_1: 23040
+2026-04-17 17:14:49,465 [sec.py] => backbone.TSP.e_a_1: 23040
+2026-04-17 17:14:49,465 [sec.py] => backbone.TSP.e_p_2: 69120
+2026-04-17 17:14:49,465 [sec.py] => backbone.TSP.e_k_2: 23040
+2026-04-17 17:14:49,465 [sec.py] => backbone.TSP.e_a_2: 23040
+2026-04-17 17:14:49,465 [sec.py] => backbone.TSP.e_p_3: 69120
+2026-04-17 17:14:49,465 [sec.py] => backbone.TSP.e_k_3: 23040
+2026-04-17 17:14:49,465 [sec.py] => backbone.TSP.e_a_3: 23040
+2026-04-17 17:14:49,465 [sec.py] => backbone.TSP.e_p_4: 69120
+2026-04-17 17:14:49,465 [sec.py] => backbone.TSP.e_k_4: 23040
+2026-04-17 17:14:49,465 [sec.py] => backbone.TSP.e_a_4: 23040
+2026-04-17 17:14:49,465 [sec.py] => backbone.RSP.e_p_1: 69120
+2026-04-17 17:14:49,465 [sec.py] => backbone.RSP.e_k_1: 23040
+2026-04-17 17:14:49,465 [sec.py] => backbone.RSP.e_a_1: 23040
+2026-04-17 17:14:49,465 [sec.py] => backbone.RSP.e_p_2: 69120
+2026-04-17 17:14:49,465 [sec.py] => backbone.RSP.e_k_2: 23040
+2026-04-17 17:14:49,465 [sec.py] => backbone.RSP.e_a_2: 23040
+2026-04-17 17:14:49,465 [sec.py] => backbone.RSP.e_p_3: 69120
+2026-04-17 17:14:49,465 [sec.py] => backbone.RSP.e_k_3: 23040
+2026-04-17 17:14:49,465 [sec.py] => backbone.RSP.e_a_3: 23040
+2026-04-17 17:14:49,465 [sec.py] => backbone.RSP.e_p_4: 69120
+2026-04-17 17:14:49,465 [sec.py] => backbone.RSP.e_k_4: 23040
+2026-04-17 17:14:49,465 [sec.py] => backbone.RSP.e_a_4: 23040
+2026-04-17 17:14:49,586 [sec.py] => training set size: 30000, fc construct set size: 30000
+/public/home/hanlida/Dr.1/Code/Research/Awesome-FSCIL/SEC-Prompt-main/backbone/zoo.py:214: UserWarning: Implicit dimension choice for softmax has been deprecated. Change the call to include dim=X as an argument.
+  aq_k = torch.nn.functional.softmax(aq_k)
+2026-04-17 19:47:52,479 [trainer.py] => Task 0 metrics => trainable 0.97M, inference added 1.21M, train GPU 3180.12MiB, infer GPU 627.87MiB
+2026-04-17 19:47:52,509 [trainer.py] => CNN: {'total': 92.33, '00-59': 92.33, '60-64': 76.0, '65-69': 93.4, '70-74': 77.6, '75-79': 67.6, '80-84': 86.2, '85-89': 74.8, '90-94': 91.6, '95-99': 78.2, 'old': 0, 'new': 92.33}
+2026-04-17 19:47:52,509 [trainer.py] => Top1 curve: [92.33]
+2026-04-17 19:47:52,509 [trainer.py] => Average Accuracy (CNN): 92.33
+2026-04-17 19:47:52,510 [sec.py] => Learning on 60-65
+2026-04-17 19:47:52,516 [sec.py] => All params: 86966016
+2026-04-17 19:47:52,516 [sec.py] => Actual trainable params (excluding detached): 30720
+2026-04-17 19:47:52,516 [sec.py] => TSP active prompts: 2 (total: 32)
+2026-04-17 19:47:52,516 [sec.py] => RSP active prompts: 0 (total: 30)
+2026-04-17 19:47:52,516 [sec.py] => Excluded params: head, detached prompts
+2026-04-17 19:47:52,516 [sec.py] => backbone.TSP.e_p_1: 4608
+2026-04-17 19:47:52,516 [sec.py] => backbone.TSP.e_k_1: 1536
+2026-04-17 19:47:52,516 [sec.py] => backbone.TSP.e_a_1: 1536
+2026-04-17 19:47:52,516 [sec.py] => backbone.TSP.e_p_2: 4608
+2026-04-17 19:47:52,516 [sec.py] => backbone.TSP.e_k_2: 1536
+2026-04-17 19:47:52,516 [sec.py] => backbone.TSP.e_a_2: 1536
+2026-04-17 19:47:52,516 [sec.py] => backbone.TSP.e_p_3: 4608
+2026-04-17 19:47:52,516 [sec.py] => backbone.TSP.e_k_3: 1536
+2026-04-17 19:47:52,516 [sec.py] => backbone.TSP.e_a_3: 1536
+2026-04-17 19:47:52,516 [sec.py] => backbone.TSP.e_p_4: 4608
+2026-04-17 19:47:52,516 [sec.py] => backbone.TSP.e_k_4: 1536
+2026-04-17 19:47:52,516 [sec.py] => backbone.TSP.e_a_4: 1536
+2026-04-17 19:47:52,558 [sec.py] => training set size: 25, fc construct set size: 25
+2026-04-17 19:48:59,822 [trainer.py] => Task 1 metrics => trainable 0.03M, inference added 1.22M, train GPU 4522.25MiB, infer GPU 626.14MiB
+2026-04-17 19:48:59,822 [trainer.py] => CNN: {'total': 91.26, '00-59': 92.13, '60-64': 80.8, '65-69': 93.2, '70-74': 77.6, '75-79': 67.4, '80-84': 86.2, '85-89': 74.8, '90-94': 91.6, '95-99': 78.4, 'old': 92.13, 'new': 80.8}
+2026-04-17 19:48:59,822 [trainer.py] => Top1 curve: [92.33, 91.26]
+2026-04-17 19:48:59,822 [trainer.py] => Average Accuracy (CNN): 91.80
+2026-04-17 19:48:59,824 [sec.py] => Learning on 65-70
+2026-04-17 19:48:59,828 [sec.py] => All params: 86966016
+2026-04-17 19:48:59,828 [sec.py] => Actual trainable params (excluding detached): 30720
+2026-04-17 19:48:59,828 [sec.py] => TSP active prompts: 2 (total: 34)
+2026-04-17 19:48:59,828 [sec.py] => RSP active prompts: 0 (total: 30)
+2026-04-17 19:48:59,828 [sec.py] => Excluded params: head, detached prompts
+2026-04-17 19:48:59,829 [sec.py] => backbone.TSP.e_p_1: 4608
+2026-04-17 19:48:59,829 [sec.py] => backbone.TSP.e_k_1: 1536
+2026-04-17 19:48:59,829 [sec.py] => backbone.TSP.e_a_1: 1536
+2026-04-17 19:48:59,829 [sec.py] => backbone.TSP.e_p_2: 4608
+2026-04-17 19:48:59,829 [sec.py] => backbone.TSP.e_k_2: 1536
+2026-04-17 19:48:59,829 [sec.py] => backbone.TSP.e_a_2: 1536
+2026-04-17 19:48:59,829 [sec.py] => backbone.TSP.e_p_3: 4608
+2026-04-17 19:48:59,829 [sec.py] => backbone.TSP.e_k_3: 1536
+2026-04-17 19:48:59,829 [sec.py] => backbone.TSP.e_a_3: 1536
+2026-04-17 19:48:59,829 [sec.py] => backbone.TSP.e_p_4: 4608
+2026-04-17 19:48:59,829 [sec.py] => backbone.TSP.e_k_4: 1536
+2026-04-17 19:48:59,829 [sec.py] => backbone.TSP.e_a_4: 1536
+2026-04-17 19:48:59,880 [sec.py] => training set size: 25, fc construct set size: 25
+2026-04-17 19:50:06,667 [trainer.py] => Task 2 metrics => trainable 0.03M, inference added 1.22M, train GPU 4523.56MiB, infer GPU 626.17MiB
+2026-04-17 19:50:06,667 [trainer.py] => CNN: {'total': 91.09, '00-59': 91.72, '60-64': 80.4, '65-69': 94.2, '70-74': 77.6, '75-79': 67.4, '80-84': 86.4, '85-89': 75.0, '90-94': 91.6, '95-99': 79.0, 'old': 90.85, 'new': 94.2}
+2026-04-17 19:50:06,668 [trainer.py] => Top1 curve: [92.33, 91.26, 91.09]
+2026-04-17 19:50:06,668 [trainer.py] => Average Accuracy (CNN): 91.56
+2026-04-17 19:50:06,669 [sec.py] => Learning on 70-75
+2026-04-17 19:50:06,674 [sec.py] => All params: 86966016
+2026-04-17 19:50:06,674 [sec.py] => Actual trainable params (excluding detached): 30720
+2026-04-17 19:50:06,674 [sec.py] => TSP active prompts: 2 (total: 36)
+2026-04-17 19:50:06,674 [sec.py] => RSP active prompts: 0 (total: 30)
+2026-04-17 19:50:06,674 [sec.py] => Excluded params: head, detached prompts
+2026-04-17 19:50:06,674 [sec.py] => backbone.TSP.e_p_1: 4608
+2026-04-17 19:50:06,674 [sec.py] => backbone.TSP.e_k_1: 1536
+2026-04-17 19:50:06,675 [sec.py] => backbone.TSP.e_a_1: 1536
+2026-04-17 19:50:06,675 [sec.py] => backbone.TSP.e_p_2: 4608
+2026-04-17 19:50:06,675 [sec.py] => backbone.TSP.e_k_2: 1536
+2026-04-17 19:50:06,675 [sec.py] => backbone.TSP.e_a_2: 1536
+2026-04-17 19:50:06,675 [sec.py] => backbone.TSP.e_p_3: 4608
+2026-04-17 19:50:06,675 [sec.py] => backbone.TSP.e_k_3: 1536
+2026-04-17 19:50:06,675 [sec.py] => backbone.TSP.e_a_3: 1536
+2026-04-17 19:50:06,675 [sec.py] => backbone.TSP.e_p_4: 4608
+2026-04-17 19:50:06,675 [sec.py] => backbone.TSP.e_k_4: 1536
+2026-04-17 19:50:06,675 [sec.py] => backbone.TSP.e_a_4: 1536
+2026-04-17 19:50:06,711 [sec.py] => training set size: 25, fc construct set size: 25
+2026-04-17 19:51:13,616 [trainer.py] => Task 3 metrics => trainable 0.03M, inference added 1.22M, train GPU 4524.87MiB, infer GPU 626.20MiB
+2026-04-17 19:51:13,616 [trainer.py] => CNN: {'total': 89.92, '00-59': 91.62, '60-64': 76.2, '65-69': 93.4, '70-74': 79.8, '75-79': 67.2, '80-84': 86.4, '85-89': 75.0, '90-94': 91.4, '95-99': 79.4, 'old': 90.64, 'new': 79.8}
+2026-04-17 19:51:13,616 [trainer.py] => Top1 curve: [92.33, 91.26, 91.09, 89.92]
+2026-04-17 19:51:13,616 [trainer.py] => Average Accuracy (CNN): 91.15
+2026-04-17 19:51:13,617 [sec.py] => Learning on 75-80
+2026-04-17 19:51:13,624 [sec.py] => All params: 86966016
+2026-04-17 19:51:13,624 [sec.py] => Actual trainable params (excluding detached): 30720
+2026-04-17 19:51:13,624 [sec.py] => TSP active prompts: 2 (total: 38)
+2026-04-17 19:51:13,624 [sec.py] => RSP active prompts: 0 (total: 30)
+2026-04-17 19:51:13,624 [sec.py] => Excluded params: head, detached prompts
+2026-04-17 19:51:13,624 [sec.py] => backbone.TSP.e_p_1: 4608
+2026-04-17 19:51:13,624 [sec.py] => backbone.TSP.e_k_1: 1536
+2026-04-17 19:51:13,624 [sec.py] => backbone.TSP.e_a_1: 1536
+2026-04-17 19:51:13,624 [sec.py] => backbone.TSP.e_p_2: 4608
+2026-04-17 19:51:13,624 [sec.py] => backbone.TSP.e_k_2: 1536
+2026-04-17 19:51:13,624 [sec.py] => backbone.TSP.e_a_2: 1536
+2026-04-17 19:51:13,624 [sec.py] => backbone.TSP.e_p_3: 4608
+2026-04-17 19:51:13,624 [sec.py] => backbone.TSP.e_k_3: 1536
+2026-04-17 19:51:13,624 [sec.py] => backbone.TSP.e_a_3: 1536
+2026-04-17 19:51:13,624 [sec.py] => backbone.TSP.e_p_4: 4608
+2026-04-17 19:51:13,624 [sec.py] => backbone.TSP.e_k_4: 1536
+2026-04-17 19:51:13,624 [sec.py] => backbone.TSP.e_a_4: 1536
+2026-04-17 19:51:13,680 [sec.py] => training set size: 25, fc construct set size: 25
+2026-04-17 19:52:19,991 [trainer.py] => Task 4 metrics => trainable 0.03M, inference added 1.23M, train GPU 4526.80MiB, infer GPU 626.23MiB
+2026-04-17 19:52:19,991 [trainer.py] => CNN: {'total': 88.3, '00-59': 91.3, '60-64': 76.8, '65-69': 93.4, '70-74': 78.2, '75-79': 68.8, '80-84': 87.0, '85-89': 75.4, '90-94': 91.2, '95-99': 79.6, 'old': 89.6, 'new': 68.8}
+2026-04-17 19:52:19,991 [trainer.py] => Top1 curve: [92.33, 91.26, 91.09, 89.92, 88.3]
+2026-04-17 19:52:19,992 [trainer.py] => Average Accuracy (CNN): 90.58
+2026-04-17 19:52:19,993 [sec.py] => Learning on 80-85
+2026-04-17 19:52:19,999 [sec.py] => All params: 86966016
+2026-04-17 19:52:19,999 [sec.py] => Actual trainable params (excluding detached): 30720
+2026-04-17 19:52:19,999 [sec.py] => TSP active prompts: 2 (total: 40)
+2026-04-17 19:52:19,999 [sec.py] => RSP active prompts: 0 (total: 30)
+2026-04-17 19:52:19,999 [sec.py] => Excluded params: head, detached prompts
+2026-04-17 19:52:19,999 [sec.py] => backbone.TSP.e_p_1: 4608
+2026-04-17 19:52:20,000 [sec.py] => backbone.TSP.e_k_1: 1536
+2026-04-17 19:52:20,000 [sec.py] => backbone.TSP.e_a_1: 1536
+2026-04-17 19:52:20,000 [sec.py] => backbone.TSP.e_p_2: 4608
+2026-04-17 19:52:20,000 [sec.py] => backbone.TSP.e_k_2: 1536
+2026-04-17 19:52:20,000 [sec.py] => backbone.TSP.e_a_2: 1536
+2026-04-17 19:52:20,000 [sec.py] => backbone.TSP.e_p_3: 4608
+2026-04-17 19:52:20,000 [sec.py] => backbone.TSP.e_k_3: 1536
+2026-04-17 19:52:20,000 [sec.py] => backbone.TSP.e_a_3: 1536
+2026-04-17 19:52:20,000 [sec.py] => backbone.TSP.e_p_4: 4608
+2026-04-17 19:52:20,000 [sec.py] => backbone.TSP.e_k_4: 1536
+2026-04-17 19:52:20,000 [sec.py] => backbone.TSP.e_a_4: 1536
+2026-04-17 19:52:20,035 [sec.py] => training set size: 25, fc construct set size: 25
+2026-04-17 19:53:26,330 [trainer.py] => Task 5 metrics => trainable 0.03M, inference added 1.23M, train GPU 4528.29MiB, infer GPU 626.26MiB
+2026-04-17 19:53:26,330 [trainer.py] => CNN: {'total': 87.96, '00-59': 90.93, '60-64': 76.4, '65-69': 93.2, '70-74': 78.4, '75-79': 69.0, '80-84': 87.2, '85-89': 75.6, '90-94': 91.2, '95-99': 80.0, 'old': 88.01, 'new': 87.2}
+2026-04-17 19:53:26,330 [trainer.py] => Top1 curve: [92.33, 91.26, 91.09, 89.92, 88.3, 87.96]
+2026-04-17 19:53:26,330 [trainer.py] => Average Accuracy (CNN): 90.14
+2026-04-17 19:53:26,331 [sec.py] => Learning on 85-90
+2026-04-17 19:53:26,337 [sec.py] => All params: 86966016
+2026-04-17 19:53:26,337 [sec.py] => Actual trainable params (excluding detached): 30720
+2026-04-17 19:53:26,337 [sec.py] => TSP active prompts: 2 (total: 42)
+2026-04-17 19:53:26,337 [sec.py] => RSP active prompts: 0 (total: 30)
+2026-04-17 19:53:26,338 [sec.py] => Excluded params: head, detached prompts
+2026-04-17 19:53:26,338 [sec.py] => backbone.TSP.e_p_1: 4608
+2026-04-17 19:53:26,338 [sec.py] => backbone.TSP.e_k_1: 1536
+2026-04-17 19:53:26,338 [sec.py] => backbone.TSP.e_a_1: 1536
+2026-04-17 19:53:26,338 [sec.py] => backbone.TSP.e_p_2: 4608
+2026-04-17 19:53:26,338 [sec.py] => backbone.TSP.e_k_2: 1536
+2026-04-17 19:53:26,338 [sec.py] => backbone.TSP.e_a_2: 1536
+2026-04-17 19:53:26,338 [sec.py] => backbone.TSP.e_p_3: 4608
+2026-04-17 19:53:26,338 [sec.py] => backbone.TSP.e_k_3: 1536
+2026-04-17 19:53:26,338 [sec.py] => backbone.TSP.e_a_3: 1536
+2026-04-17 19:53:26,338 [sec.py] => backbone.TSP.e_p_4: 4608
+2026-04-17 19:53:26,338 [sec.py] => backbone.TSP.e_k_4: 1536
+2026-04-17 19:53:26,338 [sec.py] => backbone.TSP.e_a_4: 1536
+2026-04-17 19:53:26,370 [sec.py] => training set size: 25, fc construct set size: 25
+2026-04-17 19:54:11,561 [trainer.py] => Task 6 metrics => trainable 0.03M, inference added 1.24M, train GPU 4529.78MiB, infer GPU 626.29MiB
+2026-04-17 19:54:11,562 [trainer.py] => CNN: {'total': 87.48, '00-59': 90.88, '60-64': 76.4, '65-69': 92.8, '70-74': 78.4, '75-79': 68.6, '80-84': 87.4, '85-89': 80.4, '90-94': 91.2, '95-99': 80.0, 'old': 87.89, 'new': 80.4}
+2026-04-17 19:54:11,562 [trainer.py] => Top1 curve: [92.33, 91.26, 91.09, 89.92, 88.3, 87.96, 87.48]
+2026-04-17 19:54:11,562 [trainer.py] => Average Accuracy (CNN): 89.76
+2026-04-17 19:54:11,563 [sec.py] => Learning on 90-95
+2026-04-17 19:54:11,569 [sec.py] => All params: 86966016
+2026-04-17 19:54:11,569 [sec.py] => Actual trainable params (excluding detached): 30720
+2026-04-17 19:54:11,569 [sec.py] => TSP active prompts: 2 (total: 44)
+2026-04-17 19:54:11,569 [sec.py] => RSP active prompts: 0 (total: 30)
+2026-04-17 19:54:11,570 [sec.py] => Excluded params: head, detached prompts
+2026-04-17 19:54:11,570 [sec.py] => backbone.TSP.e_p_1: 4608
+2026-04-17 19:54:11,570 [sec.py] => backbone.TSP.e_k_1: 1536
+2026-04-17 19:54:11,570 [sec.py] => backbone.TSP.e_a_1: 1536
+2026-04-17 19:54:11,570 [sec.py] => backbone.TSP.e_p_2: 4608
+2026-04-17 19:54:11,570 [sec.py] => backbone.TSP.e_k_2: 1536
+2026-04-17 19:54:11,570 [sec.py] => backbone.TSP.e_a_2: 1536
+2026-04-17 19:54:11,570 [sec.py] => backbone.TSP.e_p_3: 4608
+2026-04-17 19:54:11,570 [sec.py] => backbone.TSP.e_k_3: 1536
+2026-04-17 19:54:11,570 [sec.py] => backbone.TSP.e_a_3: 1536
+2026-04-17 19:54:11,570 [sec.py] => backbone.TSP.e_p_4: 4608
+2026-04-17 19:54:11,570 [sec.py] => backbone.TSP.e_k_4: 1536
+2026-04-17 19:54:11,570 [sec.py] => backbone.TSP.e_a_4: 1536
+2026-04-17 19:54:11,601 [sec.py] => training set size: 25, fc construct set size: 25
+2026-04-17 19:55:11,825 [trainer.py] => Task 7 metrics => trainable 0.03M, inference added 1.24M, train GPU 4532.75MiB, infer GPU 626.32MiB
+2026-04-17 19:55:11,826 [trainer.py] => CNN: {'total': 87.61, '00-59': 90.75, '60-64': 76.4, '65-69': 93.0, '70-74': 78.4, '75-79': 68.0, '80-84': 87.4, '85-89': 80.0, '90-94': 92.4, '95-99': 80.2, 'old': 87.34, 'new': 92.4}
+2026-04-17 19:55:11,826 [trainer.py] => Top1 curve: [92.33, 91.26, 91.09, 89.92, 88.3, 87.96, 87.48, 87.61]
+2026-04-17 19:55:11,826 [trainer.py] => Average Accuracy (CNN): 89.49
+2026-04-17 19:55:11,827 [sec.py] => Learning on 95-100
+2026-04-17 19:55:11,842 [sec.py] => All params: 86966016
+2026-04-17 19:55:11,843 [sec.py] => Actual trainable params (excluding detached): 30720
+2026-04-17 19:55:11,843 [sec.py] => TSP active prompts: 2 (total: 46)
+2026-04-17 19:55:11,843 [sec.py] => RSP active prompts: 0 (total: 30)
+2026-04-17 19:55:11,843 [sec.py] => Excluded params: head, detached prompts
+2026-04-17 19:55:11,843 [sec.py] => backbone.TSP.e_p_1: 4608
+2026-04-17 19:55:11,843 [sec.py] => backbone.TSP.e_k_1: 1536
+2026-04-17 19:55:11,843 [sec.py] => backbone.TSP.e_a_1: 1536
+2026-04-17 19:55:11,843 [sec.py] => backbone.TSP.e_p_2: 4608
+2026-04-17 19:55:11,843 [sec.py] => backbone.TSP.e_k_2: 1536
+2026-04-17 19:55:11,843 [sec.py] => backbone.TSP.e_a_2: 1536
+2026-04-17 19:55:11,843 [sec.py] => backbone.TSP.e_p_3: 4608
+2026-04-17 19:55:11,843 [sec.py] => backbone.TSP.e_k_3: 1536
+2026-04-17 19:55:11,843 [sec.py] => backbone.TSP.e_a_3: 1536
+2026-04-17 19:55:11,843 [sec.py] => backbone.TSP.e_p_4: 4608
+2026-04-17 19:55:11,843 [sec.py] => backbone.TSP.e_k_4: 1536
+2026-04-17 19:55:11,843 [sec.py] => backbone.TSP.e_a_4: 1536
+2026-04-17 19:55:11,875 [sec.py] => training set size: 25, fc construct set size: 25
+2026-04-17 19:56:10,778 [trainer.py] => Task 8 metrics => trainable 0.03M, inference added 1.24M, train GPU 4535.58MiB, infer GPU 626.35MiB
+2026-04-17 19:56:10,778 [trainer.py] => CNN: {'total': 86.94, '00-59': 90.62, '60-64': 76.6, '65-69': 93.0, '70-74': 78.2, '75-79': 68.4, '80-84': 87.8, '85-89': 75.8, '90-94': 91.2, '95-99': 80.4, 'old': 87.28, 'new': 80.4}
+2026-04-17 19:56:10,778 [trainer.py] => Top1 curve: [92.33, 91.26, 91.09, 89.92, 88.3, 87.96, 87.48, 87.61, 86.94]
+2026-04-17 19:56:10,779 [trainer.py] => Average Accuracy (CNN): 89.21
+
+================================================================================
+Finished cifar224_init60_inc5: pretrained_vit_b16_224_vpt  
+Base Accuracy: 92.33
+Last Accuracy: 86.94
+Average Accuracy (Top1): 89.21
+PD: 5.39
+Backward Transfer (BWT): -1.79
+Forward Transfer (FWT): 34.3
+Total Train Time: 9191.38 s
+Total Inference Time: 489.7848 s
+Total Prompt Time: 6.8841 s
+Accuracy Matrix (CNN):
+[[92.33 76.   93.4  77.6  67.6  86.2  74.8  91.6  78.2 ]
+ [92.13 80.8  93.2  77.6  67.4  86.2  74.8  91.6  78.4 ]
+ [91.72 80.4  94.2  77.6  67.4  86.4  75.   91.6  79.  ]
+ [91.62 76.2  93.4  79.8  67.2  86.4  75.   91.4  79.4 ]
+ [91.3  76.8  93.4  78.2  68.8  87.   75.4  91.2  79.6 ]
+ [90.93 76.4  93.2  78.4  69.   87.2  75.6  91.2  80.  ]
+ [90.88 76.4  92.8  78.4  68.6  87.4  80.4  91.2  80.  ]
+ [90.75 76.4  93.   78.4  68.   87.4  80.   92.4  80.2 ]
+ [90.62 76.6  93.   78.2  68.4  87.8  75.8  91.2  80.4 ]]
+================================================================================
+
+
+==========================================================================================
+Training Task Metrics
+------------------------------------------------------------------------------------
+Task    Trainable(M)    GPU(MiB)    Time/Task(s)   Epochs  Time/Epoch(s)  
+------------------------------------------------------------------------------------
+S0      0.97            3180.12     9123.51        30      304.12         
+S1      0.03            4522.25     8.73           10      0.87           
+S2      0.03            4523.56     8.66           10      0.87           
+S3      0.03            4524.87     8.71           10      0.87           
+S4      0.03            4526.80     8.71           10      0.87           
+S5      0.03            4528.29     8.71           10      0.87           
+S6      0.03            4529.78     8.75           10      0.87           
+S7      0.03            4532.75     7.86           10      0.79           
+S8      0.03            4535.58     7.75           10      0.77           
+------------------------------------------------------------------------------------
+Base S0 0.97            3180.12     9123.51        30      304.12         
+Inc Avg 0.03            4527.98     8.48           10.00   0.85           
+All Avg 0.14            4378.22     1021.26        12.22   34.54          
+Max GPU                 4535.58                                           
+Total                                           9191.38        
+Final   1.24                                                              
+------------------------------------------------------------------------------------------
+Inference Task Metrics
+------------------------------------------------------------------------------------------
+Task    Added(M)    GPU(MiB)    Time/Task(s)   Latency(ms/img)   Samples   Prompt(s)   
+------------------------------------------------------------------------------------------
+S0      1.21        627.87      59.5012        5.9501            10000     0.5200      
+S1      1.22        626.14      58.5493        5.8549            10000     0.5976      
+S2      1.22        626.17      58.1769        5.8177            10000     0.6261      
+S3      1.22        626.20      58.2294        5.8229            10000     0.8052      
+S4      1.23        626.23      57.6523        5.7652            10000     0.7184      
+S5      1.23        626.26      57.6211        5.7621            10000     0.8049      
+S6      1.24        626.29      36.4720        3.6472            10000     0.9808      
+S7      1.24        626.32      52.3873        5.2387            10000     0.8874      
+S8      1.24        626.35      51.1952        4.8757            10500     0.9437      
+------------------------------------------------------------------------------------------
+Base S0 1.21        627.87      59.5012        5.9501            10000     0.5200      
+Inc Avg 1.23        626.24      53.7854        5.3481            10062.50  0.7955      
+All Avg 1.23        626.42      54.4205        5.4150            10055.56  0.7649      
+Max GPU             627.87                                                             
+Total                           489.7848                                   6.8841      
+==========================================================================================
+
+2026-04-17 19:56:17,358 [trainer.py] => config: ./configs/SEC-Prompt_inr_B100_Inc10.json
+2026-04-17 19:56:17,370 [trainer.py] => lamda: 0.5
+2026-04-17 19:56:17,370 [trainer.py] => aug: 2
+2026-04-17 19:56:17,370 [trainer.py] => prompt_token_num: 10
+2026-04-17 19:56:17,370 [trainer.py] => prompt_pool_num: 0.5
+2026-04-17 19:56:17,370 [trainer.py] => model_name: sec
+2026-04-17 19:56:17,370 [trainer.py] => backbone_type: pretrained_vit_b16_224_vpt
+2026-04-17 19:56:17,370 [trainer.py] => device: [device(type='cuda', index=1)]
+2026-04-17 19:56:17,370 [trainer.py] => seed: 1993
+2026-04-17 19:56:17,370 [trainer.py] => dataset: imagenetr
+2026-04-17 19:56:17,370 [trainer.py] => init_cls: 100
+2026-04-17 19:56:17,371 [trainer.py] => increment: 10
+2026-04-17 19:56:17,371 [trainer.py] => kshot: 5
+2026-04-17 19:56:17,371 [trainer.py] => vpt_type: Deep
+2026-04-17 19:56:17,371 [trainer.py] => kl_weight: 0.001
+2026-04-17 19:56:17,371 [trainer.py] => tuned_epoch: 30
+2026-04-17 19:56:17,371 [trainer.py] => fs_epoch: 10
+2026-04-17 19:56:17,371 [trainer.py] => init_lr: 0.01
+2026-04-17 19:56:17,371 [trainer.py] => fs_lr: 0.0005
+2026-04-17 19:56:17,371 [trainer.py] => batch_size: 64
+2026-04-17 19:56:17,371 [trainer.py] => fs_batch_size: 16
+2026-04-17 19:56:17,371 [trainer.py] => weight_decay: 0.005
+2026-04-17 19:56:17,371 [trainer.py] => min_lr: 0
+2026-04-17 19:56:17,371 [trainer.py] => optimizer: sgd
+2026-04-17 19:56:17,371 [trainer.py] => fixed_memory: False
+2026-04-17 19:56:17,371 [trainer.py] => shuffle: True
+2026-04-17 19:56:17,371 [trainer.py] => top_k: 5
+2026-04-17 19:56:17,371 [trainer.py] => base_model_path: saved_model/sec_tr/imagenetr/30_0.01/10_0.5/sec_30_1993_64.pth
+2026-04-17 19:56:17,371 [trainer.py] => prefix: sec
+2026-04-17 19:56:17,371 [trainer.py] => model_prefix: sec
+2026-04-17 19:56:17,371 [trainer.py] => beta: 0.5
+2026-04-17 19:56:17,371 [trainer.py] => memory_size: 0
+2026-04-17 19:56:17,371 [trainer.py] => memory_per_class: 0
+2026-04-17 19:56:18,205 [data_manager.py] => [168, 136, 51, 9, 183, 101, 171, 99, 42, 159, 191, 70, 16, 188, 27, 10, 175, 26, 68, 187, 98, 6, 85, 35, 112, 43, 100, 0, 103, 181, 88, 59, 4, 2, 116, 174, 94, 80, 106, 1, 147, 17, 141, 131, 72, 23, 173, 54, 197, 118, 87, 32, 79, 104, 91, 19, 135, 107, 178, 36, 11, 199, 142, 8, 122, 3, 28, 57, 153, 172, 190, 56, 49, 44, 97, 62, 151, 169, 194, 55, 192, 12, 189, 78, 66, 180, 15, 137, 109, 134, 92, 119, 126, 52, 170, 40, 148, 65, 144, 64, 138, 45, 77, 89, 154, 90, 71, 193, 74, 30, 113, 143, 96, 84, 67, 50, 186, 156, 69, 21, 18, 111, 108, 58, 125, 157, 150, 110, 182, 129, 166, 83, 81, 60, 13, 165, 14, 176, 63, 117, 5, 22, 145, 121, 38, 41, 82, 127, 114, 20, 31, 53, 37, 163, 196, 130, 152, 162, 86, 76, 24, 34, 184, 149, 33, 128, 198, 155, 146, 167, 139, 120, 140, 102, 47, 25, 158, 123, 46, 164, 61, 7, 115, 75, 133, 160, 105, 132, 179, 124, 48, 73, 93, 39, 95, 195, 29, 177, 185, 161]
+This is for the BaseNet initialization.
+modelname, pretrained_vit_b16_224_vpt basicmodelname vit_base_patch16_224
+Using VPT model
+Using Deep Prompt
+After BaseNet initialization.
+2026-04-17 19:56:30,191 [sec.py] => Learning on 0-100
+2026-04-17 19:56:30,195 [sec.py] => All params: 89024256
+2026-04-17 19:56:30,195 [sec.py] => Actual trainable params (excluding detached): 2150400
+2026-04-17 19:56:30,195 [sec.py] => TSP active prompts: 50 (total: 50)
+2026-04-17 19:56:30,195 [sec.py] => RSP active prompts: 50 (total: 50)
+2026-04-17 19:56:30,195 [sec.py] => Excluded params: head, detached prompts
+2026-04-17 19:56:30,195 [sec.py] => backbone.TSP.e_p_1: 192000
+2026-04-17 19:56:30,195 [sec.py] => backbone.TSP.e_k_1: 38400
+2026-04-17 19:56:30,195 [sec.py] => backbone.TSP.e_a_1: 38400
+2026-04-17 19:56:30,195 [sec.py] => backbone.TSP.e_p_2: 192000
+2026-04-17 19:56:30,195 [sec.py] => backbone.TSP.e_k_2: 38400
+2026-04-17 19:56:30,195 [sec.py] => backbone.TSP.e_a_2: 38400
+2026-04-17 19:56:30,195 [sec.py] => backbone.TSP.e_p_3: 192000
+2026-04-17 19:56:30,195 [sec.py] => backbone.TSP.e_k_3: 38400
+2026-04-17 19:56:30,195 [sec.py] => backbone.TSP.e_a_3: 38400
+2026-04-17 19:56:30,195 [sec.py] => backbone.TSP.e_p_4: 192000
+2026-04-17 19:56:30,195 [sec.py] => backbone.TSP.e_k_4: 38400
+2026-04-17 19:56:30,195 [sec.py] => backbone.TSP.e_a_4: 38400
+2026-04-17 19:56:30,195 [sec.py] => backbone.RSP.e_p_1: 192000
+2026-04-17 19:56:30,195 [sec.py] => backbone.RSP.e_k_1: 38400
+2026-04-17 19:56:30,196 [sec.py] => backbone.RSP.e_a_1: 38400
+2026-04-17 19:56:30,196 [sec.py] => backbone.RSP.e_p_2: 192000
+2026-04-17 19:56:30,196 [sec.py] => backbone.RSP.e_k_2: 38400
+2026-04-17 19:56:30,196 [sec.py] => backbone.RSP.e_a_2: 38400
+2026-04-17 19:56:30,196 [sec.py] => backbone.RSP.e_p_3: 192000
+2026-04-17 19:56:30,196 [sec.py] => backbone.RSP.e_k_3: 38400
+2026-04-17 19:56:30,196 [sec.py] => backbone.RSP.e_a_3: 38400
+2026-04-17 19:56:30,196 [sec.py] => backbone.RSP.e_p_4: 192000
+2026-04-17 19:56:30,196 [sec.py] => backbone.RSP.e_k_4: 38400
+2026-04-17 19:56:30,196 [sec.py] => backbone.RSP.e_a_4: 38400
+2026-04-17 19:56:30,221 [sec.py] => training set size: 12177, fc construct set size: 12177
+/public/home/hanlida/Dr.1/Code/Research/Awesome-FSCIL/SEC-Prompt-main/backbone/zoo.py:214: UserWarning: Implicit dimension choice for softmax has been deprecated. Change the call to include dim=X as an argument.
+  aq_k = torch.nn.functional.softmax(aq_k)
+2026-04-17 21:05:26,756 [trainer.py] => Task 0 metrics => trainable 2.23M, inference added 3.30M, train GPU 6128.57MiB, infer GPU 934.57MiB
+2026-04-17 21:05:26,785 [trainer.py] => CNN: {'total': 79.77, '00-99': 79.77, '100-109': 66.55, '110-119': 63.56, '120-129': 60.52, '130-139': 73.15, '140-149': 70.03, '150-159': 62.71, '160-169': 55.22, '170-179': 82.26, '180-189': 52.6, '190-199': 65.31, 'old': 0, 'new': 79.77}
+2026-04-17 21:05:26,785 [trainer.py] => Top1 curve: [79.77]
+2026-04-17 21:05:26,785 [trainer.py] => Average Accuracy (CNN): 79.77
+2026-04-17 21:05:26,786 [sec.py] => Learning on 100-110
+2026-04-17 21:05:26,792 [sec.py] => All params: 89024256
+2026-04-17 21:05:26,792 [sec.py] => Actual trainable params (excluding detached): 107520
+2026-04-17 21:05:26,792 [sec.py] => TSP active prompts: 5 (total: 55)
+2026-04-17 21:05:26,792 [sec.py] => RSP active prompts: 0 (total: 50)
+2026-04-17 21:05:26,792 [sec.py] => Excluded params: head, detached prompts
+2026-04-17 21:05:26,792 [sec.py] => backbone.TSP.e_p_1: 19200
+2026-04-17 21:05:26,792 [sec.py] => backbone.TSP.e_k_1: 3840
+2026-04-17 21:05:26,792 [sec.py] => backbone.TSP.e_a_1: 3840
+2026-04-17 21:05:26,792 [sec.py] => backbone.TSP.e_p_2: 19200
+2026-04-17 21:05:26,792 [sec.py] => backbone.TSP.e_k_2: 3840
+2026-04-17 21:05:26,792 [sec.py] => backbone.TSP.e_a_2: 3840
+2026-04-17 21:05:26,792 [sec.py] => backbone.TSP.e_p_3: 19200
+2026-04-17 21:05:26,792 [sec.py] => backbone.TSP.e_k_3: 3840
+2026-04-17 21:05:26,792 [sec.py] => backbone.TSP.e_a_3: 3840
+2026-04-17 21:05:26,792 [sec.py] => backbone.TSP.e_p_4: 19200
+2026-04-17 21:05:26,793 [sec.py] => backbone.TSP.e_k_4: 3840
+2026-04-17 21:05:26,793 [sec.py] => backbone.TSP.e_a_4: 3840
+2026-04-17 21:05:26,808 [sec.py] => training set size: 50, fc construct set size: 50
+2026-04-17 21:06:23,552 [trainer.py] => Task 1 metrics => trainable 0.12M, inference added 3.31M, train GPU 4608.09MiB, infer GPU 930.22MiB
+2026-04-17 21:06:23,552 [trainer.py] => CNN: {'total': 78.34, '00-99': 79.2, '100-109': 69.37, '110-119': 64.1, '120-129': 60.52, '130-139': 73.49, '140-149': 69.75, '150-159': 62.71, '160-169': 55.22, '170-179': 82.26, '180-189': 52.27, '190-199': 64.94, 'old': 79.2, 'new': 69.37}
+2026-04-17 21:06:23,552 [trainer.py] => Top1 curve: [79.77, 78.34]
+2026-04-17 21:06:23,552 [trainer.py] => Average Accuracy (CNN): 79.06
+2026-04-17 21:06:23,554 [sec.py] => Learning on 110-120
+2026-04-17 21:06:23,557 [sec.py] => All params: 89024256
+2026-04-17 21:06:23,557 [sec.py] => Actual trainable params (excluding detached): 107520
+2026-04-17 21:06:23,557 [sec.py] => TSP active prompts: 5 (total: 60)
+2026-04-17 21:06:23,557 [sec.py] => RSP active prompts: 0 (total: 50)
+2026-04-17 21:06:23,558 [sec.py] => Excluded params: head, detached prompts
+2026-04-17 21:06:23,558 [sec.py] => backbone.TSP.e_p_1: 19200
+2026-04-17 21:06:23,558 [sec.py] => backbone.TSP.e_k_1: 3840
+2026-04-17 21:06:23,558 [sec.py] => backbone.TSP.e_a_1: 3840
+2026-04-17 21:06:23,558 [sec.py] => backbone.TSP.e_p_2: 19200
+2026-04-17 21:06:23,558 [sec.py] => backbone.TSP.e_k_2: 3840
+2026-04-17 21:06:23,558 [sec.py] => backbone.TSP.e_a_2: 3840
+2026-04-17 21:06:23,558 [sec.py] => backbone.TSP.e_p_3: 19200
+2026-04-17 21:06:23,558 [sec.py] => backbone.TSP.e_k_3: 3840
+2026-04-17 21:06:23,558 [sec.py] => backbone.TSP.e_a_3: 3840
+2026-04-17 21:06:23,558 [sec.py] => backbone.TSP.e_p_4: 19200
+2026-04-17 21:06:23,558 [sec.py] => backbone.TSP.e_k_4: 3840
+2026-04-17 21:06:23,558 [sec.py] => backbone.TSP.e_a_4: 3840
+2026-04-17 21:06:23,575 [sec.py] => training set size: 50, fc construct set size: 50
+2026-04-17 21:07:20,282 [trainer.py] => Task 2 metrics => trainable 0.12M, inference added 3.32M, train GPU 4614.75MiB, infer GPU 930.08MiB
+2026-04-17 21:07:20,282 [trainer.py] => CNN: {'total': 76.49, '00-99': 78.59, '100-109': 68.31, '110-119': 65.96, '120-129': 60.89, '130-139': 73.83, '140-149': 69.48, '150-159': 62.71, '160-169': 54.78, '170-179': 82.66, '180-189': 51.62, '190-199': 64.58, 'old': 77.7, 'new': 65.96}
+2026-04-17 21:07:20,282 [trainer.py] => Top1 curve: [79.77, 78.34, 76.49]
+2026-04-17 21:07:20,282 [trainer.py] => Average Accuracy (CNN): 78.20
+2026-04-17 21:07:20,284 [sec.py] => Learning on 120-130
+2026-04-17 21:07:20,289 [sec.py] => All params: 89024256
+2026-04-17 21:07:20,289 [sec.py] => Actual trainable params (excluding detached): 107520
+2026-04-17 21:07:20,289 [sec.py] => TSP active prompts: 5 (total: 65)
+2026-04-17 21:07:20,289 [sec.py] => RSP active prompts: 0 (total: 50)
+2026-04-17 21:07:20,289 [sec.py] => Excluded params: head, detached prompts
+2026-04-17 21:07:20,289 [sec.py] => backbone.TSP.e_p_1: 19200
+2026-04-17 21:07:20,289 [sec.py] => backbone.TSP.e_k_1: 3840
+2026-04-17 21:07:20,289 [sec.py] => backbone.TSP.e_a_1: 3840
+2026-04-17 21:07:20,290 [sec.py] => backbone.TSP.e_p_2: 19200
+2026-04-17 21:07:20,290 [sec.py] => backbone.TSP.e_k_2: 3840
+2026-04-17 21:07:20,290 [sec.py] => backbone.TSP.e_a_2: 3840
+2026-04-17 21:07:20,290 [sec.py] => backbone.TSP.e_p_3: 19200
+2026-04-17 21:07:20,290 [sec.py] => backbone.TSP.e_k_3: 3840
+2026-04-17 21:07:20,290 [sec.py] => backbone.TSP.e_a_3: 3840
+2026-04-17 21:07:20,290 [sec.py] => backbone.TSP.e_p_4: 19200
+2026-04-17 21:07:20,290 [sec.py] => backbone.TSP.e_k_4: 3840
+2026-04-17 21:07:20,290 [sec.py] => backbone.TSP.e_a_4: 3840
+2026-04-17 21:07:20,303 [sec.py] => training set size: 50, fc construct set size: 50
+2026-04-17 21:08:17,089 [trainer.py] => Task 3 metrics => trainable 0.12M, inference added 3.33M, train GPU 4620.07MiB, infer GPU 930.14MiB
+2026-04-17 21:08:17,090 [trainer.py] => CNN: {'total': 75.28, '00-99': 78.32, '100-109': 67.96, '110-119': 65.43, '120-129': 63.1, '130-139': 74.83, '140-149': 69.48, '150-159': 62.71, '160-169': 55.22, '170-179': 82.26, '180-189': 51.95, '190-199': 63.47, 'old': 76.19, 'new': 63.1}
+2026-04-17 21:08:17,090 [trainer.py] => Top1 curve: [79.77, 78.34, 76.49, 75.28]
+2026-04-17 21:08:17,090 [trainer.py] => Average Accuracy (CNN): 77.47
+2026-04-17 21:08:17,093 [sec.py] => Learning on 130-140
+2026-04-17 21:08:17,101 [sec.py] => All params: 89024256
+2026-04-17 21:08:17,101 [sec.py] => Actual trainable params (excluding detached): 107520
+2026-04-17 21:08:17,101 [sec.py] => TSP active prompts: 5 (total: 70)
+2026-04-17 21:08:17,101 [sec.py] => RSP active prompts: 0 (total: 50)
+2026-04-17 21:08:17,101 [sec.py] => Excluded params: head, detached prompts
+2026-04-17 21:08:17,102 [sec.py] => backbone.TSP.e_p_1: 19200
+2026-04-17 21:08:17,102 [sec.py] => backbone.TSP.e_k_1: 3840
+2026-04-17 21:08:17,102 [sec.py] => backbone.TSP.e_a_1: 3840
+2026-04-17 21:08:17,102 [sec.py] => backbone.TSP.e_p_2: 19200
+2026-04-17 21:08:17,102 [sec.py] => backbone.TSP.e_k_2: 3840
+2026-04-17 21:08:17,102 [sec.py] => backbone.TSP.e_a_2: 3840
+2026-04-17 21:08:17,102 [sec.py] => backbone.TSP.e_p_3: 19200
+2026-04-17 21:08:17,102 [sec.py] => backbone.TSP.e_k_3: 3840
+2026-04-17 21:08:17,102 [sec.py] => backbone.TSP.e_a_3: 3840
+2026-04-17 21:08:17,103 [sec.py] => backbone.TSP.e_p_4: 19200
+2026-04-17 21:08:17,103 [sec.py] => backbone.TSP.e_k_4: 3840
+2026-04-17 21:08:17,103 [sec.py] => backbone.TSP.e_a_4: 3840
+2026-04-17 21:08:17,130 [sec.py] => training set size: 50, fc construct set size: 50
+2026-04-17 21:09:13,223 [trainer.py] => Task 4 metrics => trainable 0.12M, inference added 3.33M, train GPU 4627.50MiB, infer GPU 930.20MiB
+2026-04-17 21:09:13,223 [trainer.py] => CNN: {'total': 75.27, '00-99': 78.29, '100-109': 68.31, '110-119': 64.36, '120-129': 63.1, '130-139': 76.51, '140-149': 69.48, '150-159': 62.71, '160-169': 53.91, '170-179': 81.85, '180-189': 52.92, '190-199': 64.21, 'old': 75.18, 'new': 76.51}
+2026-04-17 21:09:13,223 [trainer.py] => Top1 curve: [79.77, 78.34, 76.49, 75.28, 75.27]
+2026-04-17 21:09:13,223 [trainer.py] => Average Accuracy (CNN): 77.03
+2026-04-17 21:09:13,224 [sec.py] => Learning on 140-150
+2026-04-17 21:09:13,230 [sec.py] => All params: 89024256
+2026-04-17 21:09:13,231 [sec.py] => Actual trainable params (excluding detached): 107520
+2026-04-17 21:09:13,231 [sec.py] => TSP active prompts: 5 (total: 75)
+2026-04-17 21:09:13,231 [sec.py] => RSP active prompts: 0 (total: 50)
+2026-04-17 21:09:13,231 [sec.py] => Excluded params: head, detached prompts
+2026-04-17 21:09:13,231 [sec.py] => backbone.TSP.e_p_1: 19200
+2026-04-17 21:09:13,231 [sec.py] => backbone.TSP.e_k_1: 3840
+2026-04-17 21:09:13,231 [sec.py] => backbone.TSP.e_a_1: 3840
+2026-04-17 21:09:13,231 [sec.py] => backbone.TSP.e_p_2: 19200
+2026-04-17 21:09:13,231 [sec.py] => backbone.TSP.e_k_2: 3840
+2026-04-17 21:09:13,231 [sec.py] => backbone.TSP.e_a_2: 3840
+2026-04-17 21:09:13,231 [sec.py] => backbone.TSP.e_p_3: 19200
+2026-04-17 21:09:13,231 [sec.py] => backbone.TSP.e_k_3: 3840
+2026-04-17 21:09:13,231 [sec.py] => backbone.TSP.e_a_3: 3840
+2026-04-17 21:09:13,231 [sec.py] => backbone.TSP.e_p_4: 19200
+2026-04-17 21:09:13,231 [sec.py] => backbone.TSP.e_k_4: 3840
+2026-04-17 21:09:13,231 [sec.py] => backbone.TSP.e_a_4: 3840
+2026-04-17 21:09:13,242 [sec.py] => training set size: 50, fc construct set size: 50
+2026-04-17 21:10:08,675 [trainer.py] => Task 5 metrics => trainable 0.12M, inference added 3.34M, train GPU 4631.93MiB, infer GPU 930.26MiB
+2026-04-17 21:10:08,675 [trainer.py] => CNN: {'total': 74.81, '00-99': 78.16, '100-109': 67.96, '110-119': 63.56, '120-129': 64.21, '130-139': 76.17, '140-149': 71.12, '150-159': 62.98, '160-169': 55.65, '170-179': 82.26, '180-189': 53.25, '190-199': 64.58, 'old': 75.13, 'new': 71.12}
+2026-04-17 21:10:08,675 [trainer.py] => Top1 curve: [79.77, 78.34, 76.49, 75.28, 75.27, 74.81]
+2026-04-17 21:10:08,675 [trainer.py] => Average Accuracy (CNN): 76.66
+2026-04-17 21:10:08,677 [sec.py] => Learning on 150-160
+2026-04-17 21:10:08,684 [sec.py] => All params: 89024256
+2026-04-17 21:10:08,685 [sec.py] => Actual trainable params (excluding detached): 107520
+2026-04-17 21:10:08,685 [sec.py] => TSP active prompts: 5 (total: 80)
+2026-04-17 21:10:08,685 [sec.py] => RSP active prompts: 0 (total: 50)
+2026-04-17 21:10:08,685 [sec.py] => Excluded params: head, detached prompts
+2026-04-17 21:10:08,685 [sec.py] => backbone.TSP.e_p_1: 19200
+2026-04-17 21:10:08,685 [sec.py] => backbone.TSP.e_k_1: 3840
+2026-04-17 21:10:08,685 [sec.py] => backbone.TSP.e_a_1: 3840
+2026-04-17 21:10:08,685 [sec.py] => backbone.TSP.e_p_2: 19200
+2026-04-17 21:10:08,685 [sec.py] => backbone.TSP.e_k_2: 3840
+2026-04-17 21:10:08,685 [sec.py] => backbone.TSP.e_a_2: 3840
+2026-04-17 21:10:08,685 [sec.py] => backbone.TSP.e_p_3: 19200
+2026-04-17 21:10:08,685 [sec.py] => backbone.TSP.e_k_3: 3840
+2026-04-17 21:10:08,685 [sec.py] => backbone.TSP.e_a_3: 3840
+2026-04-17 21:10:08,685 [sec.py] => backbone.TSP.e_p_4: 19200
+2026-04-17 21:10:08,685 [sec.py] => backbone.TSP.e_k_4: 3840
+2026-04-17 21:10:08,685 [sec.py] => backbone.TSP.e_a_4: 3840
+2026-04-17 21:10:08,697 [sec.py] => training set size: 50, fc construct set size: 50
+2026-04-17 21:11:03,946 [trainer.py] => Task 6 metrics => trainable 0.12M, inference added 3.35M, train GPU 4636.72MiB, infer GPU 930.51MiB
+2026-04-17 21:11:03,946 [trainer.py] => CNN: {'total': 73.82, '00-99': 77.86, '100-109': 67.61, '110-119': 63.56, '120-129': 62.36, '130-139': 75.84, '140-149': 71.39, '150-159': 65.47, '160-169': 56.96, '170-179': 81.85, '180-189': 52.92, '190-199': 64.94, 'old': 74.48, 'new': 65.47}
+2026-04-17 21:11:03,946 [trainer.py] => Top1 curve: [79.77, 78.34, 76.49, 75.28, 75.27, 74.81, 73.82]
+2026-04-17 21:11:03,946 [trainer.py] => Average Accuracy (CNN): 76.25
+2026-04-17 21:11:03,948 [sec.py] => Learning on 160-170
+2026-04-17 21:11:03,953 [sec.py] => All params: 89024256
+2026-04-17 21:11:03,953 [sec.py] => Actual trainable params (excluding detached): 107520
+2026-04-17 21:11:03,953 [sec.py] => TSP active prompts: 5 (total: 85)
+2026-04-17 21:11:03,953 [sec.py] => RSP active prompts: 0 (total: 50)
+2026-04-17 21:11:03,953 [sec.py] => Excluded params: head, detached prompts
+2026-04-17 21:11:03,953 [sec.py] => backbone.TSP.e_p_1: 19200
+2026-04-17 21:11:03,953 [sec.py] => backbone.TSP.e_k_1: 3840
+2026-04-17 21:11:03,953 [sec.py] => backbone.TSP.e_a_1: 3840
+2026-04-17 21:11:03,953 [sec.py] => backbone.TSP.e_p_2: 19200
+2026-04-17 21:11:03,953 [sec.py] => backbone.TSP.e_k_2: 3840
+2026-04-17 21:11:03,953 [sec.py] => backbone.TSP.e_a_2: 3840
+2026-04-17 21:11:03,953 [sec.py] => backbone.TSP.e_p_3: 19200
+2026-04-17 21:11:03,953 [sec.py] => backbone.TSP.e_k_3: 3840
+2026-04-17 21:11:03,953 [sec.py] => backbone.TSP.e_a_3: 3840
+2026-04-17 21:11:03,953 [sec.py] => backbone.TSP.e_p_4: 19200
+2026-04-17 21:11:03,953 [sec.py] => backbone.TSP.e_k_4: 3840
+2026-04-17 21:11:03,953 [sec.py] => backbone.TSP.e_a_4: 3840
+2026-04-17 21:11:03,962 [sec.py] => training set size: 50, fc construct set size: 50
+2026-04-17 21:11:58,972 [trainer.py] => Task 7 metrics => trainable 0.12M, inference added 3.36M, train GPU 4643.02MiB, infer GPU 930.56MiB
+2026-04-17 21:11:58,972 [trainer.py] => CNN: {'total': 72.7, '00-99': 77.35, '100-109': 65.85, '110-119': 63.56, '120-129': 63.1, '130-139': 76.17, '140-149': 70.84, '150-159': 65.47, '160-169': 56.96, '170-179': 81.85, '180-189': 53.9, '190-199': 65.31, 'old': 73.44, 'new': 56.96}
+2026-04-17 21:11:58,973 [trainer.py] => Top1 curve: [79.77, 78.34, 76.49, 75.28, 75.27, 74.81, 73.82, 72.7]
+2026-04-17 21:11:58,973 [trainer.py] => Average Accuracy (CNN): 75.81
+2026-04-17 21:11:58,974 [sec.py] => Learning on 170-180
+2026-04-17 21:11:58,978 [sec.py] => All params: 89024256
+2026-04-17 21:11:58,978 [sec.py] => Actual trainable params (excluding detached): 107520
+2026-04-17 21:11:58,978 [sec.py] => TSP active prompts: 5 (total: 90)
+2026-04-17 21:11:58,978 [sec.py] => RSP active prompts: 0 (total: 50)
+2026-04-17 21:11:58,978 [sec.py] => Excluded params: head, detached prompts
+2026-04-17 21:11:58,978 [sec.py] => backbone.TSP.e_p_1: 19200
+2026-04-17 21:11:58,978 [sec.py] => backbone.TSP.e_k_1: 3840
+2026-04-17 21:11:58,978 [sec.py] => backbone.TSP.e_a_1: 3840
+2026-04-17 21:11:58,978 [sec.py] => backbone.TSP.e_p_2: 19200
+2026-04-17 21:11:58,978 [sec.py] => backbone.TSP.e_k_2: 3840
+2026-04-17 21:11:58,978 [sec.py] => backbone.TSP.e_a_2: 3840
+2026-04-17 21:11:58,979 [sec.py] => backbone.TSP.e_p_3: 19200
+2026-04-17 21:11:58,979 [sec.py] => backbone.TSP.e_k_3: 3840
+2026-04-17 21:11:58,979 [sec.py] => backbone.TSP.e_a_3: 3840
+2026-04-17 21:11:58,979 [sec.py] => backbone.TSP.e_p_4: 19200
+2026-04-17 21:11:58,979 [sec.py] => backbone.TSP.e_k_4: 3840
+2026-04-17 21:11:58,979 [sec.py] => backbone.TSP.e_a_4: 3840
+2026-04-17 21:11:58,990 [sec.py] => training set size: 50, fc construct set size: 50
+2026-04-17 21:12:53,545 [trainer.py] => Task 8 metrics => trainable 0.12M, inference added 3.36M, train GPU 4647.87MiB, infer GPU 930.62MiB
+2026-04-17 21:12:53,545 [trainer.py] => CNN: {'total': 72.86, '00-99': 76.98, '100-109': 65.85, '110-119': 63.83, '120-129': 62.36, '130-139': 75.84, '140-149': 71.12, '150-159': 65.47, '160-169': 56.09, '170-179': 81.85, '180-189': 54.55, '190-199': 65.68, 'old': 72.43, 'new': 81.85}
+2026-04-17 21:12:53,545 [trainer.py] => Top1 curve: [79.77, 78.34, 76.49, 75.28, 75.27, 74.81, 73.82, 72.7, 72.86]
+2026-04-17 21:12:53,545 [trainer.py] => Average Accuracy (CNN): 75.48
+2026-04-17 21:12:53,547 [sec.py] => Learning on 180-190
+2026-04-17 21:12:53,554 [sec.py] => All params: 89024256
+2026-04-17 21:12:53,554 [sec.py] => Actual trainable params (excluding detached): 107520
+2026-04-17 21:12:53,554 [sec.py] => TSP active prompts: 5 (total: 95)
+2026-04-17 21:12:53,554 [sec.py] => RSP active prompts: 0 (total: 50)
+2026-04-17 21:12:53,554 [sec.py] => Excluded params: head, detached prompts
+2026-04-17 21:12:53,554 [sec.py] => backbone.TSP.e_p_1: 19200
+2026-04-17 21:12:53,554 [sec.py] => backbone.TSP.e_k_1: 3840
+2026-04-17 21:12:53,554 [sec.py] => backbone.TSP.e_a_1: 3840
+2026-04-17 21:12:53,554 [sec.py] => backbone.TSP.e_p_2: 19200
+2026-04-17 21:12:53,554 [sec.py] => backbone.TSP.e_k_2: 3840
+2026-04-17 21:12:53,554 [sec.py] => backbone.TSP.e_a_2: 3840
+2026-04-17 21:12:53,554 [sec.py] => backbone.TSP.e_p_3: 19200
+2026-04-17 21:12:53,554 [sec.py] => backbone.TSP.e_k_3: 3840
+2026-04-17 21:12:53,554 [sec.py] => backbone.TSP.e_a_3: 3840
+2026-04-17 21:12:53,554 [sec.py] => backbone.TSP.e_p_4: 19200
+2026-04-17 21:12:53,554 [sec.py] => backbone.TSP.e_k_4: 3840
+2026-04-17 21:12:53,554 [sec.py] => backbone.TSP.e_a_4: 3840
+2026-04-17 21:12:53,562 [sec.py] => training set size: 50, fc construct set size: 50
+2026-04-17 21:13:46,255 [trainer.py] => Task 9 metrics => trainable 0.12M, inference added 3.37M, train GPU 4652.02MiB, infer GPU 930.68MiB
+2026-04-17 21:13:46,256 [trainer.py] => CNN: {'total': 71.5, '00-99': 76.45, '100-109': 64.79, '110-119': 64.1, '120-129': 61.25, '130-139': 75.5, '140-149': 70.84, '150-159': 64.92, '160-169': 55.22, '170-179': 81.85, '180-189': 56.17, '190-199': 65.68, 'old': 72.37, 'new': 56.17}
+2026-04-17 21:13:46,256 [trainer.py] => Top1 curve: [79.77, 78.34, 76.49, 75.28, 75.27, 74.81, 73.82, 72.7, 72.86, 71.5]
+2026-04-17 21:13:46,256 [trainer.py] => Average Accuracy (CNN): 75.08
+2026-04-17 21:13:46,257 [sec.py] => Learning on 190-200
+2026-04-17 21:13:46,264 [sec.py] => All params: 89024256
+2026-04-17 21:13:46,264 [sec.py] => Actual trainable params (excluding detached): 107520
+2026-04-17 21:13:46,264 [sec.py] => TSP active prompts: 5 (total: 100)
+2026-04-17 21:13:46,264 [sec.py] => RSP active prompts: 0 (total: 50)
+2026-04-17 21:13:46,264 [sec.py] => Excluded params: head, detached prompts
+2026-04-17 21:13:46,264 [sec.py] => backbone.TSP.e_p_1: 19200
+2026-04-17 21:13:46,265 [sec.py] => backbone.TSP.e_k_1: 3840
+2026-04-17 21:13:46,265 [sec.py] => backbone.TSP.e_a_1: 3840
+2026-04-17 21:13:46,265 [sec.py] => backbone.TSP.e_p_2: 19200
+2026-04-17 21:13:46,265 [sec.py] => backbone.TSP.e_k_2: 3840
+2026-04-17 21:13:46,265 [sec.py] => backbone.TSP.e_a_2: 3840
+2026-04-17 21:13:46,265 [sec.py] => backbone.TSP.e_p_3: 19200
+2026-04-17 21:13:46,265 [sec.py] => backbone.TSP.e_k_3: 3840
+2026-04-17 21:13:46,265 [sec.py] => backbone.TSP.e_a_3: 3840
+2026-04-17 21:13:46,265 [sec.py] => backbone.TSP.e_p_4: 19200
+2026-04-17 21:13:46,265 [sec.py] => backbone.TSP.e_k_4: 3840
+2026-04-17 21:13:46,265 [sec.py] => backbone.TSP.e_a_4: 3840
+2026-04-17 21:13:46,271 [sec.py] => training set size: 50, fc construct set size: 50
+2026-04-17 21:15:59,790 [trainer.py] => Task 10 metrics => trainable 0.12M, inference added 3.38M, train GPU 4657.10MiB, infer GPU 930.31MiB
+2026-04-17 21:15:59,837 [trainer.py] => CNN: {'total': 70.85, '00-99': 75.91, '100-109': 64.44, '110-119': 63.83, '120-129': 61.99, '130-139': 75.5, '140-149': 70.3, '150-159': 64.36, '160-169': 54.78, '170-179': 81.45, '180-189': 55.84, '190-199': 65.68, 'old': 71.09, 'new': 65.68}
+2026-04-17 21:15:59,837 [trainer.py] => Top1 curve: [79.77, 78.34, 76.49, 75.28, 75.27, 74.81, 73.82, 72.7, 72.86, 71.5, 70.85]
+2026-04-17 21:15:59,838 [trainer.py] => Average Accuracy (CNN): 74.70
+
+================================================================================
+Finished imagenetr_init100_inc10: pretrained_vit_b16_224_vpt  
+Base Accuracy: 79.77
+Last Accuracy: 70.85
+Average Accuracy (Top1): 74.7
+PD: 8.92
+Backward Transfer (BWT): -1.79
+Forward Transfer (FWT): 19.28
+Total Train Time: 4215.95 s
+Total Inference Time: 553.4943 s
+Total Prompt Time: 2.613 s
+Accuracy Matrix (CNN):
+[[79.77 66.55 63.56 60.52 73.15 70.03 62.71 55.22 82.26 52.6  65.31]
+ [79.2  69.37 64.1  60.52 73.49 69.75 62.71 55.22 82.26 52.27 64.94]
+ [78.59 68.31 65.96 60.89 73.83 69.48 62.71 54.78 82.66 51.62 64.58]
+ [78.32 67.96 65.43 63.1  74.83 69.48 62.71 55.22 82.26 51.95 63.47]
+ [78.29 68.31 64.36 63.1  76.51 69.48 62.71 53.91 81.85 52.92 64.21]
+ [78.16 67.96 63.56 64.21 76.17 71.12 62.98 55.65 82.26 53.25 64.58]
+ [77.86 67.61 63.56 62.36 75.84 71.39 65.47 56.96 81.85 52.92 64.94]
+ [77.35 65.85 63.56 63.1  76.17 70.84 65.47 56.96 81.85 53.9  65.31]
+ [76.98 65.85 63.83 62.36 75.84 71.12 65.47 56.09 81.85 54.55 65.68]
+ [76.45 64.79 64.1  61.25 75.5  70.84 64.92 55.22 81.85 56.17 65.68]
+ [75.91 64.44 63.83 61.99 75.5  70.3  64.36 54.78 81.45 55.84 65.68]]
+================================================================================
+
+
+==========================================================================================
+Training Task Metrics
+------------------------------------------------------------------------------------
+Task    Trainable(M)    GPU(MiB)    Time/Task(s)   Epochs  Time/Epoch(s)  
+------------------------------------------------------------------------------------
+S0      2.23            6128.57     4026.41        30      134.21         
+S1      0.12            4608.09     18.73          10      1.87           
+S2      0.12            4614.75     18.71          10      1.87           
+S3      0.12            4620.07     19.39          10      1.94           
+S4      0.12            4627.50     19.40          10      1.94           
+S5      0.12            4631.93     18.80          10      1.88           
+S6      0.12            4636.72     19.01          10      1.90           
+S7      0.12            4643.02     19.13          10      1.91           
+S8      0.12            4647.87     19.14          10      1.91           
+S9      0.12            4652.02     15.27          10      1.53           
+S10     0.12            4657.10     21.96          10      2.20           
+------------------------------------------------------------------------------------
+Base S0 2.23            6128.57     4026.41        30      134.21         
+Inc Avg 0.12            4633.91     18.95          10.00   1.90           
+All Avg 0.31            4769.79     383.27         11.82   13.92          
+Max GPU                 6128.57                                           
+Total                                           4215.95        
+Final   3.38                                                              
+------------------------------------------------------------------------------------------
+Inference Task Metrics
+------------------------------------------------------------------------------------------
+Task    Added(M)    GPU(MiB)    Time/Task(s)   Latency(ms/img)   Samples   Prompt(s)   
+------------------------------------------------------------------------------------------
+S0      3.30        934.57      110.1491       18.3582           6000      0.1519      
+S1      3.31        930.22      38.0317        6.3386            6000      0.1460      
+S2      3.32        930.08      37.9959        6.3327            6000      0.1581      
+S3      3.33        930.14      37.4032        6.2339            6000      0.1768      
+S4      3.33        930.20      36.7188        6.1198            6000      0.1897      
+S5      3.34        930.26      36.6416        6.1069            6000      0.2301      
+S6      3.35        930.51      36.2486        6.0414            6000      0.2288      
+S7      3.36        930.56      35.8896        5.9816            6000      0.2300      
+S8      3.36        930.62      35.4278        5.9046            6000      0.2463      
+S9      3.37        930.68      37.4260        6.2377            6000      0.2872      
+S10     3.38        930.31      111.5620       17.7902           6271      0.5681      
+------------------------------------------------------------------------------------------
+Base S0 3.30        934.57      110.1491       18.3582           6000      0.1519      
+Inc Avg 3.34        930.36      44.3345        7.3087            6027.10   0.2461      
+All Avg 3.34        930.74      50.3177        8.3132            6024.64   0.2375      
+Max GPU             934.57                                                             
+Total                           553.4943                                   2.6130      
+==========================================================================================
+
+2026-04-17 21:16:04,845 [trainer.py] => config: ./configs/SEC-Prompt_mini_B60_Inc5.json
+2026-04-17 21:16:04,853 [trainer.py] => lamda: 0.5
+2026-04-17 21:16:04,853 [trainer.py] => aug: 2
+2026-04-17 21:16:04,853 [trainer.py] => prompt_token_num: 6
+2026-04-17 21:16:04,853 [trainer.py] => prompt_pool_num: 0.5
+2026-04-17 21:16:04,853 [trainer.py] => model_name: sec
+2026-04-17 21:16:04,853 [trainer.py] => backbone_type: pretrained_vit_b16_224_vpt
+2026-04-17 21:16:04,853 [trainer.py] => device: [device(type='cuda', index=1)]
+2026-04-17 21:16:04,853 [trainer.py] => seed: 1993
+2026-04-17 21:16:04,854 [trainer.py] => dataset: mini_imagenet
+2026-04-17 21:16:04,854 [trainer.py] => init_cls: 60
+2026-04-17 21:16:04,854 [trainer.py] => increment: 5
+2026-04-17 21:16:04,854 [trainer.py] => kshot: 5
+2026-04-17 21:16:04,854 [trainer.py] => vpt_type: Deep
+2026-04-17 21:16:04,854 [trainer.py] => kl_weight: 0.001
+2026-04-17 21:16:04,854 [trainer.py] => tuned_epoch: 30
+2026-04-17 21:16:04,854 [trainer.py] => fs_epoch: 10
+2026-04-17 21:16:04,854 [trainer.py] => init_lr: 0.01
+2026-04-17 21:16:04,854 [trainer.py] => fs_lr: 0.001
+2026-04-17 21:16:04,854 [trainer.py] => batch_size: 32
+2026-04-17 21:16:04,854 [trainer.py] => fs_batch_size: 16
+2026-04-17 21:16:04,854 [trainer.py] => weight_decay: 0.005
+2026-04-17 21:16:04,854 [trainer.py] => min_lr: 0
+2026-04-17 21:16:04,854 [trainer.py] => optimizer: sgd
+2026-04-17 21:16:04,854 [trainer.py] => shuffle: True
+2026-04-17 21:16:04,854 [trainer.py] => top_k: 5
+2026-04-17 21:16:04,854 [trainer.py] => base_model_path: saved_model/sec_tr/mini_imagenet/30_0.01/6_0.5/sec_30_1993_32.pth
+2026-04-17 21:16:04,854 [trainer.py] => prefix: sec
+2026-04-17 21:16:04,854 [trainer.py] => model_prefix: sec
+2026-04-17 21:16:04,854 [trainer.py] => beta: 0.5
+2026-04-17 21:16:04,854 [trainer.py] => memory_size: 0
+2026-04-17 21:16:04,854 [trainer.py] => memory_per_class: 0
+2026-04-17 21:16:04,854 [trainer.py] => fixed_memory: False
+2026-04-17 21:16:05,118 [data_manager.py] => [68, 56, 78, 8, 23, 84, 90, 65, 74, 76, 40, 89, 3, 92, 55, 9, 26, 80, 43, 38, 58, 70, 77, 1, 85, 19, 17, 50, 28, 53, 13, 81, 45, 82, 6, 59, 83, 16, 15, 44, 91, 41, 72, 60, 79, 52, 20, 10, 31, 54, 37, 95, 14, 71, 96, 98, 97, 2, 64, 66, 42, 22, 35, 86, 24, 34, 87, 21, 99, 0, 88, 27, 18, 94, 11, 12, 47, 25, 30, 46, 62, 69, 36, 61, 7, 63, 75, 5, 32, 4, 51, 48, 73, 93, 39, 67, 29, 49, 57, 33]
+This is for the BaseNet initialization.
+modelname, pretrained_vit_b16_224_vpt basicmodelname vit_base_patch16_224
+Using VPT model
+Using Deep Prompt
+After BaseNet initialization.
+2026-04-17 21:16:15,214 [sec.py] => Learning on 0-60
+2026-04-17 21:16:15,220 [sec.py] => All params: 86966016
+2026-04-17 21:16:15,221 [sec.py] => Actual trainable params (excluding detached): 921600
+2026-04-17 21:16:15,221 [sec.py] => TSP active prompts: 30 (total: 30)
+2026-04-17 21:16:15,221 [sec.py] => RSP active prompts: 30 (total: 30)
+2026-04-17 21:16:15,221 [sec.py] => Excluded params: head, detached prompts
+2026-04-17 21:16:15,221 [sec.py] => backbone.TSP.e_p_1: 69120
+2026-04-17 21:16:15,221 [sec.py] => backbone.TSP.e_k_1: 23040
+2026-04-17 21:16:15,221 [sec.py] => backbone.TSP.e_a_1: 23040
+2026-04-17 21:16:15,221 [sec.py] => backbone.TSP.e_p_2: 69120
+2026-04-17 21:16:15,221 [sec.py] => backbone.TSP.e_k_2: 23040
+2026-04-17 21:16:15,221 [sec.py] => backbone.TSP.e_a_2: 23040
+2026-04-17 21:16:15,221 [sec.py] => backbone.TSP.e_p_3: 69120
+2026-04-17 21:16:15,221 [sec.py] => backbone.TSP.e_k_3: 23040
+2026-04-17 21:16:15,221 [sec.py] => backbone.TSP.e_a_3: 23040
+2026-04-17 21:16:15,221 [sec.py] => backbone.TSP.e_p_4: 69120
+2026-04-17 21:16:15,221 [sec.py] => backbone.TSP.e_k_4: 23040
+2026-04-17 21:16:15,221 [sec.py] => backbone.TSP.e_a_4: 23040
+2026-04-17 21:16:15,221 [sec.py] => backbone.RSP.e_p_1: 69120
+2026-04-17 21:16:15,221 [sec.py] => backbone.RSP.e_k_1: 23040
+2026-04-17 21:16:15,221 [sec.py] => backbone.RSP.e_a_1: 23040
+2026-04-17 21:16:15,221 [sec.py] => backbone.RSP.e_p_2: 69120
+2026-04-17 21:16:15,221 [sec.py] => backbone.RSP.e_k_2: 23040
+2026-04-17 21:16:15,221 [sec.py] => backbone.RSP.e_a_2: 23040
+2026-04-17 21:16:15,221 [sec.py] => backbone.RSP.e_p_3: 69120
+2026-04-17 21:16:15,221 [sec.py] => backbone.RSP.e_k_3: 23040
+2026-04-17 21:16:15,222 [sec.py] => backbone.RSP.e_a_3: 23040
+2026-04-17 21:16:15,222 [sec.py] => backbone.RSP.e_p_4: 69120
+2026-04-17 21:16:15,222 [sec.py] => backbone.RSP.e_k_4: 23040
+2026-04-17 21:16:15,222 [sec.py] => backbone.RSP.e_a_4: 23040
+2026-04-17 21:16:15,256 [sec.py] => training set size: 30000, fc construct set size: 30000
+/public/home/hanlida/Dr.1/Code/Research/Awesome-FSCIL/SEC-Prompt-main/backbone/zoo.py:214: UserWarning: Implicit dimension choice for softmax has been deprecated. Change the call to include dim=X as an argument.
+  aq_k = torch.nn.functional.softmax(aq_k)
+2026-04-18 01:58:14,121 [trainer.py] => Task 0 metrics => trainable 0.97M, inference added 1.21M, train GPU 3180.12MiB, infer GPU 627.87MiB
+2026-04-18 01:58:14,180 [trainer.py] => CNN: {'total': 96.7, '00-59': 96.7, '60-64': 86.8, '65-69': 94.4, '70-74': 86.0, '75-79': 93.6, '80-84': 92.0, '85-89': 97.4, '90-94': 86.2, '95-99': 97.8, 'old': 0, 'new': 96.7}
+2026-04-18 01:58:14,180 [trainer.py] => Top1 curve: [96.7]
+2026-04-18 01:58:14,181 [trainer.py] => Average Accuracy (CNN): 96.70
+2026-04-18 01:58:14,182 [sec.py] => Learning on 60-65
+2026-04-18 01:58:14,192 [sec.py] => All params: 86966016
+2026-04-18 01:58:14,192 [sec.py] => Actual trainable params (excluding detached): 30720
+2026-04-18 01:58:14,193 [sec.py] => TSP active prompts: 2 (total: 32)
+2026-04-18 01:58:14,193 [sec.py] => RSP active prompts: 0 (total: 30)
+2026-04-18 01:58:14,193 [sec.py] => Excluded params: head, detached prompts
+2026-04-18 01:58:14,193 [sec.py] => backbone.TSP.e_p_1: 4608
+2026-04-18 01:58:14,193 [sec.py] => backbone.TSP.e_k_1: 1536
+2026-04-18 01:58:14,193 [sec.py] => backbone.TSP.e_a_1: 1536
+2026-04-18 01:58:14,193 [sec.py] => backbone.TSP.e_p_2: 4608
+2026-04-18 01:58:14,193 [sec.py] => backbone.TSP.e_k_2: 1536
+2026-04-18 01:58:14,193 [sec.py] => backbone.TSP.e_a_2: 1536
+2026-04-18 01:58:14,193 [sec.py] => backbone.TSP.e_p_3: 4608
+2026-04-18 01:58:14,193 [sec.py] => backbone.TSP.e_k_3: 1536
+2026-04-18 01:58:14,193 [sec.py] => backbone.TSP.e_a_3: 1536
+2026-04-18 01:58:14,193 [sec.py] => backbone.TSP.e_p_4: 4608
+2026-04-18 01:58:14,193 [sec.py] => backbone.TSP.e_k_4: 1536
+2026-04-18 01:58:14,193 [sec.py] => backbone.TSP.e_a_4: 1536
+2026-04-18 01:58:14,214 [sec.py] => training set size: 25, fc construct set size: 25
+2026-04-18 01:59:44,018 [trainer.py] => Task 1 metrics => trainable 0.03M, inference added 1.22M, train GPU 4522.25MiB, infer GPU 626.14MiB
+2026-04-18 01:59:44,018 [trainer.py] => CNN: {'total': 96.2, '00-59': 96.6, '60-64': 91.4, '65-69': 94.4, '70-74': 86.0, '75-79': 93.6, '80-84': 92.0, '85-89': 97.4, '90-94': 86.2, '95-99': 97.6, 'old': 96.6, 'new': 91.4}
+2026-04-18 01:59:44,018 [trainer.py] => Top1 curve: [96.7, 96.2]
+2026-04-18 01:59:44,018 [trainer.py] => Average Accuracy (CNN): 96.45
+2026-04-18 01:59:44,019 [sec.py] => Learning on 65-70
+2026-04-18 01:59:44,029 [sec.py] => All params: 86966016
+2026-04-18 01:59:44,029 [sec.py] => Actual trainable params (excluding detached): 30720
+2026-04-18 01:59:44,029 [sec.py] => TSP active prompts: 2 (total: 34)
+2026-04-18 01:59:44,029 [sec.py] => RSP active prompts: 0 (total: 30)
+2026-04-18 01:59:44,029 [sec.py] => Excluded params: head, detached prompts
+2026-04-18 01:59:44,029 [sec.py] => backbone.TSP.e_p_1: 4608
+2026-04-18 01:59:44,029 [sec.py] => backbone.TSP.e_k_1: 1536
+2026-04-18 01:59:44,029 [sec.py] => backbone.TSP.e_a_1: 1536
+2026-04-18 01:59:44,029 [sec.py] => backbone.TSP.e_p_2: 4608
+2026-04-18 01:59:44,029 [sec.py] => backbone.TSP.e_k_2: 1536
+2026-04-18 01:59:44,029 [sec.py] => backbone.TSP.e_a_2: 1536
+2026-04-18 01:59:44,029 [sec.py] => backbone.TSP.e_p_3: 4608
+2026-04-18 01:59:44,030 [sec.py] => backbone.TSP.e_k_3: 1536
+2026-04-18 01:59:44,030 [sec.py] => backbone.TSP.e_a_3: 1536
+2026-04-18 01:59:44,030 [sec.py] => backbone.TSP.e_p_4: 4608
+2026-04-18 01:59:44,030 [sec.py] => backbone.TSP.e_k_4: 1536
+2026-04-18 01:59:44,030 [sec.py] => backbone.TSP.e_a_4: 1536
+2026-04-18 01:59:44,047 [sec.py] => training set size: 25, fc construct set size: 25
+2026-04-18 02:03:09,784 [trainer.py] => Task 2 metrics => trainable 0.03M, inference added 1.22M, train GPU 4523.56MiB, infer GPU 626.17MiB
+2026-04-18 02:03:09,808 [trainer.py] => CNN: {'total': 96.07, '00-59': 96.52, '60-64': 91.6, '65-69': 95.2, '70-74': 86.0, '75-79': 93.6, '80-84': 92.0, '85-89': 97.4, '90-94': 86.2, '95-99': 97.6, 'old': 96.14, 'new': 95.2}
+2026-04-18 02:03:09,808 [trainer.py] => Top1 curve: [96.7, 96.2, 96.07]
+2026-04-18 02:03:09,808 [trainer.py] => Average Accuracy (CNN): 96.32
+2026-04-18 02:03:09,810 [sec.py] => Learning on 70-75
+2026-04-18 02:03:09,822 [sec.py] => All params: 86966016
+2026-04-18 02:03:09,822 [sec.py] => Actual trainable params (excluding detached): 30720
+2026-04-18 02:03:09,822 [sec.py] => TSP active prompts: 2 (total: 36)
+2026-04-18 02:03:09,822 [sec.py] => RSP active prompts: 0 (total: 30)
+2026-04-18 02:03:09,822 [sec.py] => Excluded params: head, detached prompts
+2026-04-18 02:03:09,822 [sec.py] => backbone.TSP.e_p_1: 4608
+2026-04-18 02:03:09,822 [sec.py] => backbone.TSP.e_k_1: 1536
+2026-04-18 02:03:09,822 [sec.py] => backbone.TSP.e_a_1: 1536
+2026-04-18 02:03:09,822 [sec.py] => backbone.TSP.e_p_2: 4608
+2026-04-18 02:03:09,822 [sec.py] => backbone.TSP.e_k_2: 1536
+2026-04-18 02:03:09,822 [sec.py] => backbone.TSP.e_a_2: 1536
+2026-04-18 02:03:09,822 [sec.py] => backbone.TSP.e_p_3: 4608
+2026-04-18 02:03:09,822 [sec.py] => backbone.TSP.e_k_3: 1536
+2026-04-18 02:03:09,822 [sec.py] => backbone.TSP.e_a_3: 1536
+2026-04-18 02:03:09,822 [sec.py] => backbone.TSP.e_p_4: 4608
+2026-04-18 02:03:09,822 [sec.py] => backbone.TSP.e_k_4: 1536
+2026-04-18 02:03:09,822 [sec.py] => backbone.TSP.e_a_4: 1536
+2026-04-18 02:03:09,838 [sec.py] => training set size: 25, fc construct set size: 25
+2026-04-18 02:06:32,472 [trainer.py] => Task 3 metrics => trainable 0.03M, inference added 1.22M, train GPU 4524.87MiB, infer GPU 626.20MiB
+2026-04-18 02:06:32,505 [trainer.py] => CNN: {'total': 95.03, '00-59': 96.27, '60-64': 89.2, '65-69': 95.0, '70-74': 86.0, '75-79': 93.4, '80-84': 92.0, '85-89': 97.4, '90-94': 86.2, '95-99': 97.6, 'old': 95.67, 'new': 86.0}
+2026-04-18 02:06:32,505 [trainer.py] => Top1 curve: [96.7, 96.2, 96.07, 95.03]
+2026-04-18 02:06:32,505 [trainer.py] => Average Accuracy (CNN): 96.00
+2026-04-18 02:06:32,515 [sec.py] => Learning on 75-80
+2026-04-18 02:06:32,524 [sec.py] => All params: 86966016
+2026-04-18 02:06:32,524 [sec.py] => Actual trainable params (excluding detached): 30720
+2026-04-18 02:06:32,524 [sec.py] => TSP active prompts: 2 (total: 38)
+2026-04-18 02:06:32,524 [sec.py] => RSP active prompts: 0 (total: 30)
+2026-04-18 02:06:32,524 [sec.py] => Excluded params: head, detached prompts
+2026-04-18 02:06:32,524 [sec.py] => backbone.TSP.e_p_1: 4608
+2026-04-18 02:06:32,524 [sec.py] => backbone.TSP.e_k_1: 1536
+2026-04-18 02:06:32,524 [sec.py] => backbone.TSP.e_a_1: 1536
+2026-04-18 02:06:32,525 [sec.py] => backbone.TSP.e_p_2: 4608
+2026-04-18 02:06:32,525 [sec.py] => backbone.TSP.e_k_2: 1536
+2026-04-18 02:06:32,525 [sec.py] => backbone.TSP.e_a_2: 1536
+2026-04-18 02:06:32,525 [sec.py] => backbone.TSP.e_p_3: 4608
+2026-04-18 02:06:32,525 [sec.py] => backbone.TSP.e_k_3: 1536
+2026-04-18 02:06:32,525 [sec.py] => backbone.TSP.e_a_3: 1536
+2026-04-18 02:06:32,525 [sec.py] => backbone.TSP.e_p_4: 4608
+2026-04-18 02:06:32,525 [sec.py] => backbone.TSP.e_k_4: 1536
+2026-04-18 02:06:32,525 [sec.py] => backbone.TSP.e_a_4: 1536
+2026-04-18 02:06:32,549 [sec.py] => training set size: 25, fc construct set size: 25
+2026-04-18 02:09:48,641 [trainer.py] => Task 4 metrics => trainable 0.03M, inference added 1.23M, train GPU 4526.80MiB, infer GPU 626.23MiB
+2026-04-18 02:09:48,664 [trainer.py] => CNN: {'total': 94.81, '00-59': 96.12, '60-64': 89.0, '65-69': 94.6, '70-74': 86.0, '75-79': 94.0, '80-84': 92.0, '85-89': 97.4, '90-94': 86.2, '95-99': 97.6, 'old': 94.87, 'new': 94.0}
+2026-04-18 02:09:48,664 [trainer.py] => Top1 curve: [96.7, 96.2, 96.07, 95.03, 94.81]
+2026-04-18 02:09:48,664 [trainer.py] => Average Accuracy (CNN): 95.76
+2026-04-18 02:09:48,665 [sec.py] => Learning on 80-85
+2026-04-18 02:09:48,676 [sec.py] => All params: 86966016
+2026-04-18 02:09:48,677 [sec.py] => Actual trainable params (excluding detached): 30720
+2026-04-18 02:09:48,677 [sec.py] => TSP active prompts: 2 (total: 40)
+2026-04-18 02:09:48,677 [sec.py] => RSP active prompts: 0 (total: 30)
+2026-04-18 02:09:48,677 [sec.py] => Excluded params: head, detached prompts
+2026-04-18 02:09:48,677 [sec.py] => backbone.TSP.e_p_1: 4608
+2026-04-18 02:09:48,677 [sec.py] => backbone.TSP.e_k_1: 1536
+2026-04-18 02:09:48,677 [sec.py] => backbone.TSP.e_a_1: 1536
+2026-04-18 02:09:48,677 [sec.py] => backbone.TSP.e_p_2: 4608
+2026-04-18 02:09:48,677 [sec.py] => backbone.TSP.e_k_2: 1536
+2026-04-18 02:09:48,677 [sec.py] => backbone.TSP.e_a_2: 1536
+2026-04-18 02:09:48,677 [sec.py] => backbone.TSP.e_p_3: 4608
+2026-04-18 02:09:48,677 [sec.py] => backbone.TSP.e_k_3: 1536
+2026-04-18 02:09:48,677 [sec.py] => backbone.TSP.e_a_3: 1536
+2026-04-18 02:09:48,677 [sec.py] => backbone.TSP.e_p_4: 4608
+2026-04-18 02:09:48,677 [sec.py] => backbone.TSP.e_k_4: 1536
+2026-04-18 02:09:48,677 [sec.py] => backbone.TSP.e_a_4: 1536
+2026-04-18 02:09:48,691 [sec.py] => training set size: 25, fc construct set size: 25
+2026-04-18 02:13:12,650 [trainer.py] => Task 5 metrics => trainable 0.03M, inference added 1.23M, train GPU 4528.29MiB, infer GPU 626.26MiB
+2026-04-18 02:13:12,678 [trainer.py] => CNN: {'total': 94.59, '00-59': 95.97, '60-64': 89.4, '65-69': 94.6, '70-74': 85.6, '75-79': 93.6, '80-84': 93.2, '85-89': 97.6, '90-94': 86.2, '95-99': 98.0, 'old': 94.68, 'new': 93.2}
+2026-04-18 02:13:12,678 [trainer.py] => Top1 curve: [96.7, 96.2, 96.07, 95.03, 94.81, 94.59]
+2026-04-18 02:13:12,678 [trainer.py] => Average Accuracy (CNN): 95.57
+2026-04-18 02:13:12,679 [sec.py] => Learning on 85-90
+2026-04-18 02:13:12,691 [sec.py] => All params: 86966016
+2026-04-18 02:13:12,691 [sec.py] => Actual trainable params (excluding detached): 30720
+2026-04-18 02:13:12,691 [sec.py] => TSP active prompts: 2 (total: 42)
+2026-04-18 02:13:12,691 [sec.py] => RSP active prompts: 0 (total: 30)
+2026-04-18 02:13:12,691 [sec.py] => Excluded params: head, detached prompts
+2026-04-18 02:13:12,691 [sec.py] => backbone.TSP.e_p_1: 4608
+2026-04-18 02:13:12,691 [sec.py] => backbone.TSP.e_k_1: 1536
+2026-04-18 02:13:12,691 [sec.py] => backbone.TSP.e_a_1: 1536
+2026-04-18 02:13:12,691 [sec.py] => backbone.TSP.e_p_2: 4608
+2026-04-18 02:13:12,691 [sec.py] => backbone.TSP.e_k_2: 1536
+2026-04-18 02:13:12,691 [sec.py] => backbone.TSP.e_a_2: 1536
+2026-04-18 02:13:12,691 [sec.py] => backbone.TSP.e_p_3: 4608
+2026-04-18 02:13:12,691 [sec.py] => backbone.TSP.e_k_3: 1536
+2026-04-18 02:13:12,691 [sec.py] => backbone.TSP.e_a_3: 1536
+2026-04-18 02:13:12,691 [sec.py] => backbone.TSP.e_p_4: 4608
+2026-04-18 02:13:12,691 [sec.py] => backbone.TSP.e_k_4: 1536
+2026-04-18 02:13:12,692 [sec.py] => backbone.TSP.e_a_4: 1536
+2026-04-18 02:13:12,702 [sec.py] => training set size: 25, fc construct set size: 25
+2026-04-18 02:14:29,645 [trainer.py] => Task 6 metrics => trainable 0.03M, inference added 1.24M, train GPU 4529.78MiB, infer GPU 626.29MiB
+2026-04-18 02:14:29,646 [trainer.py] => CNN: {'total': 94.7, '00-59': 95.88, '60-64': 89.6, '65-69': 94.6, '70-74': 85.6, '75-79': 93.8, '80-84': 92.8, '85-89': 97.6, '90-94': 86.2, '95-99': 98.0, 'old': 94.53, 'new': 97.6}
+2026-04-18 02:14:29,646 [trainer.py] => Top1 curve: [96.7, 96.2, 96.07, 95.03, 94.81, 94.59, 94.7]
+2026-04-18 02:14:29,646 [trainer.py] => Average Accuracy (CNN): 95.44
+2026-04-18 02:14:29,647 [sec.py] => Learning on 90-95
+2026-04-18 02:14:29,654 [sec.py] => All params: 86966016
+2026-04-18 02:14:29,654 [sec.py] => Actual trainable params (excluding detached): 30720
+2026-04-18 02:14:29,654 [sec.py] => TSP active prompts: 2 (total: 44)
+2026-04-18 02:14:29,654 [sec.py] => RSP active prompts: 0 (total: 30)
+2026-04-18 02:14:29,654 [sec.py] => Excluded params: head, detached prompts
+2026-04-18 02:14:29,654 [sec.py] => backbone.TSP.e_p_1: 4608
+2026-04-18 02:14:29,654 [sec.py] => backbone.TSP.e_k_1: 1536
+2026-04-18 02:14:29,654 [sec.py] => backbone.TSP.e_a_1: 1536
+2026-04-18 02:14:29,654 [sec.py] => backbone.TSP.e_p_2: 4608
+2026-04-18 02:14:29,654 [sec.py] => backbone.TSP.e_k_2: 1536
+2026-04-18 02:14:29,654 [sec.py] => backbone.TSP.e_a_2: 1536
+2026-04-18 02:14:29,654 [sec.py] => backbone.TSP.e_p_3: 4608
+2026-04-18 02:14:29,654 [sec.py] => backbone.TSP.e_k_3: 1536
+2026-04-18 02:14:29,654 [sec.py] => backbone.TSP.e_a_3: 1536
+2026-04-18 02:14:29,655 [sec.py] => backbone.TSP.e_p_4: 4608
+2026-04-18 02:14:29,655 [sec.py] => backbone.TSP.e_k_4: 1536
+2026-04-18 02:14:29,655 [sec.py] => backbone.TSP.e_a_4: 1536
+2026-04-18 02:14:29,666 [sec.py] => training set size: 25, fc construct set size: 25
+2026-04-18 02:15:56,865 [trainer.py] => Task 7 metrics => trainable 0.03M, inference added 1.24M, train GPU 4532.75MiB, infer GPU 626.32MiB
+2026-04-18 02:15:56,865 [trainer.py] => CNN: {'total': 94.08, '00-59': 95.82, '60-64': 87.4, '65-69': 94.6, '70-74': 85.6, '75-79': 94.0, '80-84': 92.2, '85-89': 97.6, '90-94': 86.4, '95-99': 98.0, 'old': 94.51, 'new': 86.4}
+2026-04-18 02:15:56,865 [trainer.py] => Top1 curve: [96.7, 96.2, 96.07, 95.03, 94.81, 94.59, 94.7, 94.08]
+2026-04-18 02:15:56,865 [trainer.py] => Average Accuracy (CNN): 95.27
+2026-04-18 02:15:56,866 [sec.py] => Learning on 95-100
+2026-04-18 02:15:56,874 [sec.py] => All params: 86966016
+2026-04-18 02:15:56,874 [sec.py] => Actual trainable params (excluding detached): 30720
+2026-04-18 02:15:56,874 [sec.py] => TSP active prompts: 2 (total: 46)
+2026-04-18 02:15:56,874 [sec.py] => RSP active prompts: 0 (total: 30)
+2026-04-18 02:15:56,875 [sec.py] => Excluded params: head, detached prompts
+2026-04-18 02:15:56,875 [sec.py] => backbone.TSP.e_p_1: 4608
+2026-04-18 02:15:56,875 [sec.py] => backbone.TSP.e_k_1: 1536
+2026-04-18 02:15:56,875 [sec.py] => backbone.TSP.e_a_1: 1536
+2026-04-18 02:15:56,875 [sec.py] => backbone.TSP.e_p_2: 4608
+2026-04-18 02:15:56,875 [sec.py] => backbone.TSP.e_k_2: 1536
+2026-04-18 02:15:56,875 [sec.py] => backbone.TSP.e_a_2: 1536
+2026-04-18 02:15:56,875 [sec.py] => backbone.TSP.e_p_3: 4608
+2026-04-18 02:15:56,875 [sec.py] => backbone.TSP.e_k_3: 1536
+2026-04-18 02:15:56,875 [sec.py] => backbone.TSP.e_a_3: 1536
+2026-04-18 02:15:56,875 [sec.py] => backbone.TSP.e_p_4: 4608
+2026-04-18 02:15:56,875 [sec.py] => backbone.TSP.e_k_4: 1536
+2026-04-18 02:15:56,875 [sec.py] => backbone.TSP.e_a_4: 1536
+2026-04-18 02:15:56,884 [sec.py] => training set size: 25, fc construct set size: 25
+2026-04-18 02:17:31,205 [trainer.py] => Task 8 metrics => trainable 0.03M, inference added 1.24M, train GPU 4535.58MiB, infer GPU 626.35MiB
+2026-04-18 02:17:31,205 [trainer.py] => CNN: {'total': 94.22, '00-59': 95.78, '60-64': 87.4, '65-69': 94.6, '70-74': 85.6, '75-79': 93.6, '80-84': 92.0, '85-89': 97.6, '90-94': 86.2, '95-99': 98.0, 'old': 94.02, 'new': 98.0}
+2026-04-18 02:17:31,205 [trainer.py] => Top1 curve: [96.7, 96.2, 96.07, 95.03, 94.81, 94.59, 94.7, 94.08, 94.22]
+2026-04-18 02:17:31,205 [trainer.py] => Average Accuracy (CNN): 95.16
+
+================================================================================
+Finished mini_imagenet_init60_inc5: pretrained_vit_b16_224_vpt  
+Base Accuracy: 96.7
+Last Accuracy: 94.22
+Average Accuracy (Top1): 95.16
+PD: 2.48
+Backward Transfer (BWT): -0.97
+Forward Transfer (FWT): 10.82
+Total Train Time: 16797.22 s
+Total Inference Time: 1278.4021 s
+Total Prompt Time: 8.005 s
+Accuracy Matrix (CNN):
+[[96.7  86.8  94.4  86.   93.6  92.   97.4  86.2  97.8 ]
+ [96.6  91.4  94.4  86.   93.6  92.   97.4  86.2  97.6 ]
+ [96.52 91.6  95.2  86.   93.6  92.   97.4  86.2  97.6 ]
+ [96.27 89.2  95.   86.   93.4  92.   97.4  86.2  97.6 ]
+ [96.12 89.   94.6  86.   94.   92.   97.4  86.2  97.6 ]
+ [95.97 89.4  94.6  85.6  93.6  93.2  97.6  86.2  98.  ]
+ [95.88 89.6  94.6  85.6  93.8  92.8  97.6  86.2  98.  ]
+ [95.82 87.4  94.6  85.6  94.   92.2  97.6  86.4  98.  ]
+ [95.78 87.4  94.6  85.6  93.6  92.   97.6  86.2  98.  ]]
+================================================================================
+
+
+==========================================================================================
+Training Task Metrics
+------------------------------------------------------------------------------------
+Task    Trainable(M)    GPU(MiB)    Time/Task(s)   Epochs  Time/Epoch(s)  
+------------------------------------------------------------------------------------
+S0      0.97            3180.12     16700.30       30      556.68         
+S1      0.03            4522.25     12.30          10      1.23           
+S2      0.03            4523.56     12.22          10      1.22           
+S3      0.03            4524.87     13.11          10      1.31           
+S4      0.03            4526.80     13.14          10      1.31           
+S5      0.03            4528.29     13.18          10      1.32           
+S6      0.03            4529.78     11.89          10      1.19           
+S7      0.03            4532.75     8.86           10      0.89           
+S8      0.03            4535.58     12.23          10      1.22           
+------------------------------------------------------------------------------------
+Base S0 0.97            3180.12     16700.30       30      556.68         
+Inc Avg 0.03            4527.98     12.11          10.00   1.21           
+All Avg 0.14            4378.22     1866.36        12.22   62.93          
+Max GPU                 4535.58                                           
+Total                                           16797.22       
+Final   1.24                                                              
+------------------------------------------------------------------------------------------
+Inference Task Metrics
+------------------------------------------------------------------------------------------
+Task    Added(M)    GPU(MiB)    Time/Task(s)   Latency(ms/img)   Samples   Prompt(s)   
+------------------------------------------------------------------------------------------
+S0      1.21        627.87      218.5749       21.8575           10000     0.7741      
+S1      1.22        626.14      77.5276        7.7528            10000     0.5731      
+S2      1.22        626.17      193.5050       19.3505           10000     0.8776      
+S3      1.22        626.20      189.5400       18.9540           10000     0.9222      
+S4      1.23        626.23      182.9697       18.2970           10000     0.9879      
+S5      1.23        626.26      190.7752       19.0775           10000     1.1046      
+S6      1.24        626.29      65.0705        6.5070            10000     0.8562      
+S7      1.24        626.32      78.3371        7.8337            10000     0.9498      
+S8      1.24        626.35      82.1020        7.8192            10500     0.9594      
+------------------------------------------------------------------------------------------
+Base S0 1.21        627.87      218.5749       21.8575           10000     0.7741      
+Inc Avg 1.23        626.24      132.4784       13.1990           10062.50  0.9039      
+All Avg 1.23        626.42      142.0447       14.1610           10055.56  0.8894      
+Max GPU             627.87                                                             
+Total                           1278.4021                                  8.0050      
+==========================================================================================
+

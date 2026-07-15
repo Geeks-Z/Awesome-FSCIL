@@ -1,0 +1,660 @@
+nohup: 忽略输入
+2025-12-13 18:03:55,038 [trainer.py] => config: ./exps/SEC-Prompt_cub_B100_Inc5.json
+2025-12-13 18:03:55,075 [trainer.py] => lamda: 0.5
+2025-12-13 18:03:55,075 [trainer.py] => aug: 2
+2025-12-13 18:03:55,075 [trainer.py] => prompt_token_num: 6
+2025-12-13 18:03:55,075 [trainer.py] => prompt_pool_num: 0.5
+2025-12-13 18:03:55,075 [trainer.py] => model_name: sec
+2025-12-13 18:03:55,075 [trainer.py] => backbone_type: pretrained_vit_b16_224_vpt
+2025-12-13 18:03:55,075 [trainer.py] => device: [device(type='cuda', index=7)]
+2025-12-13 18:03:55,075 [trainer.py] => seed: 1993
+2025-12-13 18:03:55,075 [trainer.py] => dataset: cub
+2025-12-13 18:03:55,075 [trainer.py] => init_cls: 100
+2025-12-13 18:03:55,075 [trainer.py] => increment: 5
+2025-12-13 18:03:55,075 [trainer.py] => kshot: 5
+2025-12-13 18:03:55,075 [trainer.py] => vpt_type: Deep
+2025-12-13 18:03:55,075 [trainer.py] => kl_weight: 0.001
+2025-12-13 18:03:55,075 [trainer.py] => tuned_epoch: 30
+2025-12-13 18:03:55,075 [trainer.py] => fs_epoch: 10
+2025-12-13 18:03:55,075 [trainer.py] => init_lr: 0.01
+2025-12-13 18:03:55,075 [trainer.py] => fs_lr: 0.001
+2025-12-13 18:03:55,075 [trainer.py] => batch_size: 32
+2025-12-13 18:03:55,075 [trainer.py] => fs_batch_size: 16
+2025-12-13 18:03:55,075 [trainer.py] => weight_decay: 0.005
+2025-12-13 18:03:55,076 [trainer.py] => min_lr: 0
+2025-12-13 18:03:55,076 [trainer.py] => optimizer: sgd
+2025-12-13 18:03:55,076 [trainer.py] => shuffle: False
+2025-12-13 18:03:55,076 [trainer.py] => top_k: 5
+2025-12-13 18:03:55,076 [trainer.py] => base_model_path: saved_model/sec_tr/cub/30_0.01/6_0.5/sec_30_1993_32.pth
+2025-12-13 18:03:55,076 [trainer.py] => prefix: sec
+2025-12-13 18:03:55,076 [trainer.py] => model_prefix: sec
+2025-12-13 18:03:55,076 [trainer.py] => beta: 0.5
+2025-12-13 18:03:55,076 [trainer.py] => memory_size: 0
+2025-12-13 18:03:55,076 [trainer.py] => memory_per_class: 0
+2025-12-13 18:03:55,076 [trainer.py] => fixed_memory: False
+Traceback (most recent call last):
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/main.py", line 29, in <module>
+    main()
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/main.py", line 11, in main
+    train(args)
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/trainer.py", line 21, in train
+    _train(args)
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/trainer.py", line 84, in _train
+    data_manager = DataManager(
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/utils/data_manager.py", line 14, in __init__
+    self._setup_data(dataset_name, shuffle, seed)
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/utils/data_manager.py", line 183, in _setup_data
+    idata.download_data()
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/utils/data.py", line 283, in download_data
+    train_dset = datasets.ImageFolder(train_dir)
+  File "/home/team/zhaohongwei/anaconda3/envs/peft/lib/python3.10/site-packages/torchvision/datasets/folder.py", line 309, in __init__
+    super().__init__(
+  File "/home/team/zhaohongwei/anaconda3/envs/peft/lib/python3.10/site-packages/torchvision/datasets/folder.py", line 144, in __init__
+    classes, class_to_idx = self.find_classes(self.root)
+  File "/home/team/zhaohongwei/anaconda3/envs/peft/lib/python3.10/site-packages/torchvision/datasets/folder.py", line 218, in find_classes
+    return find_classes(directory)
+  File "/home/team/zhaohongwei/anaconda3/envs/peft/lib/python3.10/site-packages/torchvision/datasets/folder.py", line 40, in find_classes
+    classes = sorted(entry.name for entry in os.scandir(directory) if entry.is_dir())
+FileNotFoundError: [Errno 2] No such file or directory: './data/cub/train'
+2025-12-13 18:03:57,920 [trainer.py] => config: ./exps/SEC-Prompt_cub_B100_Inc10.json
+2025-12-13 18:03:57,920 [trainer.py] => lamda: 0.5
+2025-12-13 18:03:57,920 [trainer.py] => aug: 2
+2025-12-13 18:03:57,920 [trainer.py] => prompt_token_num: 6
+2025-12-13 18:03:57,920 [trainer.py] => prompt_pool_num: 0.5
+2025-12-13 18:03:57,920 [trainer.py] => model_name: sec
+2025-12-13 18:03:57,920 [trainer.py] => backbone_type: pretrained_vit_b16_224_vpt
+2025-12-13 18:03:57,921 [trainer.py] => device: [device(type='cuda', index=7)]
+2025-12-13 18:03:57,921 [trainer.py] => seed: 1993
+2025-12-13 18:03:57,921 [trainer.py] => dataset: cub
+2025-12-13 18:03:57,921 [trainer.py] => init_cls: 100
+2025-12-13 18:03:57,921 [trainer.py] => increment: 10
+2025-12-13 18:03:57,921 [trainer.py] => kshot: 5
+2025-12-13 18:03:57,921 [trainer.py] => vpt_type: Deep
+2025-12-13 18:03:57,921 [trainer.py] => kl_weight: 0.001
+2025-12-13 18:03:57,921 [trainer.py] => tuned_epoch: 30
+2025-12-13 18:03:57,921 [trainer.py] => fs_epoch: 10
+2025-12-13 18:03:57,921 [trainer.py] => init_lr: 0.01
+2025-12-13 18:03:57,921 [trainer.py] => fs_lr: 0.001
+2025-12-13 18:03:57,921 [trainer.py] => batch_size: 32
+2025-12-13 18:03:57,921 [trainer.py] => fs_batch_size: 16
+2025-12-13 18:03:57,921 [trainer.py] => weight_decay: 0.005
+2025-12-13 18:03:57,921 [trainer.py] => min_lr: 0
+2025-12-13 18:03:57,921 [trainer.py] => optimizer: sgd
+2025-12-13 18:03:57,921 [trainer.py] => shuffle: False
+2025-12-13 18:03:57,921 [trainer.py] => top_k: 5
+2025-12-13 18:03:57,921 [trainer.py] => base_model_path: saved_model/sec_tr/cub/30_0.01/6_0.5/sec_30_1993_32.pth
+2025-12-13 18:03:57,921 [trainer.py] => prefix: sec
+2025-12-13 18:03:57,921 [trainer.py] => model_prefix: sec
+2025-12-13 18:03:57,921 [trainer.py] => beta: 0.5
+2025-12-13 18:03:57,921 [trainer.py] => memory_size: 0
+2025-12-13 18:03:57,921 [trainer.py] => memory_per_class: 0
+2025-12-13 18:03:57,921 [trainer.py] => fixed_memory: False
+Traceback (most recent call last):
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/main.py", line 29, in <module>
+    main()
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/main.py", line 11, in main
+    train(args)
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/trainer.py", line 21, in train
+    _train(args)
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/trainer.py", line 84, in _train
+    data_manager = DataManager(
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/utils/data_manager.py", line 14, in __init__
+    self._setup_data(dataset_name, shuffle, seed)
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/utils/data_manager.py", line 183, in _setup_data
+    idata.download_data()
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/utils/data.py", line 283, in download_data
+    train_dset = datasets.ImageFolder(train_dir)
+  File "/home/team/zhaohongwei/anaconda3/envs/peft/lib/python3.10/site-packages/torchvision/datasets/folder.py", line 309, in __init__
+    super().__init__(
+  File "/home/team/zhaohongwei/anaconda3/envs/peft/lib/python3.10/site-packages/torchvision/datasets/folder.py", line 144, in __init__
+    classes, class_to_idx = self.find_classes(self.root)
+  File "/home/team/zhaohongwei/anaconda3/envs/peft/lib/python3.10/site-packages/torchvision/datasets/folder.py", line 218, in find_classes
+    return find_classes(directory)
+  File "/home/team/zhaohongwei/anaconda3/envs/peft/lib/python3.10/site-packages/torchvision/datasets/folder.py", line 40, in find_classes
+    classes = sorted(entry.name for entry in os.scandir(directory) if entry.is_dir())
+FileNotFoundError: [Errno 2] No such file or directory: './data/cub/train'
+2025-12-13 18:04:00,559 [trainer.py] => config: ./exps/SEC-Prompt_cifar_B60_Inc2.json
+2025-12-13 18:04:00,587 [trainer.py] => lamda: 0.5
+2025-12-13 18:04:00,588 [trainer.py] => aug: 2
+2025-12-13 18:04:00,588 [trainer.py] => prompt_token_num: 6
+2025-12-13 18:04:00,588 [trainer.py] => prompt_pool_num: 0.5
+2025-12-13 18:04:00,588 [trainer.py] => model_name: sec
+2025-12-13 18:04:00,588 [trainer.py] => backbone_type: pretrained_vit_b16_224_vpt
+2025-12-13 18:04:00,588 [trainer.py] => device: [device(type='cuda', index=7)]
+2025-12-13 18:04:00,588 [trainer.py] => seed: 1993
+2025-12-13 18:04:00,588 [trainer.py] => dataset: cifar224
+2025-12-13 18:04:00,588 [trainer.py] => init_cls: 60
+2025-12-13 18:04:00,588 [trainer.py] => increment: 2
+2025-12-13 18:04:00,589 [trainer.py] => kshot: 5
+2025-12-13 18:04:00,589 [trainer.py] => vpt_type: Deep
+2025-12-13 18:04:00,589 [trainer.py] => kl_weight: 0.001
+2025-12-13 18:04:00,589 [trainer.py] => tuned_epoch: 30
+2025-12-13 18:04:00,589 [trainer.py] => fs_epoch: 10
+2025-12-13 18:04:00,589 [trainer.py] => init_lr: 0.01
+2025-12-13 18:04:00,589 [trainer.py] => fs_lr: 0.001
+2025-12-13 18:04:00,589 [trainer.py] => batch_size: 32
+2025-12-13 18:04:00,589 [trainer.py] => fs_batch_size: 16
+2025-12-13 18:04:00,589 [trainer.py] => weight_decay: 0.005
+2025-12-13 18:04:00,590 [trainer.py] => min_lr: 0
+2025-12-13 18:04:00,590 [trainer.py] => optimizer: sgd
+2025-12-13 18:04:00,590 [trainer.py] => shuffle: False
+2025-12-13 18:04:00,590 [trainer.py] => top_k: 5
+2025-12-13 18:04:00,590 [trainer.py] => base_model_path: saved_model/sec_tr/cifar224/30_0.01/6_0.5/sec_30_1993_32.pth
+2025-12-13 18:04:00,590 [trainer.py] => prefix: sec
+2025-12-13 18:04:00,590 [trainer.py] => model_prefix: sec
+2025-12-13 18:04:00,590 [trainer.py] => beta: 0.5
+2025-12-13 18:04:00,590 [trainer.py] => memory_size: 0
+2025-12-13 18:04:00,590 [trainer.py] => memory_per_class: 0
+2025-12-13 18:04:00,590 [trainer.py] => fixed_memory: False
+2025-12-13 18:04:01,773 [data_manager.py] => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99]
+This is for the BaseNet initialization.
+modelname, pretrained_vit_b16_224_vpt basicmodelname vit_base_patch16_224
+Using VPT model
+Using Deep Prompt
+After BaseNet initialization.
+2025-12-13 18:04:09,527 [trainer.py] => All params: 87987457
+2025-12-13 18:04:09,528 [trainer.py] => Trainable params: 2188801
+2025-12-13 18:04:10,223 [sec.py] => Learning on 0-60
+2025-12-13 18:04:10,384 [sec.py] => training set size: 30000, fc construct set size: 30000
+/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/backbone/zoo.py:205: UserWarning: Implicit dimension choice for softmax has been deprecated. Change the call to include dim=X as an argument.
+  aq_k = torch.nn.functional.softmax(aq_k)
+2025-12-13 22:26:57,484 [trainer.py] => CNN: {'total': 91.55, '00-59': 91.55, '60-61': 40.0, '62-63': 70.0, '64-65': 60.0, '66-67': 70.0, '68-69': 70.0, '70-71': 80.0, '72-73': 90.0, '74-75': 80.0, '76-77': 100.0, '78-79': 90.0, '80-81': 90.0, '82-83': 90.0, '84-85': 80.0, '86-87': 80.0, '88-89': 60.0, '90-91': 80.0, '92-93': 40.0, '94-95': 50.0, '96-97': 80.0, '98-99': 70.0, 'old': 0, 'new': 91.55}
+2025-12-13 22:26:57,484 [trainer.py] => Top1 curve: [91.55]
+2025-12-13 22:26:57,484 [trainer.py] => Average Accuracy (CNN): 91.55
+2025-12-13 22:26:57,486 [trainer.py] => All params: 88033538
+2025-12-13 22:26:57,487 [trainer.py] => Trainable params: 2234882
+2025-12-13 22:26:57,497 [sec.py] => Learning on 60-62
+2025-12-13 22:26:57,550 [sec.py] => training set size: 10, fc construct set size: 10
+2025-12-13 22:28:02,334 [trainer.py] => CNN: {'total': 90.82, '00-59': 91.25, '60-61': 78.0, '62-63': 70.0, '64-65': 70.0, '66-67': 90.0, '68-69': 60.0, '70-71': 80.0, '72-73': 80.0, '74-75': 60.0, '76-77': 90.0, '78-79': 100.0, '80-81': 70.0, '82-83': 90.0, '84-85': 80.0, '86-87': 100.0, '88-89': 60.0, '90-91': 100.0, '92-93': 90.0, '94-95': 70.0, '96-97': 90.0, '98-99': 80.0, 'old': 91.25, 'new': 78.0}
+2025-12-13 22:28:02,335 [trainer.py] => Top1 curve: [91.55, 90.82]
+2025-12-13 22:28:02,335 [trainer.py] => Average Accuracy (CNN): 91.19
+2025-12-13 22:28:02,337 [trainer.py] => All params: 88035074
+2025-12-13 22:28:02,339 [trainer.py] => Trainable params: 1660418
+2025-12-13 22:28:02,345 [sec.py] => Learning on 62-64
+2025-12-13 22:28:02,404 [sec.py] => training set size: 10, fc construct set size: 10
+2025-12-13 22:29:09,179 [trainer.py] => CNN: {'total': 90.56, '00-59': 91.2, '60-61': 78.0, '62-63': 84.0, '64-65': 40.0, '66-67': 90.0, '68-69': 40.0, '70-71': 80.0, '72-73': 90.0, '74-75': 50.0, '76-77': 90.0, '78-79': 80.0, '80-81': 70.0, '82-83': 90.0, '84-85': 70.0, '86-87': 70.0, '88-89': 60.0, '90-91': 90.0, '92-93': 80.0, '94-95': 50.0, '96-97': 70.0, '98-99': 90.0, 'old': 90.77, 'new': 84.0}
+2025-12-13 22:29:09,180 [trainer.py] => Top1 curve: [91.55, 90.82, 90.56]
+2025-12-13 22:29:09,180 [trainer.py] => Average Accuracy (CNN): 90.98
+2025-12-13 22:29:09,181 [trainer.py] => All params: 88036610
+2025-12-13 22:29:09,182 [trainer.py] => Trainable params: 1661954
+2025-12-13 22:29:09,191 [sec.py] => Learning on 64-66
+2025-12-13 22:29:09,248 [sec.py] => training set size: 10, fc construct set size: 10
+2025-12-13 22:30:17,340 [trainer.py] => CNN: {'total': 89.97, '00-59': 91.2, '60-61': 78.0, '62-63': 84.0, '64-65': 71.0, '66-67': 50.0, '68-69': 50.0, '70-71': 90.0, '72-73': 80.0, '74-75': 60.0, '76-77': 60.0, '78-79': 100.0, '80-81': 80.0, '82-83': 80.0, '84-85': 80.0, '86-87': 80.0, '88-89': 60.0, '90-91': 90.0, '92-93': 70.0, '94-95': 90.0, '96-97': 70.0, '98-99': 70.0, 'old': 90.56, 'new': 71.0}
+2025-12-13 22:30:17,341 [trainer.py] => Top1 curve: [91.55, 90.82, 90.56, 89.97]
+2025-12-13 22:30:17,341 [trainer.py] => Average Accuracy (CNN): 90.72
+2025-12-13 22:30:17,342 [trainer.py] => All params: 88038146
+2025-12-13 22:30:17,344 [trainer.py] => Trainable params: 1663490
+2025-12-13 22:30:17,351 [sec.py] => Learning on 66-68
+2025-12-13 22:30:17,390 [sec.py] => training set size: 10, fc construct set size: 10
+2025-12-13 22:31:26,780 [trainer.py] => CNN: {'total': 89.91, '00-59': 91.17, '60-61': 78.0, '62-63': 84.0, '64-65': 71.0, '66-67': 89.0, '68-69': 70.0, '70-71': 90.0, '72-73': 90.0, '74-75': 60.0, '76-77': 90.0, '78-79': 80.0, '80-81': 100.0, '82-83': 90.0, '84-85': 80.0, '86-87': 90.0, '88-89': 70.0, '90-91': 90.0, '92-93': 90.0, '94-95': 70.0, '96-97': 100.0, '98-99': 80.0, 'old': 89.94, 'new': 89.0}
+2025-12-13 22:31:26,781 [trainer.py] => Top1 curve: [91.55, 90.82, 90.56, 89.97, 89.91]
+2025-12-13 22:31:26,781 [trainer.py] => Average Accuracy (CNN): 90.56
+2025-12-13 22:31:26,783 [trainer.py] => All params: 88039682
+2025-12-13 22:31:26,784 [trainer.py] => Trainable params: 1665026
+2025-12-13 22:31:26,794 [sec.py] => Learning on 68-70
+2025-12-13 22:31:26,831 [sec.py] => training set size: 10, fc construct set size: 10
+2025-12-13 22:32:38,490 [trainer.py] => CNN: {'total': 89.94, '00-59': 91.23, '60-61': 76.5, '62-63': 85.0, '64-65': 72.0, '66-67': 89.5, '68-69': 88.0, '70-71': 90.0, '72-73': 60.0, '74-75': 60.0, '76-77': 100.0, '78-79': 100.0, '80-81': 70.0, '82-83': 90.0, '84-85': 70.0, '86-87': 90.0, '88-89': 50.0, '90-91': 60.0, '92-93': 60.0, '94-95': 90.0, '96-97': 70.0, '98-99': 60.0, 'old': 90.0, 'new': 88.0}
+2025-12-13 22:32:38,490 [trainer.py] => Top1 curve: [91.55, 90.82, 90.56, 89.97, 89.91, 89.94]
+2025-12-13 22:32:38,490 [trainer.py] => Average Accuracy (CNN): 90.46
+2025-12-13 22:32:38,492 [trainer.py] => All params: 88041218
+2025-12-13 22:32:38,493 [trainer.py] => Trainable params: 1666562
+2025-12-13 22:32:38,502 [sec.py] => Learning on 70-72
+2025-12-13 22:32:38,552 [sec.py] => training set size: 10, fc construct set size: 10
+2025-12-13 22:33:51,603 [trainer.py] => CNN: {'total': 89.29, '00-59': 91.05, '60-61': 76.0, '62-63': 80.0, '64-65': 72.0, '66-67': 89.5, '68-69': 88.0, '70-71': 77.5, '72-73': 100.0, '74-75': 90.0, '76-77': 100.0, '78-79': 100.0, '80-81': 90.0, '82-83': 90.0, '84-85': 70.0, '86-87': 80.0, '88-89': 50.0, '90-91': 70.0, '92-93': 60.0, '94-95': 70.0, '96-97': 50.0, '98-99': 70.0, 'old': 89.63, 'new': 77.5}
+2025-12-13 22:33:51,603 [trainer.py] => Top1 curve: [91.55, 90.82, 90.56, 89.97, 89.91, 89.94, 89.29]
+2025-12-13 22:33:51,603 [trainer.py] => Average Accuracy (CNN): 90.29
+2025-12-13 22:33:51,605 [trainer.py] => All params: 88042754
+2025-12-13 22:33:51,606 [trainer.py] => Trainable params: 1668098
+2025-12-13 22:33:51,612 [sec.py] => Learning on 72-74
+2025-12-13 22:33:51,652 [sec.py] => training set size: 10, fc construct set size: 10
+2025-12-13 22:35:06,151 [trainer.py] => CNN: {'total': 89.0, '00-59': 91.07, '60-61': 75.5, '62-63': 80.0, '64-65': 71.5, '66-67': 89.0, '68-69': 88.5, '70-71': 78.0, '72-73': 78.5, '74-75': 70.0, '76-77': 90.0, '78-79': 100.0, '80-81': 70.0, '82-83': 100.0, '84-85': 70.0, '86-87': 90.0, '88-89': 40.0, '90-91': 80.0, '92-93': 70.0, '94-95': 80.0, '96-97': 90.0, '98-99': 80.0, 'old': 89.29, 'new': 78.5}
+2025-12-13 22:35:06,151 [trainer.py] => Top1 curve: [91.55, 90.82, 90.56, 89.97, 89.91, 89.94, 89.29, 89.0]
+2025-12-13 22:35:06,151 [trainer.py] => Average Accuracy (CNN): 90.13
+2025-12-13 22:35:06,153 [trainer.py] => All params: 88044290
+2025-12-13 22:35:06,154 [trainer.py] => Trainable params: 1669634
+2025-12-13 22:35:06,163 [sec.py] => Learning on 74-76
+2025-12-13 22:35:06,210 [sec.py] => training set size: 10, fc construct set size: 10
+2025-12-13 22:36:22,205 [trainer.py] => CNN: {'total': 88.58, '00-59': 91.05, '60-61': 75.0, '62-63': 79.0, '64-65': 71.5, '66-67': 89.0, '68-69': 88.5, '70-71': 78.0, '72-73': 78.5, '74-75': 75.0, '76-77': 90.0, '78-79': 90.0, '80-81': 60.0, '82-83': 80.0, '84-85': 80.0, '86-87': 90.0, '88-89': 50.0, '90-91': 60.0, '92-93': 70.0, '94-95': 80.0, '96-97': 80.0, '98-99': 60.0, 'old': 88.95, 'new': 75.0}
+2025-12-13 22:36:22,205 [trainer.py] => Top1 curve: [91.55, 90.82, 90.56, 89.97, 89.91, 89.94, 89.29, 89.0, 88.58]
+2025-12-13 22:36:22,205 [trainer.py] => Average Accuracy (CNN): 89.96
+2025-12-13 22:36:22,206 [trainer.py] => All params: 88045826
+2025-12-13 22:36:22,207 [trainer.py] => Trainable params: 1671170
+2025-12-13 22:36:22,217 [sec.py] => Learning on 76-78
+2025-12-13 22:36:22,254 [sec.py] => training set size: 10, fc construct set size: 10
+2025-12-13 22:37:38,964 [trainer.py] => CNN: {'total': 88.56, '00-59': 91.05, '60-61': 75.0, '62-63': 79.0, '64-65': 71.5, '66-67': 89.0, '68-69': 88.5, '70-71': 78.0, '72-73': 78.5, '74-75': 75.0, '76-77': 88.0, '78-79': 80.0, '80-81': 70.0, '82-83': 100.0, '84-85': 70.0, '86-87': 90.0, '88-89': 50.0, '90-91': 90.0, '92-93': 80.0, '94-95': 80.0, '96-97': 60.0, '98-99': 60.0, 'old': 88.58, 'new': 88.0}
+2025-12-13 22:37:38,965 [trainer.py] => Top1 curve: [91.55, 90.82, 90.56, 89.97, 89.91, 89.94, 89.29, 89.0, 88.58, 88.56]
+2025-12-13 22:37:38,965 [trainer.py] => Average Accuracy (CNN): 89.82
+2025-12-13 22:37:38,966 [trainer.py] => All params: 88047362
+2025-12-13 22:37:38,967 [trainer.py] => Trainable params: 1672706
+2025-12-13 22:37:38,974 [sec.py] => Learning on 78-80
+2025-12-13 22:37:39,011 [sec.py] => training set size: 10, fc construct set size: 10
+2025-12-13 22:38:58,254 [trainer.py] => CNN: {'total': 88.71, '00-59': 91.05, '60-61': 75.5, '62-63': 79.0, '64-65': 71.5, '66-67': 89.0, '68-69': 89.0, '70-71': 78.0, '72-73': 79.0, '74-75': 75.0, '76-77': 88.0, '78-79': 93.0, '80-81': 70.0, '82-83': 100.0, '84-85': 90.0, '86-87': 100.0, '88-89': 70.0, '90-91': 60.0, '92-93': 80.0, '94-95': 70.0, '96-97': 90.0, '98-99': 80.0, 'old': 88.6, 'new': 93.0}
+2025-12-13 22:38:58,255 [trainer.py] => Top1 curve: [91.55, 90.82, 90.56, 89.97, 89.91, 89.94, 89.29, 89.0, 88.58, 88.56, 88.71]
+2025-12-13 22:38:58,255 [trainer.py] => Average Accuracy (CNN): 89.72
+2025-12-13 22:38:58,257 [trainer.py] => All params: 88048898
+2025-12-13 22:38:58,258 [trainer.py] => Trainable params: 1674242
+2025-12-13 22:38:58,265 [sec.py] => Learning on 80-82
+2025-12-13 22:38:58,305 [sec.py] => training set size: 10, fc construct set size: 10
+2025-12-13 22:40:18,957 [trainer.py] => CNN: {'total': 88.55, '00-59': 90.98, '60-61': 75.0, '62-63': 79.0, '64-65': 71.5, '66-67': 89.0, '68-69': 89.5, '70-71': 78.5, '72-73': 79.5, '74-75': 74.5, '76-77': 88.0, '78-79': 93.0, '80-81': 83.5, '82-83': 90.0, '84-85': 60.0, '86-87': 90.0, '88-89': 50.0, '90-91': 80.0, '92-93': 80.0, '94-95': 60.0, '96-97': 90.0, '98-99': 80.0, 'old': 88.68, 'new': 83.5}
+2025-12-13 22:40:18,958 [trainer.py] => Top1 curve: [91.55, 90.82, 90.56, 89.97, 89.91, 89.94, 89.29, 89.0, 88.58, 88.56, 88.71, 88.55]
+2025-12-13 22:40:18,958 [trainer.py] => Average Accuracy (CNN): 89.62
+2025-12-13 22:40:18,959 [trainer.py] => All params: 88050434
+2025-12-13 22:40:18,960 [trainer.py] => Trainable params: 1675778
+2025-12-13 22:40:18,969 [sec.py] => Learning on 82-84
+2025-12-13 22:40:19,006 [sec.py] => training set size: 10, fc construct set size: 10
+2025-12-13 22:41:41,371 [trainer.py] => CNN: {'total': 88.57, '00-59': 90.93, '60-61': 74.0, '62-63': 78.0, '64-65': 71.5, '66-67': 89.0, '68-69': 89.5, '70-71': 78.5, '72-73': 79.5, '74-75': 74.5, '76-77': 88.5, '78-79': 93.0, '80-81': 83.5, '82-83': 92.5, '84-85': 70.0, '86-87': 70.0, '88-89': 90.0, '90-91': 90.0, '92-93': 70.0, '94-95': 80.0, '96-97': 70.0, '98-99': 70.0, 'old': 88.48, 'new': 92.5}
+2025-12-13 22:41:41,371 [trainer.py] => Top1 curve: [91.55, 90.82, 90.56, 89.97, 89.91, 89.94, 89.29, 89.0, 88.58, 88.56, 88.71, 88.55, 88.57]
+2025-12-13 22:41:41,371 [trainer.py] => Average Accuracy (CNN): 89.54
+2025-12-13 22:41:41,373 [trainer.py] => All params: 88051970
+2025-12-13 22:41:41,374 [trainer.py] => Trainable params: 1677314
+2025-12-13 22:41:41,383 [sec.py] => Learning on 84-86
+2025-12-13 22:41:41,419 [sec.py] => training set size: 10, fc construct set size: 10
+2025-12-13 22:43:05,112 [trainer.py] => CNN: {'total': 88.4, '00-59': 90.85, '60-61': 74.5, '62-63': 78.0, '64-65': 71.5, '66-67': 89.0, '68-69': 89.5, '70-71': 79.0, '72-73': 80.0, '74-75': 74.5, '76-77': 89.0, '78-79': 93.5, '80-81': 83.5, '82-83': 93.0, '84-85': 80.5, '86-87': 70.0, '88-89': 70.0, '90-91': 70.0, '92-93': 80.0, '94-95': 90.0, '96-97': 60.0, '98-99': 80.0, 'old': 88.58, 'new': 80.5}
+2025-12-13 22:43:05,113 [trainer.py] => Top1 curve: [91.55, 90.82, 90.56, 89.97, 89.91, 89.94, 89.29, 89.0, 88.58, 88.56, 88.71, 88.55, 88.57, 88.4]
+2025-12-13 22:43:05,113 [trainer.py] => Average Accuracy (CNN): 89.46
+2025-12-13 22:43:05,114 [trainer.py] => All params: 88053506
+2025-12-13 22:43:05,116 [trainer.py] => Trainable params: 1678850
+2025-12-13 22:43:05,125 [sec.py] => Learning on 86-88
+2025-12-13 22:43:05,174 [sec.py] => training set size: 10, fc construct set size: 10
+2025-12-13 22:44:30,771 [trainer.py] => CNN: {'total': 88.42, '00-59': 90.78, '60-61': 74.5, '62-63': 78.0, '64-65': 71.5, '66-67': 89.0, '68-69': 89.5, '70-71': 79.0, '72-73': 80.5, '74-75': 74.5, '76-77': 89.0, '78-79': 93.5, '80-81': 83.5, '82-83': 93.0, '84-85': 80.5, '86-87': 91.0, '88-89': 50.0, '90-91': 70.0, '92-93': 90.0, '94-95': 90.0, '96-97': 80.0, '98-99': 80.0, 'old': 88.36, 'new': 91.0}
+2025-12-13 22:44:30,772 [trainer.py] => Top1 curve: [91.55, 90.82, 90.56, 89.97, 89.91, 89.94, 89.29, 89.0, 88.58, 88.56, 88.71, 88.55, 88.57, 88.4, 88.42]
+2025-12-13 22:44:30,772 [trainer.py] => Average Accuracy (CNN): 89.39
+2025-12-13 22:44:30,773 [trainer.py] => All params: 88055042
+2025-12-13 22:44:30,774 [trainer.py] => Trainable params: 1680386
+2025-12-13 22:44:30,783 [sec.py] => Learning on 88-90
+2025-12-13 22:44:30,818 [sec.py] => training set size: 10, fc construct set size: 10
+2025-12-13 22:45:58,035 [trainer.py] => CNN: {'total': 88.32, '00-59': 90.6, '60-61': 74.5, '62-63': 78.0, '64-65': 71.5, '66-67': 89.0, '68-69': 89.5, '70-71': 79.0, '72-73': 80.0, '74-75': 74.5, '76-77': 89.0, '78-79': 94.0, '80-81': 83.5, '82-83': 93.0, '84-85': 80.5, '86-87': 91.0, '88-89': 89.5, '90-91': 70.0, '92-93': 70.0, '94-95': 90.0, '96-97': 50.0, '98-99': 70.0, 'old': 88.3, 'new': 89.5}
+2025-12-13 22:45:58,036 [trainer.py] => Top1 curve: [91.55, 90.82, 90.56, 89.97, 89.91, 89.94, 89.29, 89.0, 88.58, 88.56, 88.71, 88.55, 88.57, 88.4, 88.42, 88.32]
+2025-12-13 22:45:58,036 [trainer.py] => Average Accuracy (CNN): 89.32
+2025-12-13 22:45:58,037 [trainer.py] => All params: 88056578
+2025-12-13 22:45:58,038 [trainer.py] => Trainable params: 1681922
+2025-12-13 22:45:58,047 [sec.py] => Learning on 90-92
+2025-12-13 22:45:58,093 [sec.py] => training set size: 10, fc construct set size: 10
+2025-12-13 22:47:26,881 [trainer.py] => CNN: {'total': 88.12, '00-59': 90.47, '60-61': 74.5, '62-63': 78.0, '64-65': 71.5, '66-67': 89.0, '68-69': 90.5, '70-71': 79.0, '72-73': 79.0, '74-75': 74.5, '76-77': 89.0, '78-79': 94.0, '80-81': 80.5, '82-83': 93.0, '84-85': 80.5, '86-87': 91.0, '88-89': 89.5, '90-91': 86.0, '92-93': 70.0, '94-95': 80.0, '96-97': 70.0, '98-99': 90.0, 'old': 88.17, 'new': 86.0}
+2025-12-13 22:47:26,882 [trainer.py] => Top1 curve: [91.55, 90.82, 90.56, 89.97, 89.91, 89.94, 89.29, 89.0, 88.58, 88.56, 88.71, 88.55, 88.57, 88.4, 88.42, 88.32, 88.12]
+2025-12-13 22:47:26,882 [trainer.py] => Average Accuracy (CNN): 89.25
+2025-12-13 22:47:26,883 [trainer.py] => All params: 88058114
+2025-12-13 22:47:26,884 [trainer.py] => Trainable params: 1683458
+2025-12-13 22:47:26,894 [sec.py] => Learning on 92-94
+2025-12-13 22:47:26,929 [sec.py] => training set size: 10, fc construct set size: 10
+2025-12-13 22:48:56,116 [trainer.py] => CNN: {'total': 87.86, '00-59': 90.42, '60-61': 74.5, '62-63': 77.5, '64-65': 71.5, '66-67': 89.5, '68-69': 90.5, '70-71': 78.5, '72-73': 79.5, '74-75': 75.5, '76-77': 89.0, '78-79': 94.0, '80-81': 80.5, '82-83': 93.0, '84-85': 80.5, '86-87': 91.5, '88-89': 89.5, '90-91': 86.0, '92-93': 76.0, '94-95': 70.0, '96-97': 100.0, '98-99': 80.0, 'old': 88.12, 'new': 76.0}
+2025-12-13 22:48:56,116 [trainer.py] => Top1 curve: [91.55, 90.82, 90.56, 89.97, 89.91, 89.94, 89.29, 89.0, 88.58, 88.56, 88.71, 88.55, 88.57, 88.4, 88.42, 88.32, 88.12, 87.86]
+2025-12-13 22:48:56,116 [trainer.py] => Average Accuracy (CNN): 89.17
+2025-12-13 22:48:56,118 [trainer.py] => All params: 88059650
+2025-12-13 22:48:56,119 [trainer.py] => Trainable params: 1684994
+2025-12-13 22:48:56,126 [sec.py] => Learning on 94-96
+2025-12-13 22:48:56,162 [sec.py] => training set size: 10, fc construct set size: 10
+2025-12-13 22:50:27,983 [trainer.py] => CNN: {'total': 87.69, '00-59': 90.32, '60-61': 74.5, '62-63': 77.5, '64-65': 71.5, '66-67': 90.0, '68-69': 90.5, '70-71': 78.0, '72-73': 79.5, '74-75': 75.5, '76-77': 89.0, '78-79': 94.0, '80-81': 80.5, '82-83': 93.0, '84-85': 80.5, '86-87': 88.5, '88-89': 90.0, '90-91': 86.0, '92-93': 76.0, '94-95': 85.0, '96-97': 60.0, '98-99': 90.0, 'old': 87.74, 'new': 85.0}
+2025-12-13 22:50:27,983 [trainer.py] => Top1 curve: [91.55, 90.82, 90.56, 89.97, 89.91, 89.94, 89.29, 89.0, 88.58, 88.56, 88.71, 88.55, 88.57, 88.4, 88.42, 88.32, 88.12, 87.86, 87.69]
+2025-12-13 22:50:27,983 [trainer.py] => Average Accuracy (CNN): 89.10
+2025-12-13 22:50:27,984 [trainer.py] => All params: 88061186
+2025-12-13 22:50:27,985 [trainer.py] => Trainable params: 1686530
+2025-12-13 22:50:27,993 [sec.py] => Learning on 96-98
+2025-12-13 22:50:28,036 [sec.py] => training set size: 10, fc construct set size: 10
+2025-12-13 22:52:01,516 [trainer.py] => CNN: {'total': 87.14, '00-59': 90.1, '60-61': 74.0, '62-63': 77.5, '64-65': 71.5, '66-67': 90.0, '68-69': 90.5, '70-71': 78.0, '72-73': 80.0, '74-75': 75.5, '76-77': 89.0, '78-79': 93.5, '80-81': 80.5, '82-83': 93.0, '84-85': 80.5, '86-87': 88.5, '88-89': 89.5, '90-91': 86.5, '92-93': 76.0, '94-95': 85.0, '96-97': 68.0, '98-99': 70.0, 'old': 87.54, 'new': 68.0}
+2025-12-13 22:52:01,516 [trainer.py] => Top1 curve: [91.55, 90.82, 90.56, 89.97, 89.91, 89.94, 89.29, 89.0, 88.58, 88.56, 88.71, 88.55, 88.57, 88.4, 88.42, 88.32, 88.12, 87.86, 87.69, 87.14]
+2025-12-13 22:52:01,516 [trainer.py] => Average Accuracy (CNN): 89.00
+2025-12-13 22:52:01,517 [trainer.py] => All params: 88062722
+2025-12-13 22:52:01,518 [trainer.py] => Trainable params: 1688066
+2025-12-13 22:52:01,529 [sec.py] => Learning on 98-100
+2025-12-13 22:52:01,564 [sec.py] => training set size: 10, fc construct set size: 10
+2025-12-13 22:53:36,223 [trainer.py] => CNN: {'total': 86.87, '00-59': 90.0, '60-61': 74.0, '62-63': 77.5, '64-65': 71.5, '66-67': 90.0, '68-69': 90.5, '70-71': 78.5, '72-73': 80.0, '74-75': 75.5, '76-77': 89.0, '78-79': 90.5, '80-81': 81.0, '82-83': 93.0, '84-85': 81.0, '86-87': 88.5, '88-89': 89.5, '90-91': 87.0, '92-93': 76.0, '94-95': 85.0, '96-97': 68.0, '98-99': 77.5, 'old': 87.06, 'new': 77.5}
+2025-12-13 22:53:36,223 [trainer.py] => Top1 curve: [91.55, 90.82, 90.56, 89.97, 89.91, 89.94, 89.29, 89.0, 88.58, 88.56, 88.71, 88.55, 88.57, 88.4, 88.42, 88.32, 88.12, 87.86, 87.69, 87.14, 86.87]
+2025-12-13 22:53:36,223 [trainer.py] => Average Accuracy (CNN): 88.90
+
+================================================================================
+Finished cifar224_init60_inc2: pretrained_vit_b16_224_vpt  
+Base Accuracy: 91.55
+Lase Accuracy: 86.87
+Average Accuracy (Top1): 88.9
+PD: 4.68
+Backward Transfer (BWT): -0.48
+Traceback (most recent call last):
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/main.py", line 29, in <module>
+    main()
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/main.py", line 11, in main
+    train(args)
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/trainer.py", line 21, in train
+    _train(args)
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/trainer.py", line 159, in _train
+    print("Forward Transfer (FWT):", forward_transfer(args["dataset"], np.array(cnn_matrix)))
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/trainer.py", line 264, in forward_transfer
+    fwt_diffs = fwt_accs - rand_init_acc_for_fwt
+ValueError: operands could not be broadcast together with shapes (20,) (8,) 
+2025-12-13 22:53:39,348 [trainer.py] => config: ./exps/SEC-Prompt_cifar_B60_Inc5.json
+2025-12-13 22:53:39,348 [trainer.py] => lamda: 0.5
+2025-12-13 22:53:39,348 [trainer.py] => aug: 2
+2025-12-13 22:53:39,348 [trainer.py] => prompt_token_num: 6
+2025-12-13 22:53:39,348 [trainer.py] => prompt_pool_num: 0.5
+2025-12-13 22:53:39,348 [trainer.py] => model_name: sec
+2025-12-13 22:53:39,348 [trainer.py] => backbone_type: pretrained_vit_b16_224_vpt
+2025-12-13 22:53:39,348 [trainer.py] => device: [device(type='cuda', index=7)]
+2025-12-13 22:53:39,348 [trainer.py] => seed: 1993
+2025-12-13 22:53:39,348 [trainer.py] => dataset: cifar224
+2025-12-13 22:53:39,348 [trainer.py] => init_cls: 60
+2025-12-13 22:53:39,349 [trainer.py] => increment: 5
+2025-12-13 22:53:39,349 [trainer.py] => kshot: 5
+2025-12-13 22:53:39,349 [trainer.py] => vpt_type: Deep
+2025-12-13 22:53:39,349 [trainer.py] => kl_weight: 0.001
+2025-12-13 22:53:39,349 [trainer.py] => tuned_epoch: 30
+2025-12-13 22:53:39,349 [trainer.py] => fs_epoch: 10
+2025-12-13 22:53:39,349 [trainer.py] => init_lr: 0.01
+2025-12-13 22:53:39,349 [trainer.py] => fs_lr: 0.001
+2025-12-13 22:53:39,349 [trainer.py] => batch_size: 32
+2025-12-13 22:53:39,349 [trainer.py] => fs_batch_size: 16
+2025-12-13 22:53:39,349 [trainer.py] => weight_decay: 0.005
+2025-12-13 22:53:39,349 [trainer.py] => min_lr: 0
+2025-12-13 22:53:39,349 [trainer.py] => optimizer: sgd
+2025-12-13 22:53:39,349 [trainer.py] => shuffle: False
+2025-12-13 22:53:39,349 [trainer.py] => top_k: 5
+2025-12-13 22:53:39,349 [trainer.py] => base_model_path: saved_model/sec_tr/cifar224/30_0.01/6_0.5/sec_30_1993_32.pth
+2025-12-13 22:53:39,349 [trainer.py] => prefix: sec
+2025-12-13 22:53:39,349 [trainer.py] => model_prefix: sec
+2025-12-13 22:53:39,349 [trainer.py] => beta: 0.5
+2025-12-13 22:53:39,349 [trainer.py] => memory_size: 0
+2025-12-13 22:53:39,349 [trainer.py] => memory_per_class: 0
+2025-12-13 22:53:39,349 [trainer.py] => fixed_memory: False
+2025-12-13 22:53:40,479 [data_manager.py] => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99]
+This is for the BaseNet initialization.
+modelname, pretrained_vit_b16_224_vpt basicmodelname vit_base_patch16_224
+Using VPT model
+Using Deep Prompt
+After BaseNet initialization.
+2025-12-13 22:53:46,242 [trainer.py] => All params: 87864577
+2025-12-13 22:53:46,243 [trainer.py] => Trainable params: 2065921
+2025-12-13 22:53:46,873 [sec.py] => Learning on 0-60
+2025-12-13 22:53:47,024 [sec.py] => training set size: 30000, fc construct set size: 30000
+/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/backbone/zoo.py:205: UserWarning: Implicit dimension choice for softmax has been deprecated. Change the call to include dim=X as an argument.
+  aq_k = torch.nn.functional.softmax(aq_k)
+2025-12-14 03:25:23,233 [trainer.py] => CNN: {'total': 91.8, '00-59': 91.8, '60-64': 72.0, '65-69': 76.0, '70-74': 64.0, '75-79': 84.0, '80-84': 68.0, '85-89': 72.0, '90-94': 80.0, '95-99': 72.0, 'old': 0, 'new': 91.8}
+2025-12-14 03:25:23,233 [trainer.py] => Top1 curve: [91.8]
+2025-12-14 03:25:23,233 [trainer.py] => Average Accuracy (CNN): 91.80
+2025-12-14 03:25:23,235 [trainer.py] => All params: 87910658
+2025-12-14 03:25:23,236 [trainer.py] => Trainable params: 2112002
+2025-12-14 03:25:23,246 [sec.py] => Learning on 60-65
+2025-12-14 03:25:23,303 [sec.py] => training set size: 25, fc construct set size: 25
+2025-12-14 03:26:39,409 [trainer.py] => CNN: {'total': 90.57, '00-59': 91.57, '60-64': 78.6, '65-69': 52.0, '70-74': 48.0, '75-79': 92.0, '80-84': 88.0, '85-89': 60.0, '90-94': 72.0, '95-99': 72.0, 'old': 91.57, 'new': 78.6}
+2025-12-14 03:26:39,410 [trainer.py] => Top1 curve: [91.8, 90.57]
+2025-12-14 03:26:39,410 [trainer.py] => Average Accuracy (CNN): 91.19
+2025-12-14 03:26:39,412 [trainer.py] => All params: 87914498
+2025-12-14 03:26:39,413 [trainer.py] => Trainable params: 1539842
+2025-12-14 03:26:39,421 [sec.py] => Learning on 65-70
+2025-12-14 03:26:39,468 [sec.py] => training set size: 25, fc construct set size: 25
+2025-12-14 03:27:59,249 [trainer.py] => CNN: {'total': 90.29, '00-59': 91.43, '60-64': 78.2, '65-69': 88.6, '70-74': 60.0, '75-79': 88.0, '80-84': 80.0, '85-89': 64.0, '90-94': 64.0, '95-99': 68.0, 'old': 90.42, 'new': 88.6}
+2025-12-14 03:27:59,249 [trainer.py] => Top1 curve: [91.8, 90.57, 90.29]
+2025-12-14 03:27:59,249 [trainer.py] => Average Accuracy (CNN): 90.89
+2025-12-14 03:27:59,251 [trainer.py] => All params: 87918338
+2025-12-14 03:27:59,252 [trainer.py] => Trainable params: 1543682
+2025-12-14 03:27:59,261 [sec.py] => Learning on 70-75
+2025-12-14 03:27:59,302 [sec.py] => training set size: 25, fc construct set size: 25
+2025-12-14 03:29:18,950 [trainer.py] => CNN: {'total': 88.91, '00-59': 91.05, '60-64': 73.8, '65-69': 89.0, '70-74': 78.2, '75-79': 88.0, '80-84': 80.0, '85-89': 84.0, '90-94': 80.0, '95-99': 84.0, 'old': 89.67, 'new': 78.2}
+2025-12-14 03:29:18,951 [trainer.py] => Top1 curve: [91.8, 90.57, 90.29, 88.91]
+2025-12-14 03:29:18,951 [trainer.py] => Average Accuracy (CNN): 90.39
+2025-12-14 03:29:18,952 [trainer.py] => All params: 87922178
+2025-12-14 03:29:18,953 [trainer.py] => Trainable params: 1547522
+2025-12-14 03:29:18,963 [sec.py] => Learning on 75-80
+2025-12-14 03:29:19,035 [sec.py] => training set size: 25, fc construct set size: 25
+2025-12-14 03:30:46,357 [trainer.py] => CNN: {'total': 89.18, '00-59': 91.0, '60-64': 73.4, '65-69': 89.2, '70-74': 79.2, '75-79': 93.0, '80-84': 80.0, '85-89': 64.0, '90-94': 84.0, '95-99': 92.0, 'old': 88.92, 'new': 93.0}
+2025-12-14 03:30:46,357 [trainer.py] => Top1 curve: [91.8, 90.57, 90.29, 88.91, 89.18]
+2025-12-14 03:30:46,358 [trainer.py] => Average Accuracy (CNN): 90.15
+2025-12-14 03:30:46,359 [trainer.py] => All params: 87926018
+2025-12-14 03:30:46,360 [trainer.py] => Trainable params: 1551362
+2025-12-14 03:30:46,367 [sec.py] => Learning on 80-85
+2025-12-14 03:30:46,413 [sec.py] => training set size: 25, fc construct set size: 25
+2025-12-14 03:32:18,537 [trainer.py] => CNN: {'total': 88.88, '00-59': 90.8, '60-64': 72.4, '65-69': 89.4, '70-74': 79.8, '75-79': 93.6, '80-84': 86.2, '85-89': 76.0, '90-94': 76.0, '95-99': 60.0, 'old': 89.05, 'new': 86.2}
+2025-12-14 03:32:18,537 [trainer.py] => Top1 curve: [91.8, 90.57, 90.29, 88.91, 89.18, 88.88]
+2025-12-14 03:32:18,537 [trainer.py] => Average Accuracy (CNN): 89.94
+2025-12-14 03:32:18,539 [trainer.py] => All params: 87929858
+2025-12-14 03:32:18,540 [trainer.py] => Trainable params: 1555202
+2025-12-14 03:32:18,548 [sec.py] => Learning on 85-90
+2025-12-14 03:32:18,590 [sec.py] => training set size: 25, fc construct set size: 25
+2025-12-14 03:33:54,156 [trainer.py] => CNN: {'total': 88.92, '00-59': 90.47, '60-64': 72.8, '65-69': 89.2, '70-74': 80.6, '75-79': 93.8, '80-84': 87.2, '85-89': 91.4, '90-94': 84.0, '95-99': 80.0, 'old': 88.78, 'new': 91.4}
+2025-12-14 03:33:54,156 [trainer.py] => Top1 curve: [91.8, 90.57, 90.29, 88.91, 89.18, 88.88, 88.92]
+2025-12-14 03:33:54,157 [trainer.py] => Average Accuracy (CNN): 89.79
+2025-12-14 03:33:54,158 [trainer.py] => All params: 87933698
+2025-12-14 03:33:54,159 [trainer.py] => Trainable params: 1559042
+2025-12-14 03:33:54,170 [sec.py] => Learning on 90-95
+2025-12-14 03:33:54,211 [sec.py] => training set size: 25, fc construct set size: 25
+2025-12-14 03:35:34,276 [trainer.py] => CNN: {'total': 88.61, '00-59': 90.07, '60-64': 73.0, '65-69': 89.8, '70-74': 79.6, '75-79': 93.8, '80-84': 86.8, '85-89': 90.8, '90-94': 89.0, '95-99': 72.0, 'old': 88.59, 'new': 89.0}
+2025-12-14 03:35:34,276 [trainer.py] => Top1 curve: [91.8, 90.57, 90.29, 88.91, 89.18, 88.88, 88.92, 88.61]
+2025-12-14 03:35:34,276 [trainer.py] => Average Accuracy (CNN): 89.65
+2025-12-14 03:35:34,278 [trainer.py] => All params: 87937538
+2025-12-14 03:35:34,279 [trainer.py] => Trainable params: 1562882
+2025-12-14 03:35:34,288 [sec.py] => Learning on 95-100
+2025-12-14 03:35:34,328 [sec.py] => training set size: 25, fc construct set size: 25
+2025-12-14 03:37:17,967 [trainer.py] => CNN: {'total': 87.47, '00-59': 89.07, '60-64': 71.8, '65-69': 89.2, '70-74': 79.0, '75-79': 91.8, '80-84': 86.8, '85-89': 91.6, '90-94': 89.6, '95-99': 80.8, 'old': 87.82, 'new': 80.8}
+2025-12-14 03:37:17,967 [trainer.py] => Top1 curve: [91.8, 90.57, 90.29, 88.91, 89.18, 88.88, 88.92, 88.61, 87.47]
+2025-12-14 03:37:17,968 [trainer.py] => Average Accuracy (CNN): 89.40
+
+================================================================================
+Finished cifar224_init60_inc5: pretrained_vit_b16_224_vpt  
+Base Accuracy: 91.8
+Lase Accuracy: 87.47
+Average Accuracy (Top1): 89.4
+PD: 4.33
+Backward Transfer (BWT): -0.99
+Forward Transfer (FWT): 26.3
+Accuracy Matrix (CNN):
+[[91.8  72.   76.   64.   84.   68.   72.   80.   72.  ]
+ [91.57 78.6  52.   48.   92.   88.   60.   72.   72.  ]
+ [91.43 78.2  88.6  60.   88.   80.   64.   64.   68.  ]
+ [91.05 73.8  89.   78.2  88.   80.   84.   80.   84.  ]
+ [91.   73.4  89.2  79.2  93.   80.   64.   84.   92.  ]
+ [90.8  72.4  89.4  79.8  93.6  86.2  76.   76.   60.  ]
+ [90.47 72.8  89.2  80.6  93.8  87.2  91.4  84.   80.  ]
+ [90.07 73.   89.8  79.6  93.8  86.8  90.8  89.   72.  ]
+ [89.07 71.8  89.2  79.   91.8  86.8  91.6  89.6  80.8 ]]
+================================================================================
+
+2025-12-14 03:37:21,016 [trainer.py] => config: ./exps/SEC-Prompt_mini_B60_Inc2.json
+2025-12-14 03:37:21,046 [trainer.py] => lamda: 0.5
+2025-12-14 03:37:21,046 [trainer.py] => aug: 2
+2025-12-14 03:37:21,046 [trainer.py] => prompt_token_num: 6
+2025-12-14 03:37:21,046 [trainer.py] => prompt_pool_num: 0.5
+2025-12-14 03:37:21,047 [trainer.py] => model_name: sec
+2025-12-14 03:37:21,047 [trainer.py] => backbone_type: pretrained_vit_b16_224_vpt
+2025-12-14 03:37:21,047 [trainer.py] => device: [device(type='cuda', index=7)]
+2025-12-14 03:37:21,047 [trainer.py] => seed: 1993
+2025-12-14 03:37:21,047 [trainer.py] => dataset: mini_imagenet
+2025-12-14 03:37:21,047 [trainer.py] => init_cls: 60
+2025-12-14 03:37:21,047 [trainer.py] => increment: 2
+2025-12-14 03:37:21,047 [trainer.py] => kshot: 5
+2025-12-14 03:37:21,047 [trainer.py] => vpt_type: Deep
+2025-12-14 03:37:21,047 [trainer.py] => kl_weight: 0.001
+2025-12-14 03:37:21,047 [trainer.py] => tuned_epoch: 30
+2025-12-14 03:37:21,047 [trainer.py] => fs_epoch: 10
+2025-12-14 03:37:21,048 [trainer.py] => init_lr: 0.01
+2025-12-14 03:37:21,048 [trainer.py] => fs_lr: 0.001
+2025-12-14 03:37:21,048 [trainer.py] => batch_size: 32
+2025-12-14 03:37:21,048 [trainer.py] => fs_batch_size: 16
+2025-12-14 03:37:21,048 [trainer.py] => weight_decay: 0.005
+2025-12-14 03:37:21,048 [trainer.py] => min_lr: 0
+2025-12-14 03:37:21,048 [trainer.py] => optimizer: sgd
+2025-12-14 03:37:21,048 [trainer.py] => shuffle: False
+2025-12-14 03:37:21,048 [trainer.py] => top_k: 5
+2025-12-14 03:37:21,048 [trainer.py] => base_model_path: saved_model/sec_tr/mini_imagenet/30_0.01/6_0.5/sec_30_1993_32.pth
+2025-12-14 03:37:21,049 [trainer.py] => prefix: sec
+2025-12-14 03:37:21,049 [trainer.py] => model_prefix: sec
+2025-12-14 03:37:21,049 [trainer.py] => beta: 0.5
+2025-12-14 03:37:21,049 [trainer.py] => memory_size: 0
+2025-12-14 03:37:21,049 [trainer.py] => memory_per_class: 0
+2025-12-14 03:37:21,049 [trainer.py] => fixed_memory: False
+Traceback (most recent call last):
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/main.py", line 29, in <module>
+    main()
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/main.py", line 11, in main
+    train(args)
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/trainer.py", line 21, in train
+    _train(args)
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/trainer.py", line 84, in _train
+    data_manager = DataManager(
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/utils/data_manager.py", line 14, in __init__
+    self._setup_data(dataset_name, shuffle, seed)
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/utils/data_manager.py", line 183, in _setup_data
+    idata.download_data()
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/utils/data.py", line 405, in download_data
+    train_lines = [x.strip() for x in open(train_csv_path, 'r').readlines()][1:]
+FileNotFoundError: [Errno 2] No such file or directory: './data/miniimagenet/split/train.csv'
+2025-12-14 03:37:23,445 [trainer.py] => config: ./exps/SEC-Prompt_mini_B60_Inc5.json
+2025-12-14 03:37:23,445 [trainer.py] => lamda: 0.5
+2025-12-14 03:37:23,445 [trainer.py] => aug: 2
+2025-12-14 03:37:23,445 [trainer.py] => prompt_token_num: 6
+2025-12-14 03:37:23,445 [trainer.py] => prompt_pool_num: 0.5
+2025-12-14 03:37:23,445 [trainer.py] => model_name: sec
+2025-12-14 03:37:23,445 [trainer.py] => backbone_type: pretrained_vit_b16_224_vpt
+2025-12-14 03:37:23,445 [trainer.py] => device: [device(type='cuda', index=7)]
+2025-12-14 03:37:23,445 [trainer.py] => seed: 1993
+2025-12-14 03:37:23,446 [trainer.py] => dataset: mini_imagenet
+2025-12-14 03:37:23,446 [trainer.py] => init_cls: 60
+2025-12-14 03:37:23,446 [trainer.py] => increment: 5
+2025-12-14 03:37:23,446 [trainer.py] => kshot: 5
+2025-12-14 03:37:23,446 [trainer.py] => vpt_type: Deep
+2025-12-14 03:37:23,446 [trainer.py] => kl_weight: 0.001
+2025-12-14 03:37:23,446 [trainer.py] => tuned_epoch: 30
+2025-12-14 03:37:23,446 [trainer.py] => fs_epoch: 10
+2025-12-14 03:37:23,446 [trainer.py] => init_lr: 0.01
+2025-12-14 03:37:23,446 [trainer.py] => fs_lr: 0.001
+2025-12-14 03:37:23,446 [trainer.py] => batch_size: 32
+2025-12-14 03:37:23,446 [trainer.py] => fs_batch_size: 16
+2025-12-14 03:37:23,446 [trainer.py] => weight_decay: 0.005
+2025-12-14 03:37:23,446 [trainer.py] => min_lr: 0
+2025-12-14 03:37:23,446 [trainer.py] => optimizer: sgd
+2025-12-14 03:37:23,446 [trainer.py] => shuffle: False
+2025-12-14 03:37:23,446 [trainer.py] => top_k: 5
+2025-12-14 03:37:23,446 [trainer.py] => base_model_path: saved_model/sec_tr/mini_imagenet/30_0.01/6_0.5/sec_30_1993_32.pth
+2025-12-14 03:37:23,446 [trainer.py] => prefix: sec
+2025-12-14 03:37:23,446 [trainer.py] => model_prefix: sec
+2025-12-14 03:37:23,446 [trainer.py] => beta: 0.5
+2025-12-14 03:37:23,446 [trainer.py] => memory_size: 0
+2025-12-14 03:37:23,446 [trainer.py] => memory_per_class: 0
+2025-12-14 03:37:23,446 [trainer.py] => fixed_memory: False
+Traceback (most recent call last):
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/main.py", line 29, in <module>
+    main()
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/main.py", line 11, in main
+    train(args)
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/trainer.py", line 21, in train
+    _train(args)
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/trainer.py", line 84, in _train
+    data_manager = DataManager(
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/utils/data_manager.py", line 14, in __init__
+    self._setup_data(dataset_name, shuffle, seed)
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/utils/data_manager.py", line 183, in _setup_data
+    idata.download_data()
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/utils/data.py", line 405, in download_data
+    train_lines = [x.strip() for x in open(train_csv_path, 'r').readlines()][1:]
+FileNotFoundError: [Errno 2] No such file or directory: './data/miniimagenet/split/train.csv'
+2025-12-14 03:37:25,812 [trainer.py] => config: ./exps/SEC-Prompt_inr_B100_Inc5.json
+2025-12-14 03:37:25,835 [trainer.py] => lamda: 0.5
+2025-12-14 03:37:25,835 [trainer.py] => aug: 2
+2025-12-14 03:37:25,835 [trainer.py] => prompt_token_num: 10
+2025-12-14 03:37:25,835 [trainer.py] => prompt_pool_num: 0.5
+2025-12-14 03:37:25,836 [trainer.py] => model_name: sec
+2025-12-14 03:37:25,836 [trainer.py] => backbone_type: pretrained_vit_b16_224_vpt
+2025-12-14 03:37:25,836 [trainer.py] => device: [device(type='cuda', index=7)]
+2025-12-14 03:37:25,836 [trainer.py] => seed: 1993
+2025-12-14 03:37:25,836 [trainer.py] => dataset: imagenetr
+2025-12-14 03:37:25,836 [trainer.py] => init_cls: 100
+2025-12-14 03:37:25,836 [trainer.py] => increment: 5
+2025-12-14 03:37:25,836 [trainer.py] => kshot: 5
+2025-12-14 03:37:25,836 [trainer.py] => vpt_type: Deep
+2025-12-14 03:37:25,836 [trainer.py] => kl_weight: 0.001
+2025-12-14 03:37:25,836 [trainer.py] => tuned_epoch: 30
+2025-12-14 03:37:25,836 [trainer.py] => fs_epoch: 10
+2025-12-14 03:37:25,836 [trainer.py] => init_lr: 0.01
+2025-12-14 03:37:25,836 [trainer.py] => fs_lr: 0.0005
+2025-12-14 03:37:25,836 [trainer.py] => batch_size: 64
+2025-12-14 03:37:25,836 [trainer.py] => fs_batch_size: 16
+2025-12-14 03:37:25,836 [trainer.py] => weight_decay: 0.005
+2025-12-14 03:37:25,837 [trainer.py] => min_lr: 0
+2025-12-14 03:37:25,837 [trainer.py] => optimizer: sgd
+2025-12-14 03:37:25,837 [trainer.py] => fixed_memory: False
+2025-12-14 03:37:25,837 [trainer.py] => shuffle: False
+2025-12-14 03:37:25,837 [trainer.py] => top_k: 5
+2025-12-14 03:37:25,837 [trainer.py] => base_model_path: saved_model/sec_tr/imagenetr/30_0.01/10_0.5/sec_30_1993_64.pth
+2025-12-14 03:37:25,837 [trainer.py] => prefix: sec
+2025-12-14 03:37:25,837 [trainer.py] => model_prefix: sec
+2025-12-14 03:37:25,837 [trainer.py] => beta: 0.5
+2025-12-14 03:37:25,837 [trainer.py] => memory_size: 0
+2025-12-14 03:37:25,837 [trainer.py] => memory_per_class: 0
+Traceback (most recent call last):
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/main.py", line 29, in <module>
+    main()
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/main.py", line 11, in main
+    train(args)
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/trainer.py", line 21, in train
+    _train(args)
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/trainer.py", line 84, in _train
+    data_manager = DataManager(
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/utils/data_manager.py", line 14, in __init__
+    self._setup_data(dataset_name, shuffle, seed)
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/utils/data_manager.py", line 183, in _setup_data
+    idata.download_data()
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/utils/data.py", line 235, in download_data
+    train_dset = datasets.ImageFolder(train_dir)
+  File "/home/team/zhaohongwei/anaconda3/envs/peft/lib/python3.10/site-packages/torchvision/datasets/folder.py", line 309, in __init__
+    super().__init__(
+  File "/home/team/zhaohongwei/anaconda3/envs/peft/lib/python3.10/site-packages/torchvision/datasets/folder.py", line 144, in __init__
+    classes, class_to_idx = self.find_classes(self.root)
+  File "/home/team/zhaohongwei/anaconda3/envs/peft/lib/python3.10/site-packages/torchvision/datasets/folder.py", line 218, in find_classes
+    return find_classes(directory)
+  File "/home/team/zhaohongwei/anaconda3/envs/peft/lib/python3.10/site-packages/torchvision/datasets/folder.py", line 40, in find_classes
+    classes = sorted(entry.name for entry in os.scandir(directory) if entry.is_dir())
+FileNotFoundError: [Errno 2] No such file or directory: './data/imagenet-r/train/'
+2025-12-14 03:37:28,239 [trainer.py] => config: ./exps/SEC-Prompt_inr_B100_Inc10.json
+2025-12-14 03:37:28,239 [trainer.py] => lamda: 0.5
+2025-12-14 03:37:28,239 [trainer.py] => aug: 2
+2025-12-14 03:37:28,239 [trainer.py] => prompt_token_num: 10
+2025-12-14 03:37:28,239 [trainer.py] => prompt_pool_num: 0.5
+2025-12-14 03:37:28,239 [trainer.py] => model_name: sec
+2025-12-14 03:37:28,239 [trainer.py] => backbone_type: pretrained_vit_b16_224_vpt
+2025-12-14 03:37:28,239 [trainer.py] => device: [device(type='cuda', index=7)]
+2025-12-14 03:37:28,239 [trainer.py] => seed: 1993
+2025-12-14 03:37:28,239 [trainer.py] => dataset: imagenetr
+2025-12-14 03:37:28,240 [trainer.py] => init_cls: 100
+2025-12-14 03:37:28,240 [trainer.py] => increment: 10
+2025-12-14 03:37:28,240 [trainer.py] => kshot: 5
+2025-12-14 03:37:28,240 [trainer.py] => vpt_type: Deep
+2025-12-14 03:37:28,240 [trainer.py] => kl_weight: 0.001
+2025-12-14 03:37:28,240 [trainer.py] => tuned_epoch: 30
+2025-12-14 03:37:28,240 [trainer.py] => fs_epoch: 10
+2025-12-14 03:37:28,240 [trainer.py] => init_lr: 0.01
+2025-12-14 03:37:28,240 [trainer.py] => fs_lr: 0.0005
+2025-12-14 03:37:28,240 [trainer.py] => batch_size: 64
+2025-12-14 03:37:28,240 [trainer.py] => fs_batch_size: 16
+2025-12-14 03:37:28,240 [trainer.py] => weight_decay: 0.005
+2025-12-14 03:37:28,240 [trainer.py] => min_lr: 0
+2025-12-14 03:37:28,240 [trainer.py] => optimizer: sgd
+2025-12-14 03:37:28,240 [trainer.py] => fixed_memory: False
+2025-12-14 03:37:28,240 [trainer.py] => shuffle: False
+2025-12-14 03:37:28,240 [trainer.py] => top_k: 5
+2025-12-14 03:37:28,240 [trainer.py] => base_model_path: saved_model/sec_tr/imagenetr/30_0.01/10_0.5/sec_30_1993_64.pth
+2025-12-14 03:37:28,240 [trainer.py] => prefix: sec
+2025-12-14 03:37:28,240 [trainer.py] => model_prefix: sec
+2025-12-14 03:37:28,240 [trainer.py] => beta: 0.5
+2025-12-14 03:37:28,240 [trainer.py] => memory_size: 0
+2025-12-14 03:37:28,240 [trainer.py] => memory_per_class: 0
+Traceback (most recent call last):
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/main.py", line 29, in <module>
+    main()
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/main.py", line 11, in main
+    train(args)
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/trainer.py", line 21, in train
+    _train(args)
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/trainer.py", line 84, in _train
+    data_manager = DataManager(
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/utils/data_manager.py", line 14, in __init__
+    self._setup_data(dataset_name, shuffle, seed)
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/utils/data_manager.py", line 183, in _setup_data
+    idata.download_data()
+  File "/home/team/zhaohongwei/Code/Research/Awesome-FSCIL/SEC-Prompt-main/utils/data.py", line 235, in download_data
+    train_dset = datasets.ImageFolder(train_dir)
+  File "/home/team/zhaohongwei/anaconda3/envs/peft/lib/python3.10/site-packages/torchvision/datasets/folder.py", line 309, in __init__
+    super().__init__(
+  File "/home/team/zhaohongwei/anaconda3/envs/peft/lib/python3.10/site-packages/torchvision/datasets/folder.py", line 144, in __init__
+    classes, class_to_idx = self.find_classes(self.root)
+  File "/home/team/zhaohongwei/anaconda3/envs/peft/lib/python3.10/site-packages/torchvision/datasets/folder.py", line 218, in find_classes
+    return find_classes(directory)
+  File "/home/team/zhaohongwei/anaconda3/envs/peft/lib/python3.10/site-packages/torchvision/datasets/folder.py", line 40, in find_classes
+    classes = sorted(entry.name for entry in os.scandir(directory) if entry.is_dir())
+FileNotFoundError: [Errno 2] No such file or directory: './data/imagenet-r/train/'
