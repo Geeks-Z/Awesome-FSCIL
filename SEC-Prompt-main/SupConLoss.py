@@ -46,10 +46,7 @@ class CenterLoss(nn.Module):
         self.feat_dim = feat_dim
         self.use_gpu = use_gpu
  
-        if self.use_gpu:
-            self.centers = nn.Parameter(torch.randn(self.num_classes, self.feat_dim).cuda())
-        else:
-            self.centers = nn.Parameter(torch.randn(self.num_classes, self.feat_dim))
+        self.centers = nn.Parameter(torch.randn(self.num_classes, self.feat_dim))
  
     def forward(self, x, labels):
         """
@@ -62,8 +59,7 @@ class CenterLoss(nn.Module):
                   torch.pow(self.centers, 2).sum(dim=1, keepdim=True).expand(self.num_classes, batch_size).t()
         distmat.addmm_(1, -2, x, self.centers.t())
  
-        classes = torch.arange(self.num_classes).long()
-        if self.use_gpu: classes = classes.cuda()
+        classes = torch.arange(self.num_classes, device=x.device).long()
         labels = labels.unsqueeze(1).expand(batch_size, self.num_classes)
         mask = labels.eq(classes.expand(batch_size, self.num_classes))
  
@@ -166,5 +162,4 @@ def prompt_centloss(prompts, labels, similarity_metric='cosine'):
     similarity_loss = similarity_loss.sum() / batch_size
 
     return similarity_loss
-
 

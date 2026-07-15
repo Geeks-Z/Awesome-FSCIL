@@ -133,13 +133,14 @@ class _LoRA_qkv_timm_train(nn.Module):
     def __init__(self, qkv, linear_a_q, linear_b_q, linear_a_v, linear_b_v, #linear_a_q1, linear_b_q1, linear_a_v1, linear_b_v1,
         task_id, saved_A, saved_B, t_layer_i, rank, scaling_factor, scaling_factor_prev, eval1=False):
         super().__init__()
-        self.linear_a_q = linear_a_q.cuda()
-        self.linear_b_q = linear_b_q.cuda()
-        self.linear_a_v = linear_a_v.cuda()
-        self.linear_b_v = linear_b_v.cuda()
+        target_device = qkv.weight.device
+        self.linear_a_q = linear_a_q.to(target_device)
+        self.linear_b_q = linear_b_q.to(target_device)
+        self.linear_a_v = linear_a_v.to(target_device)
+        self.linear_b_v = linear_b_v.to(target_device)
 
-        self.scaling_factor = scaling_factor.cuda()
-        self.scaling_factor_prev = scaling_factor_prev.cuda()
+        self.scaling_factor = scaling_factor.to(target_device)
+        self.scaling_factor_prev = scaling_factor_prev.to(target_device)
 
         self.task_id = task_id
         self.qkv = qkv
@@ -213,8 +214,9 @@ class _LoRA_qkv_timm_eval(nn.Module):
         self.rank = rank
 
         self.save_file = save_file
-        self.scaling_factor = scaling_factor.cuda()
-        self.scaling_factor_prev = scaling_factor_prev.cuda()
+        target_device = qkv.weight.device
+        self.scaling_factor = scaling_factor.to(target_device)
+        self.scaling_factor_prev = scaling_factor_prev.to(target_device)
 
 
     def forward(self, x):
@@ -364,12 +366,13 @@ class LoRA_ViT_timm(nn.Module):
     def reset_lora_vit_head(self):
         task_incremental = self.increment
         # Use self.dim for dynamic dimension (768 for ViT-Base, 1024 for ViT-Large)
-        self.lora_vit.head = self.generate_fc(self.dim, (self.task_id)*task_incremental).cuda()
+        target_device = next(self.lora_vit.parameters()).device
+        self.lora_vit.head = self.generate_fc(self.dim, (self.task_id)*task_incremental).to(target_device)
         temp_weights = torch.load(self.save_file+'CLs_weight'+str(self.task_id-1)+'.pt') 
         temp_bias = torch.load(self.save_file+'CLs_bias'+str(self.task_id-1)+'.pt') 
 
-        self.lora_vit.head.weight.data = temp_weights.data.cuda()
-        self.lora_vit.head.bias.data = temp_bias.data.cuda()
+        self.lora_vit.head.weight.data = temp_weights.data.to(target_device)
+        self.lora_vit.head.bias.data = temp_bias.data.to(target_device)
 
 
 
@@ -432,7 +435,8 @@ class LoRA_ViT_timm(nn.Module):
         self.reset_lora_vit_head()
 
     def compute_ortho_loss(self):
-        loss = torch.tensor(0).float().cuda()
+        target_device = next(self.parameters()).device
+        loss = torch.tensor(0.0, device=target_device)
         # print('task_id', self.task_id)
         for i in range(self.task_id):
             file_path = self.save_file+'lora_w_a_'+str(i)+'.pt'

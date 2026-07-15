@@ -30,9 +30,9 @@ class Learner(BaseLearner):
             p.requires_grad_(False)
 
         total_params = sum(p.numel() for p in self._network.backbone.parameters())
-        logging.info(f'{total_params:,} model total parameters.')
+        logging.info(f'{total_params:,} backbone total parameters.')
         total_trainable_params = sum(p.numel() for p in self._network.backbone.parameters() if p.requires_grad)
-        logging.info(f'{total_trainable_params:,} model training parameters.')
+        logging.info(f'{total_trainable_params:,} stage-trainable backbone parameters.')
 
         # if some parameters are trainable, print the key name and corresponding parameter number
         if total_params != total_trainable_params:
@@ -57,20 +57,33 @@ class Learner(BaseLearner):
         test_dataset = data_manager.get_dataset(np.arange(0, self._total_classes), source="test", mode="test")
         self.test_loader = DataLoader(test_dataset, batch_size=self.batch_size, shuffle=False, num_workers=num_workers)
 
-        # forward transfer dataloader
         if self._total_classes < self.args['nb_classes']:
-            self.future_dataset = data_manager.get_dataset(
-                np.arange(self._total_classes, self.args["nb_classes"]),
+            future_indices = np.arange(self._total_classes, self.args["nb_classes"])
+            self.future_train_dataset = data_manager.get_dataset(
+                future_indices,
                 source="train",
-                mode="train",
+                mode="test",
                 kshot=self.args["kshot"],
             )
-            self.future_loader = DataLoader(
-                self.future_dataset,
+            self.future_train_loader = DataLoader(
+                self.future_train_dataset,
                 batch_size=self.batch_size,
                 shuffle=False,
                 num_workers=num_workers,
             )
+            self.future_test_dataset = data_manager.get_dataset(
+                future_indices,
+                source="test",
+                mode="test",
+            )
+            self.future_test_loader = DataLoader(
+                self.future_test_dataset,
+                batch_size=self.batch_size,
+                shuffle=False,
+                num_workers=num_workers,
+            )
+            self.future_dataset = self.future_test_dataset
+            self.future_loader = self.future_test_loader
 
         if len(self._multiple_gpus) > 1:
             print('Multiple GPUs')
@@ -225,7 +238,11 @@ class Learner(BaseLearner):
         # return np.concatenate(y_pred), np.concatenate(y_true)  # [N, topk]
     def _eval_future_cnn(self, loader, y_pred, y_true):
         if self._total_classes < self.args['nb_classes']:
-            self.update_future_head(self._network, self.future_loader)
+            future_train_loader = self._get_future_train_loader()
+            if future_train_loader is None or loader is None:
+                return np.concatenate(y_pred), np.concatenate(y_true)
+
+            self.update_future_head(self._network, future_train_loader)
             for _, (_, inputs, targets) in enumerate(loader):
                 inputs, targets = inputs.to(self._device), targets.to(self._device)
                 output_emas = []

@@ -25,6 +25,7 @@ Hacked together by / Copyright 2020, Ross Wightman
 # ------------------------------------------
 """
 import math
+import time
 import logging
 from functools import partial
 from collections import OrderedDict
@@ -493,6 +494,10 @@ class VisionTransformer(nn.Module):
             attn_layer = PreT_Attention
         
         self.total_prompt_len = 0
+        self._prompt_timing_enabled = False
+        self._prompt_timing_total_ms = 0.0
+        self._prompt_timing_calls = 0
+        self._prompt_timing_pending = []
         if self.prompt_pool:
             if not self.use_prefix_tune_for_g_prompt:
                 self.total_prompt_len += g_prompt_length * len(self.g_prompt_layer_idx)
@@ -556,6 +561,54 @@ class VisionTransformer(nn.Module):
             self.global_pool = global_pool
         self.head = nn.Linear(self.embed_dim, num_classes) if num_classes > 0 else nn.Identity()
 
+    def enable_prompt_timing(self, enabled=True):
+        self._prompt_timing_enabled = enabled
+
+    def reset_prompt_timing(self):
+        self._prompt_timing_total_ms = 0.0
+        self._prompt_timing_calls = 0
+        self._prompt_timing_pending = []
+
+    def consume_prompt_timing(self, synchronize=True):
+        self._finalize_prompt_timing(synchronize=synchronize)
+        stats = {
+            'total_ms': self._prompt_timing_total_ms,
+            'calls': self._prompt_timing_calls,
+        }
+        self.reset_prompt_timing()
+        return stats
+
+    def _start_prompt_timer(self, x):
+        if not self._prompt_timing_enabled:
+            return None
+        if x.is_cuda:
+            start = torch.cuda.Event(enable_timing=True)
+            end = torch.cuda.Event(enable_timing=True)
+            start.record()
+            return ('cuda', start, end, x.get_device())
+        return ('cpu', time.perf_counter())
+
+    def _stop_prompt_timer(self, timer):
+        if timer is None:
+            return
+        self._prompt_timing_calls += 1
+        if timer[0] == 'cuda':
+            _, start, end, device_idx = timer
+            end.record()
+            self._prompt_timing_pending.append((start, end, device_idx))
+        else:
+            self._prompt_timing_total_ms += (time.perf_counter() - timer[1]) * 1000.0
+
+    def _finalize_prompt_timing(self, synchronize=True):
+        if not self._prompt_timing_pending:
+            return
+        if synchronize:
+            for device_idx in sorted({device_idx for _, _, device_idx in self._prompt_timing_pending}):
+                torch.cuda.synchronize(device_idx)
+        for start, end, _ in self._prompt_timing_pending:
+            self._prompt_timing_total_ms += start.elapsed_time(end)
+        self._prompt_timing_pending = []
+
     def forward_features(self, x, task_id=-1, cls_features=None, train=False):
         x = self.patch_embed(x)
 
@@ -581,7 +634,9 @@ class VisionTransformer(nn.Module):
                 g_prompt_counter = -1
                 e_prompt_counter = -1
 
+                prompt_timer = self._start_prompt_timer(x)
                 res = self.e_prompt(x, prompt_mask=prompt_mask, cls_features=cls_features)
+                self._stop_prompt_timer(prompt_timer)
                 e_prompt = res['batched_prompt']
 
                 for i, block in enumerate(self.blocks):

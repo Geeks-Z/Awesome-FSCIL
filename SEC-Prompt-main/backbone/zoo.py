@@ -274,7 +274,7 @@ class DPrompt(nn.Module):
 
 
 def ortho_penalty(t):
-    return ((t @ t.T - torch.eye(t.shape[0]).cuda()) ** 2).mean()
+    return ((t @ t.T - torch.eye(t.shape[0], device=t.device)) ** 2).mean()
 
 
 # @article{wang2022dualprompt,

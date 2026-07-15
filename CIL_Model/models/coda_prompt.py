@@ -31,6 +31,8 @@ class Learner(BaseLearner):
         self.args = args
         self.train_time = 0
         self.test_time = 0
+        self.task_prompt_stats = []
+        self.latest_prompt_stats = None
 
         total_params = sum(p.numel() for p in self._network.parameters())
         logging.info(f'{total_params:,} total parameters.')
@@ -65,20 +67,33 @@ class Learner(BaseLearner):
         self.test_loader = DataLoader(test_dataset, batch_size=self.batch_size, shuffle=False, drop_last=False,
                                       num_workers=num_workers)
 
-        # forward transfer dataloader
         if self._total_classes < self.args['nb_classes']:
-            self.future_dataset = data_manager.get_dataset(
-                np.arange(self._total_classes, self.args["nb_classes"]),
+            future_indices = np.arange(self._total_classes, self.args["nb_classes"])
+            self.future_train_dataset = data_manager.get_dataset(
+                future_indices,
                 source="train",
-                mode="train",
+                mode="test",
                 kshot=self.args["kshot"],
             )
-            self.future_loader = DataLoader(
-                self.future_dataset,
+            self.future_train_loader = DataLoader(
+                self.future_train_dataset,
                 batch_size=self.batch_size,
                 shuffle=False,
                 num_workers=num_workers,
             )
+            self.future_test_dataset = data_manager.get_dataset(
+                future_indices,
+                source="test",
+                mode="test",
+            )
+            self.future_test_loader = DataLoader(
+                self.future_test_dataset,
+                batch_size=self.batch_size,
+                shuffle=False,
+                num_workers=num_workers,
+            )
+            self.future_dataset = self.future_test_dataset
+            self.future_loader = self.future_test_loader
 
         if len(self._multiple_gpus) > 1:
             print('Multiple GPUs')
@@ -193,11 +208,20 @@ class Learner(BaseLearner):
 
     def _eval_cnn(self, loader, y_pred, y_true):
         self._network.eval()
-        # y_pred, y_true = [], []
+        prompt_total_s = 0.0
+
+        timing_network = self._get_timing_network()
+        if timing_network is not None and hasattr(timing_network, "enable_prompt_timing"):
+            timing_network.enable_prompt_timing(True)
         for _, (_, inputs, targets) in enumerate(loader):
             inputs = inputs.to(self._device)
+            if timing_network is not None and hasattr(timing_network, "reset_prompt_timing"):
+                timing_network.reset_prompt_timing()
             with torch.no_grad():
                 outputs = self._network(inputs)["logits"][:, :self._total_classes]
+                if timing_network is not None and hasattr(timing_network, "consume_prompt_timing"):
+                    prompt_stats = timing_network.consume_prompt_timing(synchronize=True)
+                    prompt_total_s += prompt_stats["total_s"]
             predicts = torch.topk(
                 outputs, k=self.topk, dim=1, largest=True, sorted=True
             )[
@@ -206,11 +230,37 @@ class Learner(BaseLearner):
             y_pred.append(predicts.cpu().numpy())
             y_true.append(targets.cpu().numpy())
 
-        # return np.concatenate(y_pred), np.concatenate(y_true)  # [N, topk]
+        if timing_network is not None and hasattr(timing_network, "enable_prompt_timing"):
+            timing_network.enable_prompt_timing(False)
+        if timing_network is not None and hasattr(timing_network, "reset_prompt_timing"):
+            timing_network.reset_prompt_timing()
+
+        task_stats = {
+            "task_id": self._cur_task,
+            "prompt_total_s": prompt_total_s,
+        }
+        self.latest_prompt_stats = task_stats
+        if len(self.task_prompt_stats) <= self._cur_task:
+            self.task_prompt_stats.append(task_stats)
+        else:
+            self.task_prompt_stats[self._cur_task] = task_stats
+        logging.info(
+            "Task {} prompt_total {:.4f} s".format(
+                self._cur_task,
+                task_stats["prompt_total_s"],
+            )
+        )
+
+    def _get_timing_network(self):
+        return self._network.module if isinstance(self._network, nn.DataParallel) else self._network
 
     def _eval_future_cnn(self, loader, y_pred, y_true):
         if self._total_classes < self.args['nb_classes']:
-            self.update_future_head(self._network, self.future_loader)
+            future_train_loader = self._get_future_train_loader()
+            if future_train_loader is None or loader is None:
+                return np.concatenate(y_pred), np.concatenate(y_true)
+
+            self.update_future_head(self._network, future_train_loader)
             for _, (_, inputs, targets) in enumerate(loader):
                 inputs, targets = inputs.to(self._device), targets.to(self._device)
                 with torch.no_grad():

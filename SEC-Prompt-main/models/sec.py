@@ -38,6 +38,36 @@ class Learner(BaseLearner):
         self.args = args
         self.midfeature = None
 
+    def _get_classifier_stage_trainable_param_count(self):
+        fc = self._network.fc
+        active_out = fc.out_features if fc.old_out == 0 else fc.out_features - fc.old_out
+        sigma_params = 1 if getattr(fc, "sigma", None) is not None else 0
+        return active_out * fc.in_features + sigma_params
+
+    def get_stage_trainable_params_m(self):
+        prompt_params = getattr(self, "task_trainable_params", 0)
+        classifier_params = self._get_classifier_stage_trainable_param_count()
+        return (prompt_params + classifier_params) / 1e6
+
+    def get_final_trainable_params_m(self):
+        tsp_total = (
+            self._network.backbone.TSP.prompt_num
+            * (self._network.backbone.TSP.e_p_length + 2)
+            * self._network.backbone.TSP.emb_d
+            * len(self._network.backbone.TSP.e_layers)
+        )
+        rsp_total = 0
+        if hasattr(self._network.backbone, "RSP"):
+            rsp_total = (
+                self._network.backbone.RSP.e_pool_size
+                * (self._network.backbone.RSP.e_p_length + 2)
+                * self._network.backbone.RSP.emb_d
+                * len(self._network.backbone.RSP.e_layers)
+            )
+        fc = self._network.fc
+        classifier_total = fc.out_features * fc.in_features + (1 if getattr(fc, "sigma", None) is not None else 0)
+        return (tsp_total + rsp_total + classifier_total) / 1e6
+
     def after_task(self):
         self._known_classes = self._total_classes
 
@@ -204,20 +234,33 @@ class Learner(BaseLearner):
             num_workers=num_workers,
         )
 
-        # forward transfer dataloader
         if self._total_classes < self.args['nb_classes']:
-            self.future_dataset = data_manager.get_dataset(
-                np.arange(self._total_classes, self.args["nb_classes"]),
+            future_indices = np.arange(self._total_classes, self.args["nb_classes"])
+            self.future_train_dataset = data_manager.get_dataset(
+                future_indices,
                 source="train",
-                mode="train",
+                mode="test",
                 kshot=self.args["kshot"],
             )
-            self.future_loader = DataLoader(
-                self.future_dataset,
+            self.future_train_loader = DataLoader(
+                self.future_train_dataset,
                 batch_size=self.batch_size,
                 shuffle=False,
                 num_workers=num_workers,
             )
+            self.future_test_dataset = data_manager.get_dataset(
+                future_indices,
+                source="test",
+                mode="test",
+            )
+            self.future_test_loader = DataLoader(
+                self.future_test_dataset,
+                batch_size=self.batch_size,
+                shuffle=False,
+                num_workers=num_workers,
+            )
+            self.future_dataset = self.future_test_dataset
+            self.future_loader = self.future_test_loader
         test_curr_dataset = data_manager.get_dataset(
             np.arange(self._known_classes, self._total_classes),
             source="test",
@@ -373,7 +416,7 @@ class Learner(BaseLearner):
     def eval_task(self):
         y_pred, y_true = [], []
         prompt_time = self._eval_cnn(self.test_loader, y_pred, y_true)
-        y_pred, y_true = self._eval_future_cnn(self.future_loader, y_pred, y_true)
+        y_pred, y_true = self._eval_future_cnn(self.future_test_loader if hasattr(self, "future_test_loader") else self.future_loader, y_pred, y_true)
         accy = self._evaluate(y_pred, y_true)
         accy["prompt_time"] = prompt_time
         return accy
@@ -410,7 +453,11 @@ class Learner(BaseLearner):
 
     def _eval_future_cnn(self, loader, y_pred, y_true):
         if self._total_classes < self.args['nb_classes']:
-            self.update_future_head(self._network, self.future_loader)
+            future_train_loader = self.future_train_loader if hasattr(self, "future_train_loader") else self.future_loader
+            if future_train_loader is None or loader is None:
+                return np.concatenate(y_pred), np.concatenate(y_true)
+
+            self.update_future_head(self._network, future_train_loader)
             for _, (_, inputs, targets) in enumerate(loader):
                 inputs, targets = inputs.to(self._device), targets.to(self._device)
                 with torch.no_grad():

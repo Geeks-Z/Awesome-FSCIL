@@ -8,6 +8,15 @@ class iData(object):
     test_trsf = []
     common_trsf = []
     class_order = None
+    class_names = None
+    class_ids = None
+
+
+def _clean_folder_label(name):
+    parts = name.split(".", 1)
+    if len(parts) == 2 and parts[0].isdigit():
+        name = parts[1]
+    return name.replace("_", " ").replace("-", " ").strip()
 
 
 class iCIFAR10(iData):
@@ -36,6 +45,8 @@ class iCIFAR10(iData):
         self.test_data, self.test_targets = test_dataset.data, np.array(
             test_dataset.targets
         )
+        self.class_names = list(train_dataset.classes)
+        self.class_ids = list(train_dataset.classes)
 
 
 class iCIFAR100(iData):
@@ -64,6 +75,8 @@ class iCIFAR100(iData):
         self.test_data, self.test_targets = test_dataset.data, np.array(
             test_dataset.targets
         )
+        self.class_names = list(train_dataset.classes)
+        self.class_ids = list(train_dataset.classes)
 
 def build_transform_coda_prompt(is_train, args):
     if is_train:
@@ -145,6 +158,8 @@ class iCIFAR224(iData):
         self.test_data, self.test_targets = test_dataset.data, np.array(
             test_dataset.targets
         )
+        self.class_names = list(train_dataset.classes)
+        self.class_ids = list(train_dataset.classes)
 
 class iImageNet1000(iData):
     use_path = True
@@ -174,6 +189,8 @@ class iImageNet1000(iData):
 
         self.train_data, self.train_targets = split_images_labels(train_dset.imgs)
         self.test_data, self.test_targets = split_images_labels(test_dset.imgs)
+        self.class_ids = list(train_dset.classes)
+        self.class_names = [_clean_folder_label(name) for name in train_dset.classes]
 
 
 class iImageNet100(iData):
@@ -203,6 +220,8 @@ class iImageNet100(iData):
 
         self.train_data, self.train_targets = split_images_labels(train_dset.imgs)
         self.test_data, self.test_targets = split_images_labels(test_dset.imgs)
+        self.class_ids = list(train_dset.classes)
+        self.class_names = [_clean_folder_label(name) for name in train_dset.classes]
 
 
 class iImageNetR(iData):
@@ -233,6 +252,8 @@ class iImageNetR(iData):
 
         self.train_data, self.train_targets = split_images_labels(train_dset.imgs)
         self.test_data, self.test_targets = split_images_labels(test_dset.imgs)
+        self.class_ids = list(train_dset.classes)
+        self.class_names = [_clean_folder_label(name) for name in train_dset.classes]
 
 
 class iImageNetA(iData):
@@ -254,6 +275,8 @@ class iImageNetA(iData):
 
         self.train_data, self.train_targets = split_images_labels(train_dset.imgs)
         self.test_data, self.test_targets = split_images_labels(test_dset.imgs)
+        self.class_ids = list(train_dset.classes)
+        self.class_names = [_clean_folder_label(name) for name in train_dset.classes]
 
 
 
@@ -276,6 +299,8 @@ class CUB(iData):
 
         self.train_data, self.train_targets = split_images_labels(train_dset.imgs)
         self.test_data, self.test_targets = split_images_labels(test_dset.imgs)
+        self.class_ids = list(train_dset.classes)
+        self.class_names = [_clean_folder_label(name) for name in train_dset.classes]
 
 
 class objectnet(iData):
@@ -297,6 +322,8 @@ class objectnet(iData):
 
         self.train_data, self.train_targets = split_images_labels(train_dset.imgs)
         self.test_data, self.test_targets = split_images_labels(test_dset.imgs)
+        self.class_ids = list(train_dset.classes)
+        self.class_names = [_clean_folder_label(name) for name in train_dset.classes]
 
 
 class omnibenchmark(iData):
@@ -318,6 +345,8 @@ class omnibenchmark(iData):
 
         self.train_data, self.train_targets = split_images_labels(train_dset.imgs)
         self.test_data, self.test_targets = split_images_labels(test_dset.imgs)
+        self.class_ids = list(train_dset.classes)
+        self.class_names = [_clean_folder_label(name) for name in train_dset.classes]
 
 
 
@@ -423,3 +452,5 @@ class iMiniImageNet(iData):
 
         self.train_data = np.array(self.train_data)
         self.test_data = np.array(self.test_data)
+        self.class_ids = list(self.train_wnids)
+        self.class_names = list(self.train_wnids)

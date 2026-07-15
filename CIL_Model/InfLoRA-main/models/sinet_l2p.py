@@ -82,8 +82,28 @@ class SiNet(nn.Module):
     def __init__(self, args):
         super(SiNet, self).__init__()
 
-        model_kwargs = dict(patch_size=16, embed_dim=768, depth=12, num_heads=12)
-        self.image_encoder =_create_vision_transformer('vit_base_patch16_224_in21k', pretrained=True, **model_kwargs)
+        embd_dim = args.get("embd_dim", 768)
+        backbone_type = args.get("backbone_type", "vit_base_patch16_224")
+        depth = 24 if embd_dim == 1024 else 12
+        num_heads = args.get("num_heads", 16 if embd_dim == 1024 else 12)
+
+        if embd_dim == 1024:
+            variant = "vit_large_patch16_224"
+        else:
+            backbone_map = {
+                "pretrained_vit_b16_224": "vit_base_patch16_224",
+                "vit_base_patch16_224": "vit_base_patch16_224",
+                "pretrained_vit_b16_224_in21k": "vit_base_patch16_224_in21k",
+                "vit_base_patch16_224_in21k": "vit_base_patch16_224_in21k",
+                "pretrained_vit_b16_224_dino": "vit_base_patch16_224_dino",
+                "vit_base_patch16_224_dino": "vit_base_patch16_224_dino",
+            }
+            if backbone_type not in backbone_map:
+                raise ValueError("Unsupported backbone_type for SiNet: {}".format(backbone_type))
+            variant = backbone_map[backbone_type]
+
+        model_kwargs = dict(patch_size=16, embed_dim=embd_dim, depth=depth, num_heads=num_heads)
+        self.image_encoder = _create_vision_transformer(variant, pretrained=True, **model_kwargs)
 
         # n = 0
         # for p in self.image_encoder.parameters():

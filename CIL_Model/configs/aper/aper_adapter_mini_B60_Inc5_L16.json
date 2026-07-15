@@ -14,7 +14,7 @@
   "ffn_num": 10,
   "optimizer": "sgd",
   "min_lr": 0,
-  "device": ["1"],
+  "device": ["4"],
   "seed": [1993],
   "kshot": 5,
   "tuned_epoch": 20,

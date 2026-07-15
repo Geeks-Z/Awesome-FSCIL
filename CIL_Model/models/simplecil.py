@@ -69,20 +69,33 @@ class Learner(BaseLearner):
         self.train_loader_for_protonet = DataLoader(train_dataset, batch_size=self.args["batch_size"],
                                                     shuffle=True, num_workers=num_workers)
 
-        # forward transfer dataloader
         if self._total_classes < self.args['nb_classes']:
-            self.future_dataset = data_manager.get_dataset(
-                np.arange(self._total_classes, self.args["nb_classes"]),
+            future_indices = np.arange(self._total_classes, self.args["nb_classes"])
+            self.future_train_dataset = data_manager.get_dataset(
+                future_indices,
                 source="train",
-                mode="train",
+                mode="test",
                 kshot=self.args["kshot"],
             )
-            self.future_loader = DataLoader(
-                self.future_dataset,
+            self.future_train_loader = DataLoader(
+                self.future_train_dataset,
                 batch_size=self.args["batch_size"],
                 shuffle=False,
                 num_workers=num_workers,
             )
+            self.future_test_dataset = data_manager.get_dataset(
+                future_indices,
+                source="test",
+                mode="test",
+            )
+            self.future_test_loader = DataLoader(
+                self.future_test_dataset,
+                batch_size=self.args["batch_size"],
+                shuffle=False,
+                num_workers=num_workers,
+            )
+            self.future_dataset = self.future_test_dataset
+            self.future_loader = self.future_test_loader
 
         if len(self._multiple_gpus) > 1:
             print('Multiple GPUs')

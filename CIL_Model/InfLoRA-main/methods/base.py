@@ -75,12 +75,17 @@ class BaseLearner(object):
 
         return ret
 
+    def _get_future_train_loader(self):
+        return getattr(self, 'future_train_loader', getattr(self, 'future_loader', None))
+
+    def _get_future_eval_loader(self):
+        return getattr(self, 'future_test_loader', getattr(self, 'future_loader', None))
+
     def eval_task(self):
         # logging.info("session {} total_test_images: {}".format(self._cur_task, len(self.test_loader.dataset)))
         # logging.info('-' * 100)
-        y_pred, y_true = [], []
-        self._eval_cnn(self.test_loader,y_pred, y_true)
-        y_pred, y_true = self._eval_future_cnn(self.future_loader, y_pred, y_true)
+        y_pred, y_true = self._eval_cnn(self.test_loader)
+        y_pred, y_true = self._eval_future_cnn(self._get_future_eval_loader(), [y_pred], [y_true])
         cnn_accy = self._evaluate(y_pred, y_true)
         # cnn_accy_with_task = self._evaluate(y_pred_with_task, y_true)
         # cnn_accy_task = (y_pred_task == y_true_task).sum().item()/len(y_pred_task)
@@ -130,6 +135,9 @@ class BaseLearner(object):
             y_true.append(targets.cpu().numpy())
 
         return np.concatenate(y_pred), np.concatenate(y_true)  # [N, topk]
+
+    def _eval_future_cnn(self, loader, y_pred, y_true):
+        return np.concatenate(y_pred), np.concatenate(y_true)
 
     def _eval_nme(self, loader, class_means):
         self._network.eval()

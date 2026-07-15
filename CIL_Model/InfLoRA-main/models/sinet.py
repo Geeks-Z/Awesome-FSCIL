@@ -352,7 +352,7 @@ class ViT_Prompts(VisionTransformer):
 
         x = x + self.pos_embed.to(x.dtype)
 
-        prompt_loss = torch.zeros((1,), requires_grad=True).cuda()
+        prompt_loss = torch.zeros((1,), requires_grad=True, device=x.device)
         for i,blk in enumerate(self.blocks):
 
             if prompt is not None:

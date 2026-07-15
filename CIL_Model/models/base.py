@@ -114,12 +114,18 @@ class BaseLearner(object):
 
         return ret
 
+    def _get_future_train_loader(self):
+        return getattr(self, "future_train_loader", getattr(self, "future_loader", None))
+
+    def _get_future_eval_loader(self):
+        return getattr(self, "future_test_loader", getattr(self, "future_loader", None))
+
     def eval_task(self):
         # start_time = time.time()
         y_pred, y_true = [], []
         # 计算分类准确率
         self._eval_cnn(self.test_loader, y_pred, y_true)
-        y_pred, y_true = self._eval_future_cnn(self.future_loader, y_pred, y_true)
+        y_pred, y_true = self._eval_future_cnn(self._get_future_eval_loader(), y_pred, y_true)
 
         cnn_accy = self._evaluate(y_pred, y_true)
 
@@ -152,7 +158,11 @@ class BaseLearner(object):
     def _eval_future_cnn(self, future_loader, y_pred, y_true):
 
         if self._total_classes < self.args['nb_classes']:
-            self.update_future_head(self._network, future_loader)
+            future_train_loader = self._get_future_train_loader()
+            if future_train_loader is None or future_loader is None:
+                return np.concatenate(y_pred), np.concatenate(y_true)
+
+            self.update_future_head(self._network, future_train_loader)
 
             for _, (_, inputs, targets) in enumerate(future_loader):
                 inputs, targets = inputs.to(self._device), targets.to(self._device)

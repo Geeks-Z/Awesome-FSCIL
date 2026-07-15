@@ -1,5 +1,7 @@
 import copy
 import logging
+import time
+
 import torch
 from torch import nn
 from backbone.linears import SimpleLinear, SplitCosineLinear, CosineLinear, EaseCosineLinear, SimpleContinualLinear
@@ -691,7 +693,70 @@ class PromptVitNet(nn.Module):
         # Classifier head(s) - use dynamic dimension
         embed_dim = 1024 if "large" in args.get("backbone_type", "").lower() else 768
         self.future_head = CosineLinear(embed_dim, args["nb_classes"])
-            
+        self._prompt_timing_enabled = False
+        self._original_prompt_total_ms = 0.0
+        self._original_prompt_calls = 0
+        self._original_prompt_pending = []
+
+    def enable_prompt_timing(self, enabled=True):
+        self._prompt_timing_enabled = enabled
+        if hasattr(self.backbone, "enable_prompt_timing"):
+            self.backbone.enable_prompt_timing(enabled)
+
+    def reset_prompt_timing(self):
+        self._original_prompt_total_ms = 0.0
+        self._original_prompt_calls = 0
+        self._original_prompt_pending = []
+        if hasattr(self.backbone, "reset_prompt_timing"):
+            self.backbone.reset_prompt_timing()
+
+    def consume_prompt_timing(self, synchronize=True):
+        backbone_total_ms = 0.0
+        backbone_calls = 0
+        if hasattr(self.backbone, "consume_prompt_timing"):
+            backbone_stats = self.backbone.consume_prompt_timing(synchronize=synchronize)
+            backbone_total_ms = backbone_stats.get("total_ms", 0.0)
+            backbone_calls = backbone_stats.get("calls", 0)
+
+        self._finalize_original_prompt_timing(synchronize=synchronize)
+        stats = {
+            "total_s": (backbone_total_ms + self._original_prompt_total_ms) / 1000.0,
+            "calls": backbone_calls + self._original_prompt_calls,
+        }
+        self.reset_prompt_timing()
+        return stats
+
+    def _start_original_prompt_timer(self, x):
+        if not self._prompt_timing_enabled:
+            return None
+        if x.is_cuda:
+            start = torch.cuda.Event(enable_timing=True)
+            end = torch.cuda.Event(enable_timing=True)
+            start.record()
+            return ("cuda", start, end, x.get_device())
+        return ("cpu", time.perf_counter())
+
+    def _stop_original_prompt_timer(self, timer):
+        if timer is None:
+            return
+        self._original_prompt_calls += 1
+        if timer[0] == "cuda":
+            _, start, end, device_idx = timer
+            end.record()
+            self._original_prompt_pending.append((start, end, device_idx))
+        else:
+            self._original_prompt_total_ms += (time.perf_counter() - timer[1]) * 1000.0
+
+    def _finalize_original_prompt_timing(self, synchronize=True):
+        if not self._original_prompt_pending:
+            return
+        if synchronize:
+            for device_idx in sorted({device_idx for _, _, device_idx in self._original_prompt_pending}):
+                torch.cuda.synchronize(device_idx)
+        for start, end, _ in self._original_prompt_pending:
+            self._original_prompt_total_ms += start.elapsed_time(end)
+        self._original_prompt_pending = []
+             
     def get_original_backbone(self, args):
         return timm.create_model(
             args["backbone_type"],
@@ -705,7 +770,9 @@ class PromptVitNet(nn.Module):
     def forward(self, x, task_id=-1, train=False):
         with torch.no_grad():
             if self.original_backbone is not None:
+                original_timer = self._start_original_prompt_timer(x)
                 cls_features = self.original_backbone(x)['pre_logits']
+                self._stop_original_prompt_timer(original_timer)
             else:
                 cls_features = None
 
@@ -727,6 +794,69 @@ class CodaPromptVitNet(nn.Module):
         self.prompt = CodaPrompt(embed_dim, args["nb_tasks"], args["prompt_param"])
         # Classifier head(s)
         self.future_head = CosineLinear(embed_dim, args["nb_classes"])
+        self._selection_timing_enabled = False
+        self._selection_timing_total_ms = 0.0
+        self._selection_timing_calls = 0
+        self._selection_timing_pending = []
+
+    def enable_prompt_timing(self, enabled=True):
+        self._selection_timing_enabled = enabled
+        if hasattr(self.backbone, "enable_prompt_timing"):
+            self.backbone.enable_prompt_timing(enabled)
+
+    def reset_prompt_timing(self):
+        self._selection_timing_total_ms = 0.0
+        self._selection_timing_calls = 0
+        self._selection_timing_pending = []
+        if hasattr(self.backbone, "reset_prompt_timing"):
+            self.backbone.reset_prompt_timing()
+
+    def consume_prompt_timing(self, synchronize=True):
+        backbone_total_ms = 0.0
+        backbone_calls = 0
+        if hasattr(self.backbone, "consume_prompt_timing"):
+            backbone_stats = self.backbone.consume_prompt_timing(synchronize=synchronize)
+            backbone_total_ms = backbone_stats.get("total_ms", 0.0)
+            backbone_calls = backbone_stats.get("calls", 0)
+
+        self._finalize_selection_timing(synchronize=synchronize)
+        stats = {
+            "total_s": (backbone_total_ms + self._selection_timing_total_ms) / 1000.0,
+            "calls": backbone_calls + self._selection_timing_calls,
+        }
+        self.reset_prompt_timing()
+        return stats
+
+    def _start_selection_timer(self, x):
+        if not self._selection_timing_enabled:
+            return None
+        if x.is_cuda:
+            start = torch.cuda.Event(enable_timing=True)
+            end = torch.cuda.Event(enable_timing=True)
+            start.record()
+            return ("cuda", start, end, x.get_device())
+        return ("cpu", time.perf_counter())
+
+    def _stop_selection_timer(self, timer):
+        if timer is None:
+            return
+        self._selection_timing_calls += 1
+        if timer[0] == "cuda":
+            _, start, end, device_idx = timer
+            end.record()
+            self._selection_timing_pending.append((start, end, device_idx))
+        else:
+            self._selection_timing_total_ms += (time.perf_counter() - timer[1]) * 1000.0
+
+    def _finalize_selection_timing(self, synchronize=True):
+        if not self._selection_timing_pending:
+            return
+        if synchronize:
+            for device_idx in sorted({device_idx for _, _, device_idx in self._selection_timing_pending}):
+                torch.cuda.synchronize(device_idx)
+        for start, end, _ in self._selection_timing_pending:
+            self._selection_timing_total_ms += start.elapsed_time(end)
+        self._selection_timing_pending = []
 
 
     # pen: get penultimate features  
@@ -734,7 +864,9 @@ class CodaPromptVitNet(nn.Module):
         res = dict()
         if self.prompt is not None:
             with torch.no_grad():
+                query_timer = self._start_selection_timer(x)
                 q, _ = self.backbone(x)
+                self._stop_selection_timer(query_timer)
                 q = q[:,0,:]
             out, prompt_loss = self.backbone(x, prompt=self.prompt, q=q, train=train)
             out = out[:,0,:]

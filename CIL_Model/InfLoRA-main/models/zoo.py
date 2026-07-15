@@ -369,7 +369,7 @@ class CodaPrompt(nn.Module):
         return p_return, loss, x_block
 
 def ortho_penalty(t):
-    return ((t @t.T - torch.eye(t.shape[0]).cuda())**2).mean()
+    return ((t @ t.T - torch.eye(t.shape[0], device=t.device)) ** 2).mean()
 
 # @article{wang2022dualprompt,
 #   title={DualPrompt: Complementary Prompting for Rehearsal-free Continual Learning},

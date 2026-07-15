@@ -310,6 +310,10 @@ class VisionTransformer(nn.Module):
         trunc_normal_(self.pos_embed, std=.02)
         trunc_normal_(self.cls_token, std=.02)
         self.apply(self._init_weights)
+        self._prompt_timing_enabled = False
+        self._prompt_timing_total_ms = 0.0
+        self._prompt_timing_calls = 0
+        self._prompt_timing_pending = []
 
     def _init_weights(self, m):
         if isinstance(m, nn.Linear):
@@ -323,6 +327,54 @@ class VisionTransformer(nn.Module):
     @torch.jit.ignore
     def no_weight_decay(self):
         return {'pos_embed', 'cls_token'}
+
+    def enable_prompt_timing(self, enabled=True):
+        self._prompt_timing_enabled = enabled
+
+    def reset_prompt_timing(self):
+        self._prompt_timing_total_ms = 0.0
+        self._prompt_timing_calls = 0
+        self._prompt_timing_pending = []
+
+    def consume_prompt_timing(self, synchronize=True):
+        self._finalize_prompt_timing(synchronize=synchronize)
+        stats = {
+            'total_ms': self._prompt_timing_total_ms,
+            'calls': self._prompt_timing_calls,
+        }
+        self.reset_prompt_timing()
+        return stats
+
+    def _start_prompt_timer(self, x):
+        if not self._prompt_timing_enabled:
+            return None
+        if x.is_cuda:
+            start = torch.cuda.Event(enable_timing=True)
+            end = torch.cuda.Event(enable_timing=True)
+            start.record()
+            return ('cuda', start, end, x.get_device())
+        return ('cpu', time.perf_counter())
+
+    def _stop_prompt_timer(self, timer):
+        if timer is None:
+            return
+        self._prompt_timing_calls += 1
+        if timer[0] == 'cuda':
+            _, start, end, device_idx = timer
+            end.record()
+            self._prompt_timing_pending.append((start, end, device_idx))
+        else:
+            self._prompt_timing_total_ms += (time.perf_counter() - timer[1]) * 1000.0
+
+    def _finalize_prompt_timing(self, synchronize=True):
+        if not self._prompt_timing_pending:
+            return
+        if synchronize:
+            for device_idx in sorted({device_idx for _, _, device_idx in self._prompt_timing_pending}):
+                torch.cuda.synchronize(device_idx)
+        for start, end, _ in self._prompt_timing_pending:
+            self._prompt_timing_total_ms += start.elapsed_time(end)
+        self._prompt_timing_pending = []
 
     def forward(self, x, register_blk=-1, prompt=None, q=None, train=False, task_id=None):
         B = x.shape[0]
@@ -339,10 +391,14 @@ class VisionTransformer(nn.Module):
 
             if prompt is not None:
                 if train:
+                    prompt_timer = self._start_prompt_timer(x)
                     p_list, loss, x = prompt.forward(q, i, x, train=True)
+                    self._stop_prompt_timer(prompt_timer)
                     prompt_loss += loss
                 else:
+                    prompt_timer = self._start_prompt_timer(x)
                     p_list, _, x = prompt.forward(q, i, x, train=False)
+                    self._stop_prompt_timer(prompt_timer)
                 # if p_list is not None and i == 1:
                 #     print(x[0,0,0:10])
                 #     print(p_list[0][0,0,0:10])

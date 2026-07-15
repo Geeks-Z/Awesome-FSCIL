@@ -16,7 +16,7 @@ def load_json(setting_path):
     return param
 def setup_parser():
     parser = argparse.ArgumentParser(description='Reproduce of multiple pre-trained incremental learning algorthms.')
-    parser.add_argument('--config', type=str, default='./configs/debug/simplecil_cub_B100_Inc10.json',
+    parser.add_argument('--config', type=str, default='./configs/debug/lae_cub_B100_Inc10.json',
                         help='Json file of settings.')
     return parser
 

@@ -9,7 +9,7 @@
   "increment": 10,
   "model_name": "finetune",
   "backbone_type": "vit_base_patch16_224_dino",
-  "device": ["2"],
+  "device": ["0"],
   "seed": [1993],
   "kshot": 5,
 

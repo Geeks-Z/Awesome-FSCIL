@@ -1,3 +1,4 @@
+import logging
 import torch
 import torch.nn as nn
 import copy
@@ -6,6 +7,8 @@ from torch.nn import functional as F
 
 from models.vit_inflora import VisionTransformer, PatchEmbed, Block,resolve_pretrained_cfg, build_model_with_cfg, checkpoint_filter_fn
 from models.zoo import CodaPrompt
+
+_logger = logging.getLogger(__name__)
 
 class ViT_lora_co(VisionTransformer):
     def __init__(
@@ -50,12 +53,41 @@ def _create_vision_transformer(variant, pretrained=False, **kwargs):
     if repr_size is not None and num_classes != default_num_classes:
         repr_size = None
 
+    pretrained_url = pretrained_cfg.get('url', '')
+    use_npz_pretrain = 'npz' in pretrained_url
+
+    # timm loads non-npz checkpoints with strict=True, which conflicts with the
+    # extra LoRA and grow-token parameters in this customized backbone. For
+    # those checkpoints, build the model first and then load filtered weights
+    # with strict=False.
+    if pretrained and pretrained_url and not use_npz_pretrain:
+        _logger.warning(
+            'Using manual compatible pretrained loading for %s from %s.',
+            variant,
+            pretrained_url,
+        )
+        model = build_model_with_cfg(
+            ViT_lora_co, variant, False,
+            pretrained_cfg=pretrained_cfg,
+            representation_size=repr_size,
+            pretrained_filter_fn=checkpoint_filter_fn,
+            pretrained_custom_load=use_npz_pretrain,
+            **kwargs)
+        state_dict = torch.hub.load_state_dict_from_url(pretrained_url, map_location='cpu', progress=True)
+        state_dict = checkpoint_filter_fn(state_dict, model)
+        incompatible = model.load_state_dict(state_dict, strict=False)
+        if incompatible.missing_keys:
+            _logger.warning('Missing keys when loading %s: %s', variant, incompatible.missing_keys)
+        if incompatible.unexpected_keys:
+            _logger.warning('Unexpected keys when loading %s: %s', variant, incompatible.unexpected_keys)
+        return model
+
     model = build_model_with_cfg(
         ViT_lora_co, variant, pretrained,
         pretrained_cfg=pretrained_cfg,
         representation_size=repr_size,
         pretrained_filter_fn=checkpoint_filter_fn,
-        pretrained_custom_load='npz' in pretrained_cfg['url'],
+        pretrained_custom_load=use_npz_pretrain,
         **kwargs)
     return model
 
@@ -66,18 +98,29 @@ class SiNet(nn.Module):
     def __init__(self, args):
         super(SiNet, self).__init__()
 
-        # Dynamically select ViT-Base or ViT-Large based on embd_dim
+        # Select the pretrained ViT variant explicitly from backbone_type so
+        # experiments with different backbones do not silently share weights.
         embd_dim = args.get("embd_dim", 768)
-        num_heads = args.get("num_heads", 12)
-        
+        backbone_type = args.get("backbone_type", "vit_base_patch16_224")
+
         if embd_dim == 1024:
-            # ViT-Large: embed_dim=1024, depth=24, num_heads=16
+            # Keep the original ViT-Large path for large-backbone experiments.
             model_kwargs = dict(patch_size=16, embed_dim=1024, depth=24, num_heads=16, n_tasks=args["total_sessions"], rank=args["rank"])
             self.image_encoder = _create_vision_transformer('vit_large_patch16_224', pretrained=True, **model_kwargs)
         else:
-            # ViT-Base: embed_dim=768, depth=12, num_heads=12
+            backbone_map = {
+                "pretrained_vit_b16_224": "vit_base_patch16_224",
+                "vit_base_patch16_224": "vit_base_patch16_224",
+                "pretrained_vit_b16_224_in21k": "vit_base_patch16_224_in21k",
+                "vit_base_patch16_224_in21k": "vit_base_patch16_224_in21k",
+                "pretrained_vit_b16_224_dino": "vit_base_patch16_224_dino",
+                "vit_base_patch16_224_dino": "vit_base_patch16_224_dino",
+            }
+            if backbone_type not in backbone_map:
+                raise ValueError("Unsupported backbone_type for SiNet: {}".format(backbone_type))
+
             model_kwargs = dict(patch_size=16, embed_dim=768, depth=12, num_heads=12, n_tasks=args["total_sessions"], rank=args["rank"])
-            self.image_encoder = _create_vision_transformer('vit_base_patch16_224', pretrained=True, **model_kwargs)
+            self.image_encoder = _create_vision_transformer(backbone_map[backbone_type], pretrained=True, **model_kwargs)
         # print(self.image_encoder)
         # exit()
 

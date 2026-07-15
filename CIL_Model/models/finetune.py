@@ -52,18 +52,32 @@ class Learner(BaseLearner):
         )
 
         if self._total_classes < self.args['nb_classes']:
-            self.future_dataset = data_manager.get_dataset(
-                np.arange(self._total_classes, self.args["nb_classes"]),
+            future_indices = np.arange(self._total_classes, self.args["nb_classes"])
+            self.future_train_dataset = data_manager.get_dataset(
+                future_indices,
                 source="train",
-                mode="train",
+                mode="test",
                 kshot=self.args["kshot"],
             )
-            self.future_loader = DataLoader(
-                self.future_dataset,
+            self.future_train_loader = DataLoader(
+                self.future_train_dataset,
                 batch_size=self.args["batch_size"],
                 shuffle=False,
                 num_workers=num_workers,
             )
+            self.future_test_dataset = data_manager.get_dataset(
+                future_indices,
+                source="test",
+                mode="test",
+            )
+            self.future_test_loader = DataLoader(
+                self.future_test_dataset,
+                batch_size=self.args["batch_size"],
+                shuffle=False,
+                num_workers=num_workers,
+            )
+            self.future_dataset = self.future_test_dataset
+            self.future_loader = self.future_test_loader
 
         if len(self._multiple_gpus) > 1:
             self._network = nn.DataParallel(self._network, self._multiple_gpus)
@@ -202,7 +216,11 @@ class Learner(BaseLearner):
     def _eval_future_cnn(self, future_loader, y_pred, y_true):
 
         if self._total_classes < self.args['nb_classes']:
-            self.update_future_head(self._network, self.future_loader)
+            future_train_loader = self._get_future_train_loader()
+            if future_train_loader is None or future_loader is None:
+                return np.concatenate(y_pred), np.concatenate(y_true)
+
+            self.update_future_head(self._network, future_train_loader)
             for _, (_, inputs, targets) in enumerate(future_loader):
                 inputs, targets = inputs.to(self._device), targets.to(self._device)
                 with torch.no_grad():
