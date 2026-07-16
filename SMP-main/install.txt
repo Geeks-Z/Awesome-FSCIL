@@ -1,0 +1,19 @@
+conda create -n fscil python=3.10
+
+source activate fscil
+
+conda install pytorch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 pytorch-cuda=12.1 -c pytorch -c nvidia
+
+pip install timm==0.6.7
+
+pip install tqdm==4.65.0
+
+pip install scipy==1.11.1
+
+pip install scikit-learn==1.2.2
+
+pip install Pillow==9.4.0
+
+pip install numpy==1.23.5
+
+pip install matplotlib==3.8.0

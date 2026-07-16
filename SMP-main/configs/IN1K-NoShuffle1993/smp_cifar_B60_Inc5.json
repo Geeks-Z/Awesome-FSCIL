@@ -1,0 +1,35 @@
+{
+  "model_name": "px_d1",
+  "backbone_type": "vit_base_patch16_224",
+  "device": [
+    "0"
+  ],
+  "seed": [
+    1993
+  ],
+  "dataset": "cifar224",
+  "data_root": "/public/home/hanlida/Dr.1/Dataset",
+  "init_cls": 60,
+  "increment": 5,
+  "kshot": 5,
+  "tuned_epoch": 20,
+  "fs_epoch": 5,
+  "init_lr": 0.01,
+  "fs_lr": 0.001,
+  "batch_size": 48,
+  "fs_batch_size": 16,
+  "weight_decay": 0.0005,
+  "min_lr": 0,
+  "optimizer": "sgd",
+  "memory_size": 0,
+  "memory_per_class": 0,
+  "fixed_memory": false,
+  "shuffle": false,
+  "top_k": 5,
+  "rank": 10,
+  "common_param": 0.2,
+  "common_param2": 16,
+  "merge_weight": 0.5,
+  "save_checkpoints": false,
+  "tag": "IN1K-NoShuffle1993"
+}

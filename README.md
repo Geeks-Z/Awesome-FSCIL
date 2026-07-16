@@ -1,13 +1,14 @@
 # Awesome-FSCIL
 
-> 面向 Few-Shot Class-Incremental Learning (FSCIL) 与参数高效持续学习方法的代码仓库。
+> Few-Shot Class-Incremental Learning (FSCIL) 与参数高效持续学习的统一复现仓库。
 
-本仓库不将多个 FSCIL / CIL 子项目、补充配置、benchmark 配置以及统一后的指标统计逻辑整理在一起，便于横向对比、实验验证与后续扩展。
+本仓库将多个 FSCIL / CIL 方法、补充实验配置、运行脚本与指标统计逻辑整理在一起，用于可复现的横向对比和后续扩展。实验结果汇总见 [`FSCIL_Results.xlsx`](FSCIL_Results.xlsx)。
 
 ## 📚 目录
 
 - [仓库概览](#-仓库概览)
 - [当前支持的方法](#-当前支持的方法)
+- [SMP 复现](#-smp-复现)
 - [指标统计说明](#-指标统计说明)
 - [环境准备](#-环境准备)
 - [数据集准备](#-数据集准备)
@@ -36,8 +37,34 @@
 | Adapter / APER 风格配置 | `CIL_Model` | `CIL_Model/configs/aper/` | `CIL_Model/main.py` |
 | ASP | `FSCIL-ASP-main` | `FSCIL-ASP-main/configs/` | `FSCIL-ASP-main/main.py` |
 | SEC-Prompt | `SEC-Prompt-main` | `SEC-Prompt-main/configs/` | `SEC-Prompt-main/main.py` |
+| SMP | `SMP-main` | `SMP-main/configs/` | `SMP-main/main.py` |
 | InfLoRA / 变体 | `CIL_Model/InfLoRA-main` | `CIL_Model/InfLoRA-main/configs/` | `CIL_Model/InfLoRA-main/main.py` |
 | SD-LoRA | `CIL_Model/SD-Lora-CL-main` | `CIL_Model/SD-Lora-CL-main/configs/` | `CIL_Model/SD-Lora-CL-main/main.py` |
+
+## 🧪 SMP 复现
+
+[`SMP-main`](SMP-main) 基于 [SMP 上游实现](https://github.com/beiyan1911/SMP) `4ab7b08` 接入，保留独立目录、开源许可证与原始配置，并补充了以下内容：
+
+- 与工作簿前四个 sheet 一致的实验顺序：`IN1K-NoShuffle1993` → `IN1K-Shuffle1993` → `IN1K-Shuffle2025` → `IN1K-Shuffle42`。
+- 每组按 `CUB200` → `CIFAR100` → `ImageNet-R` → `miniImageNet` 运行，统一使用 ImageNet-1K 预训练的 ViT-B/16。
+- 补充 SMP 上游未提供的 miniImageNet 数据加载与配置。
+- 外层输出按 `logs/<sheet>/SMP-IN1K-<Shuffle>-<seed>-A800.out` 归档，细粒度日志保存在 `SMP-main/logs/`。队列配置默认设置 `save_checkpoints: false`；需要保存模型时可在对应 JSON 中显式开启。
+
+当前复现实验已完成 8 / 16 组（50%）；逐项状态、已完成指标和续跑命令见 [`SMP-main/EXPERIMENT_STATUS.md`](SMP-main/EXPERIMENT_STATUS.md)。
+
+运行单个 sheet：
+
+```bash
+cd SMP-main
+CUDA_VISIBLE_DEVICES=0 ./train_smp.sh IN1K-NoShuffle1993
+```
+
+按工作簿顺序运行全部 SMP 实验：
+
+```bash
+cd SMP-main
+./submit_smp_gpu0.sh
+```
 
 ## 📏 指标统计说明
 
@@ -103,9 +130,17 @@
 6. scipy
 7. easydict
 
+SMP 上游的参考环境为 Python 3.10、PyTorch 2.1.0、torchvision 0.16.0 和 timm 0.6.7；当前集成也兼容本项目使用的 timm 0.6.x 环境。完整依赖见 [`SMP-main/install.txt`](SMP-main/install.txt)。
+
 ## 🗃️ 数据集准备
 
-当前代码中的多数数据加载器仍然在 `utils/data.py` 内使用了硬编码的绝对路径，例如：
+当前服务器统一数据根目录为：
+
+```text
+/public/home/hanlida/Dr.1/Dataset
+```
+
+SMP 配置通过 `data_root` 指定该目录，也可用 `FSCIL_DATA_ROOT` 环境变量覆盖。其他方法的部分数据加载器仍在 `utils/data.py` 中使用绝对路径，例如：
 
 - [FSCIL-ASP-main/utils/data.py](FSCIL-ASP-main/utils/data.py)
 - [SEC-Prompt-main/utils/data.py](SEC-Prompt-main/utils/data.py)
@@ -120,7 +155,7 @@
 - **miniImageNet**: Google Drive: [link](https://drive.google.com/file/d/1Nq7J-y17cNRDs7bG2h_PTbX1vBYKJ16u/view?usp=sharing)
 - **ImageNet-R**: Google Drive: [link](https://drive.google.com/file/d/1SG4TbiL8_DooekztyCVK8mPmfhMo8fkR/view?usp=sharing) or Onedrive: [link](https://entuedu-my.sharepoint.com/:u:/g/personal/n2207876b_e_ntu_edu_sg/EU4jyLL29CtBsZkB6y-JSbgBzWF5YHhBAUz1Qw8qM2954A?e=hlWpNW)
 
-When utilizing custom or downloaded datasets, specify the absolute folder trajectory mapping manually internally:
+When using a custom dataset root for a legacy method, update the corresponding mapping:
 ```python
 # In `utils/data.py`
 def download_data(self):

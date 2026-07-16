@@ -1,0 +1,27 @@
+{
+    "model_name": "px_d1",
+    "device": ["0"],
+    "seed": [2023,2024,2025],
+    "dataset": "imagenetr",
+    "init_cls": 100,
+    "increment": 10,
+    "kshot": 5,
+    
+    "tuned_epoch":20,
+    "fs_epoch": 5,
+    "init_lr":0.01,
+    "fs_lr":0.001,
+    "batch_size":24,
+    "fs_batch_size": 16,
+    "weight_decay":0.005,
+    "min_lr":0,
+    "optimizer":"sgd",
+    
+    "memory_size": 0,
+    "memory_per_class": 0,
+    "fixed_memory": false,
+    "shuffle": false,
+    "top_k": 5,
+
+    "rank": 10
+}
