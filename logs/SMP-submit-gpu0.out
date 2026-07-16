@@ -1,0 +1,4 @@
+[2026-07-15T13:51:11+0800] Starting IN1K-NoShuffle1993 on physical GPU 0
+[2026-07-15T22:33:12+0800] Starting IN1K-Shuffle1993 on physical GPU 0
+[2026-07-16T07:17:21+0800] Starting IN1K-Shuffle2025 on physical GPU 0
+./run_all_with_logs.sh: line 22: ../logs/IN1K-Shuffle-2025/SMP-IN1K-Shuffle-2025-A800.out: No such file or directory
