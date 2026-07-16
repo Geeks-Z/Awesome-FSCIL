@@ -1,7 +1,10 @@
 data/
+saved_model/
 .idea/
+.vscode/
 __pycache__/
 *.py[cod]
 *.ipynb
 *.pdf
 configs/常用命令.sh
+outputs/
